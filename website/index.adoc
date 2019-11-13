@@ -1,0 +1,39 @@
+= Main Page
+include::_support/common.inc[]
+// Required since common.inc appends Mobile NixOS to all files.
+:title: Mobile NixOS
+:special: homepage
+:noheader: true
+
+++++
+<div class="lead">
+++++
+
+NixOS on *my* phone?
+
+It's quickly becoming a reality! Look at the <<devices/index.adoc#,devices list>>
+to see if your device is already supported. Otherwise, read about
+<<porting-guide.adoc#,the porting process>> to understand if *you* can get NixOS
+on your phone.
+
+++++
+</div>
+
+<section class="news">
+++++
+
+[discrete]
+== News Items
+
+// Note: This is replaced by the website build pipeline.
+++++
+
+<!-- {NEWS_ITEMS} -->
+
+</section>
+
+<section class="">
+++++
+++++
+</section>
+++++
