@@ -1,0 +1,69 @@
+name: Website Build
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "*/15 * * * *"
+
+jobs:
+  build:
+    name: "Website Build"
+    runs-on: [ubuntu-latest]
+    steps:
+    - uses: "actions/checkout@v1"
+    - uses: "samueldr/action-nix-build@88bef203952e34573b690492a3ff84e02bb8bd96"
+    - name: "Fixup permissions"
+      run: |
+        sudo chmod -vR u+w result
+        sudo chown -vR $USER result
+    - name: "SSH Private key setup"
+      run: |
+        mkdir -vp ~/.ssh
+        echo "${{ secrets.WEBSITE_PUSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        echo "Private key has been setup."
+    - name: misc. debug
+      run: |
+        env
+        pwd
+        ls -l
+        ls -l ~/.ssh/
+        git rev-parse --show-toplevel
+        git remote -v
+    - name: "Committing generated site"
+      run: |
+        # Moving the built site out of the way
+        mv -v result $RUNNER_TEMP/website
+        # Switching tot he "gh-pages" branch...
+        git checkout -B gh-pages origin/gh-pages
+        # Copying back the site in place
+        cp -vRT $RUNNER_TEMP/website/ ./
+        # Checking if it causes any change
+        if [ -z "$(git status --porcelain)" ]; then
+            echo "No commit, no changes..."
+        else
+            # Create an empty history, with a temp name
+            git checkout --force --orphan _tmp
+            git reset --hard
+
+            # Then force back the gh-pages name...
+            git branch -D gh-pages
+            git checkout --orphan gh-pages
+
+            # Copy the site *again* in place
+            cp -vRT $RUNNER_TEMP/website/ ./
+            git add .
+
+            # Commit the change
+            git config --global user.name "${GITHUB_ACTOR}"
+            git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git commit -m "Update at $(date)"
+        fi
+    - name: "Pushing to gh-pages"
+      run: |
+        git remote set-url --push origin $(git remote get-url --push origin | sed -e 's;^https://;git@;' -e 's;/;:;' -e 's;$;.git;')
+        mkdir -p ~/.ssh
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        git push --force origin gh-pages origin/gh-pages
