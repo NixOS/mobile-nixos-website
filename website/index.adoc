@@ -1,5 +1,6 @@
 = Main Page
 include::_support/common.inc[]
+include::_support/website.inc[]
 // Required since common.inc appends Mobile NixOS to all files.
 :title: Mobile NixOS
 :special: homepage
