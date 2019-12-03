@@ -4,6 +4,7 @@ include::_support/website.inc[]
 :special: news
 :docdate: 2019-11-15
 :image: {rootrel}news/2019-11-15-nixcon-wrap-up.jpeg
+:header_prefers: left
 Samuel Dionne-Riel
 November 15th 2019
 
