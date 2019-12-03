@@ -1,0 +1,85 @@
+= November 2019 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2019-12-03
+:image: {rootrel}news/2019-12-03-november-2019-round-up.jpeg
+Samuel Dionne-Riel
+December 3rd 2019
+
+This update is the first of a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+=== Notable changes
+
+Among the changes, and the link:https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&q=is%3Apr+merged%3A2019-11[10 PRs merged],
+these changes are highlighted.
+
+
+==== initrd: add fbterm modules
+
+When the new `mobile.boot.stage-1.fbterm` options are enabled, a userspace
+implementation of a console is started, attached to the output of tty1.
+As of right now, this is a read-only view of the console.
+
+This is still extremely useful on targets where the kernel-based virtual
+consoles will not work. As long as the framebuffer is setup, you can use the
+console to observe what is going on.
+
+Added in link:https://github.com/NixOS/mobile-nixos/pull/46[pull request #46] by
+link:https://github.com/lheckemann[@lheckemann]
+
+
+==== Documentation and website framework
+
+This was briefly highlighted in the last news item, though let's describe how
+the documentation and website generation ticks. 
+
+The generated documentation in the repository is always built
+using the link:https://github.com/NixOS/mobile-nixos/tree/master/doc[same exact tooling]
+as the website. In fact, the website is only adding files to the documentation
+directory to build itself.
+
+This gives us the advantage of the documentation being trivial to build locally.
+
+```
+~/.../mobile-nixos $ nix-build ./doc/
+these derivations will be built:
+  /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mobile-nixos-docs.drv
+[...]
+/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mobile-nixos-docs
+
+~/.../mobile-nixos $ ls -l result/index.html 
+-r--r--r-- 4 root root 1541 Dec 31  1969 result/index.html
+
+~/.../mobile-nixos/mobile-nixos-website $ xdg-open result/index.html 
+[...]
+```
+
+The documentation, minus the news items, will open in your web browser, and work
+just like this website. The styles, the site map, everything is generated 1:1
+compared to the website.
+
+The link:https://github.com/NixOS/mobile-nixos-website[mobile-nixos-website]
+repository holds the link:https://github.com/NixOS/mobile-nixos-website/blob/master/.github/workflows/website.yml[
+machinery] that updates the site, in addition to the link:https://github.com/NixOS/mobile-nixos-website/tree/master/website[news items].
+This is where content specific for the website is written.
+
+You may also want to subscribe to the new link:https://mobile.nixos.org/index.xml[RSS feed].
+
+
+==== New ports
+
+Three new devices were merged this month.
+
+* Google Pixel XL (google-marlin) [link:https://github.com/danielfullmer[@danielfullmer]] (link:https://github.com/NixOS/mobile-nixos/pull/51[#51])
+* Google Pixel 2 (google-walleye) [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/50[#50])
+* Xiaomi A1 (xiaomi-tissot) [link:https://github.com/lheckemann[@lheckemann]] (link:https://github.com/NixOS/mobile-nixos/pull/47[#47])
+
+The Pixel devices should be trivial to adapt to their respective non-XL and XL
+variants.
+
