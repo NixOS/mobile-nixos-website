@@ -73,3 +73,5 @@ Part of link:https://github.com/NixOS/mobile-nixos/pull/58[pull request #58].
 One new device has been merged during December.
 
 * Xiaomi Redmi Note 7 (xiaomi-lavender) [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/28[#28])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 10].
