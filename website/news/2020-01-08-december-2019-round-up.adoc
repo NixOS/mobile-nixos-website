@@ -1,0 +1,75 @@
+= December 2019 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2020-01-08
+:image: {rootrel}news/2020-01-08-december-2019-round-up.jpeg
+Samuel Dionne-Riel
+January 8th 2020
+
+This update is the second in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+=== Notable changes
+
+Among the changes, and the link:https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&q=is%3Apr+merged%3A2019-12[10 PRs merged],
+these changes are highlighted.
+
+
+==== Make the demo more useful on a touch device
+
+These are changes to the "example" system. This is a finalized version of the
+demo system that was running on the devices during NixCon 2019.
+
+The main difference is that this is not a raw XFCE desktop, but a
+pre-configured system that is more accessible on touch devices. The onboard
+on-screen keyboard is configured to be of a useful height. Additionally, XFWM
+has been replaced with Awesome WM configured to maximize all windows.
+
+This is still not an appropriate mobile environment, only a collection of
+configuration that makes it work well enough to test things up.
+
+Read more in link:https://github.com/NixOS/mobile-nixos/pull/63[pull request #63].
+
+
+==== Enhance QEMU Device
+
+The `x86_64` based QEMU VM has seen fixes to, first, make it actually work
+right.
+
+What's more interesting in this PR is the patched VGA BIOS that rotates the
+expected resolutions (720p, 1080p) on their side in portrait mode. This is
+especially helpful when working on purely software things like improving the
+example system.
+
+These changes are part of 
+link:https://github.com/NixOS/mobile-nixos/pull/59[pull request #59].
+
+
+==== Different stage-1 fixes
+
+The root filesystem is configured to expand to the size of its backing
+partition during boot.
+Part of link:https://github.com/NixOS/mobile-nixos/pull/61[pull request #61].
+
+Critical failure states link:https://mobile.nixos.org/in-depth/stage-1.html#_about_sad_phone_screens[are graphically reported].
+As documented, a full-screen color-coded "sad phone" gives a general idea of
+the error encountered.
+Part of link:https://github.com/NixOS/mobile-nixos/pull/58[pull request #58].
+
+
+==== Other notable changes
+
+* link:https://github.com/NixOS/mobile-nixos/pull/41[#41 fixing adb for stage-2.]
+* link:https://github.com/NixOS/mobile-nixos/pull/67[#67 which fixes spurious framebuffer failures on Google Pixel 2.]
+
+
+=== Ports
+
+One new device has been merged during December.
+
+* Xiaomi Redmi Note 7 (xiaomi-lavender) [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/28[#28])
