@@ -1,0 +1,73 @@
+= January 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2020-02-04
+:image: {rootrel}news/2020-02-04-january-2020-round-up.jpeg
+Samuel Dionne-Riel
+February 4th 2020
+
+This update is the third in a series of regular updates on the state of the
+project.
+
+Usually, only changes that have been accepted and merged in Mobile NixOS in the
+given month are chronicled here. There's always
+link:https://github.com/NixOS/mobile-nixos/pulls[more work] currently in-progress.
+
+=== Notable changes
+
+Only link:https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&q=is%3Apr+merged%3A2020-01[1 PR was merged]
+during the month. Though, keep on reading, as one of the biggest PR, started in
+mid-December, was the main focus of the month.
+
+==== New Stage-1 init
+
+This is quite the misnomer, while true, that the PR mainly introduced a
+completely re-done init, it brought much more.
+
+ * "New-style" USB gadget (gadgetfs) handling.
+ * USB Networking for newer devices.
+ * Vendor partition firmware loading.
+ * Logs multiplexing and saving in stage-1.
+ * Proper reboot and poweroff in stage-1.
+ * Actual handling of NixOS-configured `specialFileSystems`.
+
+This new init is built using a dependencies-based system, reducing the
+complexities from the inflexible "big script" approach of the previous init.
+With this new approach, we can simply dump all of the things we need to happen
+in the init, tell them how they're linked, and boot. The current implementation
+is naïve, but even with a naïve approach, the benefits are apparent. First, the
+developer does not need to care about the ordering of things, only describing
+what has to be, and what to do. Then, the relatively surprising part: this made
+things a bit quicker to boot.
+
+This reduced reliance on sleep and wait times during the boot to provide
+assurance that things were ready, meaning that steps happen much quicker in
+succession. To the annoyance of the author, this means that the
+well-choreographed boot images whizz by too quickly, reducing their
+meaningfulness.
+
+In the end, this is a hidden change, that serves mainly to ensure a rock-solid
+foundation for what's coming soon.
+
+See link:https://github.com/NixOS/mobile-nixos/pull/66[the PR] for more details.
+
+=== Upcoming changes
+
+Speaking of coming soon, As previewed link:https://twitter.com/samueldr/status/1223139451196661760[in a tweet],
+work is in progress to provide a graphical interface that can be used in early
+boot. This can be used to make a "recovery" system tailored to the project's
+need, and more importantly, allow interaction in the boot process.
+
+The main focus of early interaction is to allow selecting a generation to boot
+into. This is part of the NixOS experience, and is currently missing. Another
+benefit to an early UI is that it will give us the opportunity to enter a
+passphrase to unlock an eventually coming encrypted system.
+
+Keep your eyes peeled for the coming PR!
+
+=== Ports
+
+No new port were made in January. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 10 devices] you can
+build for.
