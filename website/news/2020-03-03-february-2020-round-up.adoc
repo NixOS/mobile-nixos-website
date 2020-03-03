@@ -45,8 +45,8 @@ cases. I already worked on mruby integration for the Mobile NixOS stage-1. It
 was only natural to write link:https://github.com/mobile-nixos/mruby-lvgui[mruby bindings for LittleVGL].
 
 With all the exposition done. What does this look like? The header image of
-this news post is composed of four devices running the GUI. Though, this does
-not show it well.
+this news post is composed of four devices running the GUI. An actual
+screenshot of the GUI follows, for better clarity.
 
 image::{rootrel}news/2020-03-03-boot-gui.png[alt=Screenshot of generation selection,width=600]
 
