@@ -1,0 +1,66 @@
+= February 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2020-02-03
+:image: {rootrel}news/2020-03-03-february-2020-round-up.jpeg
+Samuel Dionne-Riel
+February 3th 2020
+
+This update is the fourth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+=== Notable changes
+
+link:https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&q=is%3Apr+merged%3A2020-02+merged%3A2020-03-01[3 PRs were merged]
+during the month. This is not cheating, the last merged PR was merged late on
+the 29th.
+
+This is not development slowing down. Far from it. link:https://github.com/mobile-nixos/[Four new projects]
+were added to the Mobile NixOS GitHub organization related to this month's
+work. Keep on reading.
+
+==== Graphical boot selection
+
+Hot on the heels of the link:https://mobile.nixos.org/news/2020-02-04-january-2020-round-up.html[re-written init],
+and as teased, a working graphical boot selection is now available for Mobile
+NixOS platforms.
+
+There is more than meets the eye in link:https://github.com/NixOS/mobile-nixos/pull/80[pull request #80].
+
+To make this possible, a GUI toolkit of relatively small weight has to be
+found. After some research, it was found in the link:https://littlevgl.com/[LittlevGL]
+library. While it is geared more towards _actual_ embedded development, it does
+have a Linux framebuffer backend, support for evdev input. This is all standard
+stuff that is well supported on all targets. What is really nice with that
+library is it also supports a “simulator” target, which is basically an SDL
+window. 
+
+With that said, I personally don't want to write C, especially in complex use
+cases. I already worked on mruby integration for the Mobile NixOS stage-1. It
+was only natural to write link:https://github.com/mobile-nixos/mruby-lvgui[mruby bindings for LittleVGL].
+
+With all the exposition done. What does this look like? The header image of
+this news post is composed of four devices running the GUI. Though, this does
+not show it well.
+
+image::{rootrel}news/2020-03-03-boot-gui.png[alt=Screenshot of generation selection,width=600]
+
+This is not a feature complete generic replacement for a bootloader. Though, it
+can become one when kexec support is added in the future.
+
+Additionally, as touched upon in the pull request, these bindings will allow us
+to improve the graphical boot process. In a future improvement we'll be able to
+add information about the current running step, and better failure state
+reporting.
+
+
+=== Ports
+
+No new port were made in February. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 10 devices] you can
+build for.
