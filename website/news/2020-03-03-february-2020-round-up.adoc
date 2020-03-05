@@ -2,10 +2,10 @@
 include::_support/common.inc[]
 include::_support/website.inc[]
 :special: news
-:docdate: 2020-02-03
+:docdate: 2020-03-03
 :image: {rootrel}news/2020-03-03-february-2020-round-up.jpeg
 Samuel Dionne-Riel
-February 3th 2020
+March 3th 2020
 
 This update is the fourth in a series of regular updates on the state of the
 project.
