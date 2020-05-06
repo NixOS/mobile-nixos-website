@@ -1,0 +1,80 @@
+= April 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2020-05-06
+:image: {rootrel}news/2020-05-06-april-2020-round-up.jpeg
+:header_prefers: right
+Samuel Dionne-Riel
+May 6th 2020
+
+This update is the sixth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+=== Notable changes
+
+link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-04+sort%3Acreated-asc[11 PRs were merged]
+during the month. Not an exciting month with fun and visible progress, but
+let's point out interesting changes
+
+==== Supported way to include from system configuration
+
+In link:https://github.com/NixOS/mobile-nixos/pull/123[PR #123] a supported way
+to include a device configuration to the system configuration was added. The
+link:https://mobile.nixos.org/getting-started.html[Getting Started] page
+explains the details.
+
+This is useful when combined with the next highlighted changes. The device
+specific configuration doesn't have to be handled by the end-user, the Mobile
+NixOS configuration handles it.
+
+=== WCNSS WLAN _quirk_
+
+link:https://github.com/NixOS/mobile-nixos/pull/126[PR #126] adds support for
+WCNSS WLAN in Mobile NixOS, while enabling it for the only device that supports
+it.
+
+This is the simplest Wi-Fi setup for Qualcomm-based hardware. Sadly, for other
+devices it's much more involved.
+
+Though, this does mean that we now have Wi-Fi support for one more device!
+
+*Bonus change*: Buried in that same PR, we now use `boot.initrd.enable = false`
+rather than using `isContainer`. This fixes a couple of weird and annoying
+issues with the running system.
+
+==== Device-specific polishing
+
+ * link:https://github.com/NixOS/mobile-nixos/pull/126[PR #126]
+ * link:https://github.com/NixOS/mobile-nixos/pull/128[PR #128]
+
+These start implementing some _polishing_, in what I hope becomes the gold
+standard for device ports.
+
+First, we configure the LEDs so the Linux kernel controls it during
+boot (link:https://github.com/NixOS/mobile-nixos/blob/6be1a3bf0ca7d4f956b7dab4bab932071c402026/devices/asus-z00t/kernel/0002-ze550kl-Green-LED-now-defaults-to-on.patch#L21-L30[z00t],
+link:https://github.com/NixOS/mobile-nixos/blob/6be1a3bf0ca7d4f956b7dab4bab932071c402026/devices/oneplus-oneplus3/kernel/0001-oneplus3-Configure-LEDs-using-kernel-triggers.patch#L38-L41[oneplus3]).
+This provides a tangible proof to the end-user that the kernel is
+currently in control and running.
+
+Then, for `asus-z00t`, some kernel cleanup patches have been added. The first
+kind of change is to remove _idiotic_ behaviour from the OEM kernel, like
+link:https://github.com/samueldr-wip/mobile-nixos-wip/blob/640f2d4c794c2066797a31157c324c437b200250/devices/asus-z00t/kernel/0001-firmware-class-Remove-rude-firmware-path-trampling.patch[
+trampling over the kernel module load path]. The second is more subtle, but
+welcomed when reading `dmesg`: reduce the useless logging present in some
+modules. The amount of logging is useless.
+
+Finally, for `oneplus-oneplus3`, there's a link:https://github.com/NixOS/mobile-nixos/commit/c7a121fbaeedfd8e493127355588b7a511ad393d[
+_quirk_ to fix USB OTG support] during boot. I don't think any other device
+will need it, from a quick glance, but it's still a good example of how to
+implement a _quirk_.
+
+=== Ports
+
+No new port were made in April. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 11 devices] you can
+build for.
