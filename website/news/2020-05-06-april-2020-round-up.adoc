@@ -28,11 +28,11 @@ to include a device configuration to the system configuration was added. The
 link:https://mobile.nixos.org/getting-started.html[Getting Started] page
 explains the details.
 
-This is useful when combined with the next highlighted changes. The device
+This is useful when combined with the next higlighted changes. The device
 specific configuration doesn't have to be handled by the end-user, the Mobile
 NixOS configuration handles it.
 
-=== WCNSS WLAN _quirk_
+==== WCNSS WLAN _quirk_
 
 link:https://github.com/NixOS/mobile-nixos/pull/126[PR #126] adds support for
 WCNSS WLAN in Mobile NixOS, while enabling it for the only device that supports
