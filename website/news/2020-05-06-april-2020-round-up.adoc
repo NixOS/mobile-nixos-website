@@ -21,6 +21,18 @@ link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-04+sort
 during the month. Not an exciting month with fun and visible progress, but
 let's point out interesting changes
 
+==== Device specific website pages
+
+The _link:https://mobile.nixos.org/devices/[Devices List]_ section is now
+formatted as a table, and links to one page per device.
+
+This page can contain device-specific notes, and generally contains generic
+instructions depending on the device type. The side-bar uses generated
+content, but the page will use the `README.adoc` file when found in the device
+directory.
+
+All of this is part of link:https://github.com/NixOS/mobile-nixos/pull/120[PR #120].
+
 ==== Supported way to include from system configuration
 
 In link:https://github.com/NixOS/mobile-nixos/pull/123[PR #123] a supported way
