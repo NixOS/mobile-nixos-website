@@ -1,0 +1,91 @@
+= May 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2020-05-06
+Samuel Dionne-Riel
+June 2nd 2020
+
+This update is the seventh in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+=== Notable changes
+
+link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-05+sort%3Acreated-asc[11 PRs were merged]
+during the month. Changes are mostly cleanup and documentation related.
+
+==== Documentation changes
+
+The biggest change is the addition of link:https://mobile.nixos.org/in-depth/devices.html[
+an overview of the terms used to define a device] (link:https://github.com/NixOS/mobile-nixos/pull/148[#148]).
+This documentation section should help better understand how devices are composed.
+
+The link:https://github.com/NixOS/mobile-nixos/blob/master/README.adoc[README] (link:https://github.com/NixOS/mobile-nixos/pull/138[#138]) as
+shown on GitHub has been reviewed to better guide users and contributors around
+the ecosystem, borrowing the organization of the main Nixpkgs README. Though the
+main reason for this change is that the README started to diverge with the
+documentation. Removing all examples and referring to the actual documentation
+files reduces the burden of maintaining multiple documentation fragments.
+
+
+==== Code and architecture cleanup
+
+Through some of the pull requests, a bunch of either dead, or ossified code was
+found and removed. The main user-facing change is the link:https://github.com/NixOS/mobile-nixos/pull/152[removal of `device.info`].
+
+The `device.info` option was a mixed bag of misshapen, undefined options that were
+at the foundation of all device definitions. The replacement are discrete well-defined
+options that are defined in understandable categories. Systems define options that
+they use, making it easier to understand why an option is defined.
+
+The main consequence of that change is that the current work-in-progress ports
+will need to be reviewed to use the new options.
+
+As part of link:https://github.com/NixOS/mobile-nixos/pull/155[#155], additional
+cleanup was made in
+link:https://github.com/NixOS/mobile-nixos/pull/155/commits/09fed68bcf88a28081e90cd3f593cb182e11f814[the]
+link:https://github.com/NixOS/mobile-nixos/pull/155/commits/7ee81a9cadcc6f476332e4b656078654db2e24c5[first]
+link:https://github.com/NixOS/mobile-nixos/pull/155/commits/22eddafd91f6ba6f6b92f3ae429b8f1f0aaa3137[few]
+link:https://github.com/NixOS/mobile-nixos/pull/155/commits/30ff772fbd7fa5d0ff2b0e38299d802a285b46f9[commits].
+
+
+==== New `examples/hello` system
+
+While technically a new feature, link:https://github.com/NixOS/mobile-nixos/pull/155[
+the new examples/hello system (#155)] is more of a first-user-experience "bugfix"
+than a useful new feature.
+
+This introduces a new example system that can be cross-compiled entirely, *and
+shows an interface to the end-user*. This helps fix the biggest complaint about
+the project: the default build looks as if the system has stopped responding.
+
+Though this is not actually fixing that complaint, it does not replace the default
+build output. Users making a new port, or testing an existing port, will rather
+link:https://github.com/NixOS/mobile-nixos/blob/c0c93961cfe6c373d200103f1df4911f20fa55a8/default.nix#L99-L102[be encouraged]
+to first try building and using this example to confirm the port works.
+
+```
+ $ nix-build examples/hello --argstr device DEVICE-NAME -A build.default
+```
+
+A planned addition to this feature will be more features to test and validate support
+for different subsystems of the device. Currently this only tests the touchscreen
+(through requiring it for navigation) and validates the display shows the colours
+appropriately.
+
+
+==== Additional highlights
+
+* link:https://github.com/NixOS/mobile-nixos/pull/141[#141 initrd-usb: provide modules required for gadgets in initrd],
+  which handles modules in modular mainline-based kernels and stage-1.
+
+
+=== Ports
+
+No new port were made in May. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 11 devices] you can
+build for.
