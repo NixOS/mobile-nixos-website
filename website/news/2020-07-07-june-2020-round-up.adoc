@@ -1,0 +1,58 @@
+= June 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2020-07-07-june-2020-round-up.jpeg
+:header_prefers: right
+:special: news
+:docdate: 2020-07-07
+Samuel Dionne-Riel
+July 7th 2020
+
+This update is the eighth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+Most of the link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-06+sort%3Acreated-asc[
+9 pull requests merged] were trivial or minor changes. Though there's
+still some notable changes.
+
+==== Pinephone bluetooth support
+
+It turns out all it needed was a trivial fix. link:https://github.com/NixOS/mobile-nixos/pull/163[
+Giving it the firmware it wanted] adds proper support for bluetooth on the
+Pinephone.
+
+If you are using the `examples/demo` rootfs, its configuration does not
+currently configure the system for audio with bluetooth. The instructions to
+configure audio for bluetooth link:https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio[
+are the same as usual], as Mobile NixOS is composed on top of NixOS.
+
+==== Redmi Note 8 Pro
+
+The port for link:https://github.com/NixOS/mobile-nixos/pull/171[xiaomi-begonia]
+is mainly notable for being the first port for a Mediatek SoC.
+
+I am singling out this port as a proof that the link:https://samuel.dionne-riel.com/blog/2020/04/24/mobile-nixos-breadth-first-development.html[
+breadth-first development] style is working well. Since Mobile NixOS had many
+abstractions needed for the existing different platforms, this new platform,
+and device, was ported without a sweat.
+
+This also paves the way for other Mediatek ports by providing a working
+example. Coupled with link:https://github.com/NixOS/mobile-nixos/pull/175[#175],
+another, older, Mediatek device (merged in early July), there is enough
+material to give clues for future ports by community members.
+
+
+=== New ports
+
+One new device was merged this month.
+
+* link:https://mobile.nixos.org/devices/xiaomi-begonia.html[Xiaomi Redmi Note 8 Pro (xiaomi-begonia)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/171[#171])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 12].
