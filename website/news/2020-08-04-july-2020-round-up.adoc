@@ -1,0 +1,78 @@
+= July 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2020-08-04-july-2020-round-up.jpeg
+:special: news
+:docdate: 2020-08-04
+Samuel Dionne-Riel
+August 4th 2020
+
+This update is the ninth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+As with last month, a big part of the link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-07+sort%3Acreated-asc[
+10 pull requests merged] were bug fixes or minor changes. Though some valuable
+work was also finished.
+
+==== Asus Zenfone Max Plus (M1)
+
+The port for link:https://github.com/NixOS/mobile-nixos/pull/175[asus-x018d]
+is mainly notable for being the only alternative system to the OEM-provided
+Android system, with the exception to a TWRP that is using the OEM-built kernel.
+
+This means that, for the first time, Mobile NixOS this is the only alternative
+system for a device, including other Android-based systems.
+
+Finishing with a last note, this device has an older Mediatek SoC, compared to
+the other ported Mediatek device. There is not much to say, except that it was
+found that older Mediatek devices may exhibit a similar quirk to Qualcomm
+devices, where the framebuffer has to be refreshed explicitly for the display
+to be updated.
+
+
+==== External device definitions
+
+I hesitate to openly discuss about this pull request, as it might make
+contributors think they should not contribute their devices back. link:https://github.com/NixOS/mobile-nixos/pull/162[#162]
+adds a mechanism to maintain and build external device definitions.
+
+These external definitions should only be used for devices that are not welcome
+to the main project. The main reason a device would not be welcome is if it is
+not a “Mobile device”. An example of such a device is the link:https://github.com/samueldr/mobile-nixos-extra-devices/tree/master/devices/pine64-pinebookpro[Pinebook Pro],
+which is a laptop. Another example would be porting to SBCs like a Raspberry Pi.
+
+
+==== Updates for the boot GUI
+
+This change, link:https://github.com/NixOS/mobile-nixos/pull/189[#189], is
+where most if this month's development time was spent. The toolkit used for the
+boot GUI has been forked and adapted to serve the goal of providing a GUI for
+mobile devices better.
+
+As part of the changes, some minor UX (User eXperience) changes have been made,
+but more importantly, major changes like properly supporting mouse and touch
+screens in an independent manner, and providing keyboard-driven input. This
+also adds support to navigate the GUI with the volume keys and the power
+button, which is a common scheme used to provide a fall-back navigation when
+touchscreen support is possible.
+
+Except for the new way added to interact with the GUI, there are no major
+changes to how the GUI is used. Though the work is a first step to provide more
+in-depth options during the boot process, like tracking progress, and required
+user input for actions during boot like passphrase input.
+
+
+=== New ports
+
+One new device was merged this month.
+
+* link:https://mobile.nixos.org/devices/asus-x018d.html[Asus Zenfone Max Plus (M1) (asus-x018d)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/175[#175])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 13].
