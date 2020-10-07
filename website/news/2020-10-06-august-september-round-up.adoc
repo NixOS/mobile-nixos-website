@@ -1,0 +1,99 @@
+= August and September 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2020-10-06-august-september-round-up.jpeg
+:special: news
+:docdate: 2020-10-06
+Samuel Dionne-Riel
+October 6th 2020
+
+This update is the tenth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+As with the last update, a big part of the link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-08+merged%3A2020-09+sort%3Acreated-asc[
+10 pull requests merged] were bug fixes or minor changes.
+
+Here's a quick look at some of the nicer things achieved.
+
+
+==== Forced kernel configuration normalization
+
+The `kernel-builder` infrastructure now link:https://github.com/NixOS/mobile-nixos/pull/204[
+forces the configuration file used in its build] to be normalized.
+
+What is normalization? Simply put, it's about updating the kernel configuration
+file so all of the options represent the values set in the current kernel build.
+
+This is a somewhat breaking change, as it forces kernel configurations to be
+kept up to date even if no changes were made by the maintainer. Though this
+makes the final build somewhat more declarative, as options removed and new
+options will be reflected in the kernel configuration in the repository.
+
+
+==== Autoporter
+
+The new link:https://github.com/mobile-nixos/autoport[Mobile NixOS Autoporter]
+project is an experimental tooling intended to expedite the first step in
+porting to a new device.
+
+In a few words, it finds as many facts about a given device as it can. The
+current implementation uses pre-expanded factory images from OEM, but link:https://github.com/mobile-nixos/autoport/issues/4[
+plans are] link:https://github.com/mobile-nixos/autoport/issues/5[in the work]
+to work from files the user provide instead or in addition of.
+
+This enables the porter-developer to start from known true values for the
+device, rather than needing them to find out those values. The more valuable
+ones are the subtle ones, like the USB gadget modes, or system as root.
+
+It does not provide a complete skeleton yet. Mainly for now it's missing the
+kernel derivation. Though we might be able to provide link:https://github.com/mobile-nixos/autoport/issues/7[
+likely source locations] depending on some factors.
+
+All of this is not theoretical. We already have one port done through following
+this process! Look at the pull request link:https://github.com/NixOS/mobile-nixos/pull/205[#205]
+where the commits also tries to show the work that was needed to go from the
+skeleton files to a working port.
+
+Note that this port was made easier by the presence of another Snapdragon 660
+port existing. Many quirks end up working similarly between devices on the same
+base platform.
+
+Hopefully this will help some of you take the plunge into trying to make a new
+port! Though note that this does not replace the still non-existent
+documentation about porting guidelines. It might still not be trivial.
+
+
+==== Other notable changes
+
+* link:https://github.com/NixOS/mobile-nixos/pull/193[#193 pine64-pinephone-braveheart: August 2020 updates]
+
+Making `motorola-addison` much more usable:
+
+* link:https://github.com/NixOS/mobile-nixos/pull/195[#195 initrd: Make compression method an option]
+* link:https://github.com/NixOS/mobile-nixos/pull/196[#196 motorola-addison: Build firmware and enable wcnss]
+
+
+=== New ports
+
+One new device was merged this time.
+
+* link:https://mobile.nixos.org/devices/sony-pioneer.html[Sony Xperia XA2 (sony-pioneer)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/205[#205])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 14].
+
+
+=== Closing words
+
+The last month's update was skipped due to the lower amount of work being
+complete, the main contributor (me, samueldr) was tied-up working on
+implementing the link:https://nixos.org/[NixOS.org redesign]. Fear not, it's
+not lack of motivation, but temporary engagements that slowed things down. For
+the time being this project is still my main focus, and I hope it can stay for
+longer.
