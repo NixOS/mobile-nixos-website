@@ -1,0 +1,88 @@
+= October 2020 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2020-11-03-october-round-up.jpeg
+:header_prefers: right
+:special: news
+:docdate: 2020-11-03
+Samuel Dionne-Riel
+November 3rd 2020
+
+This update is the eleventh in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the month link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-10+sort%3Acreated-asc[
+14 pull requests were  merged].
+
+Some interesting changes were made during the month, let's look at some of
+them.
+
+
+==== Re-done kernel builder ergonomics
+
+The goal of this change is to link:https://github.com/NixOS/mobile-nixos/pull/212[
+make the kernel derivations as lean as possible], relying on the builder,
+rather than relying on copy-pasting common patterns around.
+
+This is a change that was needed since the project was started. Though, it
+could not have happened much earlier than this late in the project. This is
+because multiple different quirky kernels needed to exist to properly show what
+needed to be abstracted.
+
+With this, all common patterns for quirks have been identified and put behind
+flags. Those flags are described in link:https://mobile.nixos.org/in-depth/kernel-builder.html[
+Notes about the kernel builder].
+
+End-users shouldn't see any difference, this will help people who make ports.
+
+===== Compile kernels only once
+
+While testing the previous change, it was observed by link:https://github.com/danielfullmer[
+@danielfullmer] that kernel compilation happened twice for some devices.
+
+This was not a regression. Though looking at things trying to find problems you
+are bound to see the existing flaws!
+
+This was worked around by link:https://github.com/NixOS/mobile-nixos/pull/217[
+doing everything in one `make` invocation]. The end-result is that some kernel
+builds will finish twice as quickly!
+
+
+==== Pinephone Modem support improvements
+
+Simply put, link:https://github.com/NixOS/mobile-nixos/pull/231[the modem has
+been verified to work with LTE data].
+
+With that said, there's more to it. End-users shouldn't have to care about a
+deeply-rooted `/sys` fs path to turn the modem off or on. This is why the
+`modem-control` service has been added. It mirrors the modem's state using
+`bindsTo` and `wantedBy`.
+
+With this service, the modem is better integrated with systemd, but more
+importantly the user can stop and start it using `systemctl`, rather than to
+dig for a particular less user-friendly path.
+
+Calls and SMS will be tested at a later point in time. Though it is expected
+that calls will require some work for the audio to work properly (a known
+upstream issue).
+
+
+==== Other notable changes
+
+* link:https://github.com/NixOS/mobile-nixos/pull/228[#228 Boot GUI: only show relevant reboot options]
+* link:https://github.com/NixOS/mobile-nixos/pull/215[#215 Provide autoport in the default shell]
+
+=== New ports
+
+One new device was merged this time.
+
+* link:https://mobile.nixos.org/devices/razer-cheryl2.html[Razer Phone 2 (razer-cheryl2)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/223[#223])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 15].
