@@ -1,0 +1,138 @@
+= 2020 in the rear-view mirror
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2021-01-11
+Samuel Dionne-Riel
+January 11th 2021
+
+The year 2020 was my first full calendar year dedicated to working on the
+Mobile NixOS project. Let's look at the progress, from the state of the project
+_before_ January 2020, up to the state after December 2020.
+
+Comparisons will start from the last commit of 2019, link:https://github.com/NixOS/mobile-nixos/commit/7803d9ec0e35fe602f75d08e6bcb6db720ad897c[
+`7803d9ec0e35fe602f75d08e6bcb6db720ad897c`]. They are compared against the last
+commit for 2020, link:https://github.com/NixOS/mobile-nixos/commit/d5869523869eb029b712a3f2b7b1c3199874f221[
+`d5869523869eb029b712a3f2b7b1c3199874f221`].
+
+You might also be interested in looking at link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020+sort%3Acreated-asc[
+all the merged pull requests for 2020].
+
+=== Some numbers
+
+They're quite arbitrary. I don't know what other relevant stats could be used
+here.
+
+* 111 merged pull requests
+* 805 commits (skipping merge commits)
+* 10 commit authors (filtering duplicates)
+* Devices: 10 → 16
+* Modules: 39 → 56 (Nix files in `modules/`)
+
+And here's what `cloc` reveals:
+
+```
+[nix-shell:~/.../mobile-nixos/2019]$ cloc .
+     274 text files.
+     263 unique files.                                          
+      36 files ignored.
+
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+diff                             55            741           2623          16308
+Nix                             108            719            772           4311
+SVG                               7              4              4           2950
+LESS                             24            263            333           1257
+Ruby                             16            147             85            706
+AsciiDoc                          7            130              3            243
+XML                               5             19             12            160
+ERB                               8              4              0             89
+Markdown                          4             43              0             85
+Lua                               1             15             41             58
+Bourne Again Shell                2              9             10             21
+C/C++ Header                      1             13             35             21
+C                                 1              1              0             17
+--------------------------------------------------------------------------------
+SUM:                            239           2108           3918          26226
+--------------------------------------------------------------------------------
+
+[nix-shell:~/.../mobile-nixos/2020]$ cloc .
+     482 text files.
+     463 unique files.                                          
+      54 files ignored.
+
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+diff                             89           1429           5081          22047
+Nix                             170           1266           1149           7576
+Ruby                             76            690            575           4132
+SVG                              10              4              4           3538
+LESS                             25            291            334           1413
+JSON                              6              0              0            959
+AsciiDoc                         25            396              3            844
+XML                               5             19             12            160
+Markdown                          8             88              0            159
+ERB                              10             23              0            130
+Lua                               1             15             41             58
+YAML                              1              1              0             40
+C                                 1             11              5             37
+C/C++ Header                      1             13             35             21
+Bourne Again Shell                1              2              0              4
+--------------------------------------------------------------------------------
+SUM:                            429           4248           7239          41118
+--------------------------------------------------------------------------------
+```
+
+=== Stage-1 improvements
+
+This is where almost all of the work time this year was spent. Work started link:https://mobile.nixos.org/news/2020-02-04-january-2020-round-up.html[
+in January]. Continuing link:https://mobile.nixos.org/news/2020-03-03-february-2020-round-up.html[
+through February], with the graphical interface. Further work punctuated the
+year. Neither words, screen captures or video can properly convey the amount of
+work spent on producing the best stage-1 experience that works across this wide
+range of devices.
+
+We went from a rigid shell-script based approach, to a list of tasks handled
+through dependency resolution.
+
+Additionally, before February, there was no way to select a previous generation.
+With the added GUI, generation selection is possible, error reporting in early
+boot is verbose, and link:https://mobile.nixos.org/news/2020-12-01-november-2020-round-up.html[
+boot progress] is shown graphically.
+
+=== Builds on Hydra
+
+Before link:https://mobile.nixos.org/news/2020-04-07-march-2020-round-up.html[
+March 2020], no pre-built artifacts were produced. This is quite obvious when
+you try to build artifacts from the January checkout.
+
+More important than build artifacts, this gave us continuous delivery of builds.
+With this we can track regressions, both in Mobile NixOS proper, or from changes
+in Nixpkgs.
+
+=== Device support
+
+Introduced link:https://mobile.nixos.org/news/2020-04-07-march-2020-round-up.html[
+in March 2020] the Pinephone is one of those devices with the biggest mind share
+in the community. Though, I personally don't think it is the most interesting.
+After all, it is a somewhat boring device (in all the right ways!). Things with
+the Pinephone are expected to _just work_, and they mostly do, once the time is
+invested in implementing them.
+
+Personally, at the top of the list of surprises are the _Asus Zenfone Max Plus
+(M1)_ and the _Moto E6_. While less of the hardware is working, they are
+personally notable for me because they both do not have any alternative
+operating available. They were acquired as a challenge for me, to work strictly
+with sources from the vendor. This proved to myself that, yes, it is possible to
+work with devices that does not have a strong community behind them.
+
+=== Closing word
+
+I'm excited to continue working on this project. Let's see what we can make out
+of 2021.
+
+Don't forget you can keep tabs on the project either by coming to the website
+regularly, or better yet, link:https://mobile.nixos.org/index.xml[subscribe to
+the RSS feed]!
