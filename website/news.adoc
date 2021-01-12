@@ -1,0 +1,15 @@
+= News archive
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: all_news
+
+++++
+<section class="news">
+++++
+// Note: This is replaced by the website build pipeline.
+++++
+<!-- {NEWS_ITEMS} -->
+</section>
+
+<section class=""></section>
+++++

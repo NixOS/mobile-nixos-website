@@ -33,8 +33,9 @@ on your phone.
 
 </section>
 
-<section class="">
+<section class="banner">
 ++++
+Continue to the _<<news.adoc#,News archive>>_ page to read older articles.
 ++++
 </section>
 ++++
