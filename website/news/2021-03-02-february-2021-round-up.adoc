@@ -1,0 +1,117 @@
+= February 2021 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2021-03-02-february-2021-round-up.jpeg
+:header_prefers: center
+:special: news
+:docdate: 2021-03-02
+Samuel Dionne-Riel
+March 2nd 2021
+
+This update is the fifteenth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the month link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-02+sort%3Acreated-asc[
+18 pull requests were merged].
+
+Compared to the last month, they're more subtle changes.
+
+
+==== More hermetic evaluation
+
+This started off the work from link:https://github.com/eamsden[@eamsden], where
+uses of `<nixpkgs>` were removed almost everywhere in link:https://github.com/NixOS/mobile-nixos/pull/238[#238].
+
+With the changes, the value `<nixpkgs>` is now used only at one location, at
+the start of the evaluation, in a way that can be overridden easily if needed.
+
+This means that evaluation now works fine without a `NIX_PATH`. This is useful
+to allow users of Nix flakes to use the project.
+
+Similar changes were made in link:https://github.com/NixOS/mobile-nixos/pull/310[#310]
+to rely on a single `<nixpkgs>` value for `release.nix` and example
+configuration evaluations.
+
+
+==== Finalize stage-0
+
+When link:https://github.com/NixOS/mobile-nixos/pull/262[#262] was merged in
+December, it was done so with two main features missing.
+
+Time was taken to link:https://github.com/NixOS/mobile-nixos/pull/300[finish
+the boot features for stage-0 in #300].
+
+When a device supports _stage-0_ boot, a new toggle is shown in the generations
+list allowing the user to skip rebooting into the generation's kernel.
+
+When booting a generation, the _device tree_ built from the same kernel source
+tree is now used. The pull request itself contains technical details. This was
+less trivial than expected.
+
+
+==== armv7 works again
+
+Using armv7 with Nixpkgs or NixOS is not always easy. There is no binary cache,
+and cross-compilation is as YMMV as it is for AArch64.
+
+This is the reason why armv7 Mobile NixOS devices haven't seen much work done
+and things slowly started not working.
+
+With link:https://github.com/NixOS/mobile-nixos/pull/306[#306] time was taken
+to ensure contributors with armv7 devices wouldn't be left with hard to debug
+issues from Mobile NixOS itself.
+
+With this work finally taken care of, there is a recent known good starting
+point to use for armv7 devices.
+
+A few recent WIP device ports were made on top of these changes. Stay tuned as
+they may become supported devices at some point in the future.
+
+* link:https://github.com/NixOS/mobile-nixos/pull/307[#307 asus-sparrow: init]
+* link:https://github.com/NixOS/mobile-nixos/pull/311[#311 amazon-austin: init]
+
+
+==== Android Flashable Zips
+
+With link:https://github.com/NixOS/mobile-nixos/pull/320[#320, Android flashable
+zip support] was added to Mobile NixOS. This is used to produce `.zip` files
+that can be installed to the devices using the mechanism commonly used to apply
+OTA updates in Android.
+
+Why would this new flashing method be needed or desired?
+
+First, it is more universal than `fastboot`, as some OEMs implement alternative
+flashing modes in their devices (e.g. Odin for Samsung).
+
+Then, some devices (e.g. `oneplus-oneplus3`) have problematic fastboot flash
+behaviours when flashing to the `userdata` partition. Some devices (e.g.
+`amazon-austin`) need to apply some out-of-band "fixes" to the boot images,
+which happens for free when using a flashable zip.
+
+With that said, all methods to flash the system to the device should produce
+the same outcome in most cases. As long as your device boots fine, there is no
+reason to prefer one or the other flashing method.
+
+
+==== Device-specific changes
+
+===== Wi-Fi support for Pixel XL
+
+Following last month's updates, link:https://github.com/danielfullmer[
+@danielfullmer] made the required changes to
+link:https://github.com/NixOS/mobile-nixos/pull/295[enable Wi-Fi for
+`google-marlin` (#295)].
+
+
+=== Ports
+
+No new port were made in February. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 17 devices] you can
+build for.
