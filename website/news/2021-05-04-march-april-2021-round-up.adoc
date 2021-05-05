@@ -1,0 +1,75 @@
+= March and April 2021 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2021-05-04
+Samuel Dionne-Riel
+May 4th 2021
+
+This update is the sixteenth in a series of regular updates on the state of the
+project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the two months link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-03+merged%3A2021-04+sort%3Acreated-asc[
+11 pull requests were merged].
+
+This sounds like there's not much that has been happening, but this is only
+half of the story.
+
+
+==== Plasma Mobile support in NixOS
+
+A good portion of my time has been spent working on link:https://github.com/NixOS/nixpkgs/pull/121345[
+adding support for Plasma Mobile in NixOS]. The pull request needs some work
+still, as there are issues, mainly dealing with Wayland and Plasma integration
+with NixOS.
+
+With that said, a draft for link:https://github.com/NixOS/mobile-nixos/pull/351[
+a Mobile NixOS demo image using Plasma Mobile] was also made. It relies on the
+NixOS changes. After all, Mobile NixOS is a superset composed on top of NixOS.
+
+I wouldn't recommend anyone to use it at the moment, but it's not a disaster.
+It's the final paper cuts, the final 10% that needs 90% of the work. It's
+close to being done, yet far from being over.
+
+
+==== Phosh support in NixOS
+
+Some community members, starting link:https://github.com/NixOS/nixpkgs/pull/88767[
+way back in May 2020], and link:https://github.com/NixOS/nixpkgs/issues/72715[even]
+link:https://github.com/NixOS/nixpkgs/pull/57614[before], were working on their
+side on adding Phosh support in NixOS
+
+link:https://github.com/zhaofengli[@zhaofengli] ran the last mile in link:https://github.com/NixOS/nixpkgs/pull/121226[
+#121226, with the initial support for Phosh] in NixOS. There is also an
+link:https://github.com/NixOS/mobile-nixos/pull/352[example configuration
+demo system for Phosh] for Mobile NixOS.
+
+Since Phosh is already being built in Nixpkgs, you can take inspiration from
+that example configuration and start using it at this moment.
+
+I invite you to follow through to the different pull requests, and thank the
+involved individuals.
+
+
+==== Device-specific changes
+
+===== Pinephone improvements
+
+* link:https://github.com/NixOS/mobile-nixos/pull/321[The kernel was updated (#321)]
+* link:https://github.com/NixOS/mobile-nixos/pull/337[Sound support was fixed (#337)]
+* link:https://github.com/NixOS/mobile-nixos/pull/340[Gadget mode was fixed (#340)]
+
+=== Ports
+
+Support for one new device was merged in this period.
+
+* link:https://mobile.nixos.org/devices/pine64-pinetab.html[Pine64 PineTab (pine64-pinetab)] [link:https://github.com/zhaofengli[@zhaofengli]] (link:https://github.com/NixOS/mobile-nixos/pull/331[#331])
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 18].
