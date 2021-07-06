@@ -1,0 +1,72 @@
+= May and June 2021 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2021-07-06
+Samuel Dionne-Riel
+July 6th 2021
+
+This update is the seventeenth in a series of regular updates on the state of
+the project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the two months link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-05+merged%3A2021-06+sort%3Acreated-asc[
+10 pull requests were merged].
+
+Not too different from last update, work has happened, but not present as
+merged pull requests in the Mobile NixOS repository.
+
+In addition, some time was spent by the main author working on a side-project,
+unrelated to Mobile NixOS, but related to NixOS on ARM. Fear not, work is not
+really expected to slow down.
+
+
+==== What's been done elsewhere
+
+Let's not forget the still in-progress Plasma Mobile work. The link:https://github.com/NixOS/nixpkgs/pull/121345[
+initial pull request now includes only Plasma Mobile itself], while a new pull
+request was opened link:https://github.com/NixOS/nixpkgs/pull/125156[for the
+Plasma Mobile applications (#125156)]. Doing so should make it easier to finish
+up and land the changes, as it's simply too big otherwise.
+
+Work upstream on Nixpkgs has been started to link:https://github.com/NixOS/nixpkgs/pull/125600[
+refresh the Anbox module (#125600)].
+
+
+==== Preview of what's coming
+
+While a more in-depth write-up will come with the next update, link:https://github.com/NixOS/mobile-nixos/pull/364[
+pull request #364 refreshes the recovery and boot menu appearance]. While
+working on this refresh, time was spent tracking down a rare, but reproducible
+crash.
+
+
+==== Notable changes
+
+* link:https://github.com/NixOS/mobile-nixos/pull/354[Allow using `specialArgs` for use with Nix flakes (#354)] [link:https://github.com/Pacman99[@Pacman99]]
+* link:https://github.com/NixOS/mobile-nixos/pull/356[When building custom images, BTRFS can be used for the filesystem (#256)] [link:https://github.com/lheckemann[@lheckemann]]
+
+
+==== Device-specific changes
+
+===== Pinephone improvements
+
+* link:https://github.com/NixOS/mobile-nixos/pull/355[Enable camera (#355)] [link:https://github.com/zhaofengli[@zhaofengli]] (See also link:https://github.com/NixOS/nixpkgs/pull/121722[Nixpkgs#121722])
+
+
+=== Ports
+
+Support for three new devices was merged in this period.
+
+* link:https://mobile.nixos.org/devices/amazon-austin.html[Amazon Fire 7 (7th generation) (2017)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/311[#311])
+* link:https://mobile.nixos.org/devices/motorola-potter.html[Motorola Moto G5 Plus] [link:https://github.com/telent[@telent]] (link:https://github.com/NixOS/mobile-nixos/pull/359[#359])
+* link:https://mobile.nixos.org/devices/motorola-rav.html[motorola moto g(8)] [link:https://github.com/samueldr[@samueldr]] (link:https://github.com/NixOS/mobile-nixos/pull/369[#369])
+
+
+Bringing the link:https://mobile.nixos.org/devices/index.html[total of devices to 21].
