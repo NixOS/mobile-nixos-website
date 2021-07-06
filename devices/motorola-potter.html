@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Motorola Moto G5 Plus — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_motorola-potter article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Motorola Moto G5 Plus</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Motorola Moto G5 Plus</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Motorola</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>Moto G5 Plus</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>motorola-potter</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>android</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>qualcomm-msm8953</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>no</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/motorola-potter">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.motorola-potter.x86_64-linux">Hydra (<code>default</code> build)</a></p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_and_installing">Building and installing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are multiple installation methods for your <em>Motorola Moto G5 Plus</em>.
+They all rely on flashing one or more partitions on your device.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>All installation methods can lead to data loss.</strong></p>
+</div>
+<div class="paragraph">
+<p>Flashing a partition <strong>will erase everything on the partition</strong>. Additionally,
+the common backups methods, e.g. TWRP, will <strong>not</strong> backup the <code>userdata</code>
+partition, which may be the installation target.</p>
+</div>
+<div class="paragraph">
+<p>Make backups.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_using_fastboot">Using Fastboot</h3>
+<div class="paragraph">
+<p>This will produce a folder with a flashing script, and the partition images for
+your <em>Motorola Moto G5 Plus</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A build.android-fastboot-images</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can build a specific partition image:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A build.android-bootimg
+$ nix-build --argstr device motorola-potter -A build.rootfs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The device will need to be booted in its bootloader, or <code>fastboot</code>, mode.</p>
+</div>
+<div class="paragraph">
+<p>The boot images can be installed using the following command, assuming the
+<code>android-fastboot-images</code> output was used.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ result/flash-critical.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you have a system image (<code>system.img</code>) built, you can use <code>fastboot</code> to
+flash it to the device. Note that it might be too big to fit over the <code>system</code>
+partition. In such case, it can be flashed on the <code>userdata</code> partition.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ fastboot flash userdata system.img</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_flashable_zip">Using a flashable zip</h3>
+<div class="paragraph">
+<p>An alternative installation method is to use a flashable zip. The flashable zip
+can be built for your <em>Motorola Moto G5 Plus</em> using one of the following
+commands:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A build.android-flashable-bootimg
+$ nix-build --argstr device motorola-potter -A build.android-flashable-system
+$ nix-build --argstr device motorola-potter -A build.android-flashable-zip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first two will flash only a specific partition. The last one contains the
+partitions of the two previous one.</p>
+</div>
+<div class="paragraph">
+<p>The zip can either be copied to the device and selected in a compatible
+Android recovery, or sent to the device through <code>adb sideload</code>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ adb sideload /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-flashable-motorola-potter-boot.zip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default it will flash to the <code>system</code> partition. Some configurations may
+change this to flash to the <code>userdata</code> partition. In that case, <strong>no warning is
+given before flashing</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_hardware_revisions">Hardware Revisions</h3>
+<div class="paragraph">
+<p>This device has been through several hardware revisions: the kernel
+describes <code>P0A</code>, <code>P1A</code>, <code>P1B</code>, <code>P2A</code>, <code>P2A2</code>, <code>P2B</code>, and <code>P3A</code> but
+that&#8217;s not an exhaustive list.  Each of these revisions corresponds to
+a separate hardware configuration description (device tree) in the
+vendor kernel, but on examination it turns out that several are
+identical to each other.</p>
+</div>
+<div class="paragraph">
+<p>According to the commit messages, the two hardware changes that required
+device tree changes were</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(U) "Change usbid-gpio from 66 to 59" (git sha 305e2610c598dc4e)</p>
+</li>
+<li>
+<p>(D) "boost clock use pdm clock instead" (git sha c42744ebf80da79a0)</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 50%;">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">hwrev</th>
+<th class="tableblock halign-left valign-top">board-id</th>
+<th class="tableblock halign-left valign-top">(mis)features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P0A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x44 0x80a0&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x44 0x81a0&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P1B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x44 0x81b0&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x44 0x82a0&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x45 0x82a0&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">D</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2A2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x45 0x82a2&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P2B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x45 0x82b0&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P3A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x46 0x83a0&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P3B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;0x46 0x83b0&gt;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Thus we can describe the complete range of hardware using only three
+variations instead of seven, which represents a significant space
+saving on the boot partition</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>msm8953-potter-p0a-p1a.dtb   (contains U and D fixes)</p>
+</li>
+<li>
+<p>msm8953-potter-p1b-p2a.dtb   (contains D fix only)</p>
+</li>
+<li>
+<p>msm8953-potter-p2a2-plus.dtb (contains no fix)</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_what_about_p3b">What about <code>P3B</code>?</h4>
+<div class="paragraph">
+<p>The vendor kernel does not include a device tree source with
+appropriate board-id for hwrev <code>P3B</code>, but empirically (by consulting
+<code>/proc/device-tree/board-id</code> on a device running Android) it looks like
+the bootloader chooses the <code>P3A</code> DTB instead. As far as I understand it
+this goes against the <a href="https://github.com/xiaolu/mkbootimg_tools/blob/master/dtbtool.txt">documented rules</a>
+for choosing a device tree - <a href="https://android.googlesource.com/kernel/msm.git/+/android-msm-bullhead-3.10-n-preview-1/Documentation/devicetree/bindings/arm/msm/board-id.txt?autodive=0%2F%2F%2F%2F">according to
+sources</a>
+the platform subtype is the lowest 8 bits of the second element of the
+<code>board-id</code>, and clearly <code>0xa0 != 0xb0</code>, but it seems to do it anyway.</p>
+</div>
+<div class="paragraph">
+<p>If you have a device with a hwrev <strong>after</strong> <code>P3B</code>, I&#8217;d love to hear from
+you about how it behaves in this regard.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_firmware_for_wi_fi">Firmware for Wi-Fi</h3>
+<div class="paragraph">
+<p>This particular phone keeps the firmware files on a partition named
+<code>modem</code>.</p>
+</div>
+<div class="paragraph">
+<p>To make use of the Wi-Fi capabilities of this phone you will need to
+make them available to the firmware derivation.</p>
+</div>
+<div class="paragraph">
+<p>The files can be acquired through different methods. You can use an
+alternate recovery like TWRP, mount the partition (identified using
+<code>blkid</code>) and copy the files.</p>
+</div>
+<div class="paragraph">
+<p>Another way is to do it using an installed Mobile NixOS system, where,
+too, you mount the partition and copy them:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>$ sudo mount -o ro /dev/disk/by-partlabel/modem /mnt
+$ cp -r /mnt ./modem
+$ sudo umount /mnt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The copy of the firmware files will be in the modem directory, in the
+current working directory, ready to be referred to.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_touchscreen">Touchscreen</h3>
+<div class="paragraph">
+<p>There seem to be three distinct versions of the Synaptics DSx
+touchscreen driver in the vendor kernel: one in
+<code>drivers/input/touchscreen/synaptics_*.[ch]/</code>, plus two others in
+subdirectories <code>drivers/input/touchscreen/synaptics_dsx/</code></p>
+</div>
+<div class="paragraph">
+<p>Since commit 219587de9e92a in the vendor kernel, the touchscreen is
+declared in the device tree as <code>compatible = "synaptics,dsx-i2c"</code>
+which corresponds to the code in
+<code>drivers/input/touchscreen/synaptics_dsx_2.6/</code>, but the kernel config
+options specify a weird mismash of that code and and some of the files
+in the parent folder. I tried cleaning this up but it broke more than
+it fixed.</p>
+</div>
+<div class="paragraph">
+<p>The option for <code>CONFIG_SCREEN_OFF_GESTURES</code> is disabled because it is
+incompatible with <code>CONFIG_FB</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

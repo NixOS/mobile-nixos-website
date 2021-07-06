@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Notes about devices — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="in-depth_devices article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Notes about devices</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="imageblock right image-halfwidth">
+<div class="content">
+<img src="devices-taxonomy.svg" alt="Devices taxonomy; System and Platform terms points to an optional Family term" width="which points to a Device term">
+</div>
+</div>
+<div class="paragraph">
+<p>This document describes the terms used to describe a <strong>device</strong> within Mobile
+NixOS.</p>
+</div>
+<div class="paragraph">
+<p>The terms are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Device</p>
+</li>
+<li>
+<p>(Family)</p>
+</li>
+<li>
+<p>Platform</p>
+</li>
+<li>
+<p>System</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1 clear-floats">
+<h2 id="_definitions">Definitions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_what_is_a_system">What is a <em>system</em>?</h3>
+<div class="paragraph">
+<p>A <strong>system</strong> describes the common peculiarities that are shared across the
+different <em>devices</em> and <em>platforms</em>. Options may be present to describe
+systemic differences or evolutionary changes in those systems' design.</p>
+</div>
+<div class="paragraph">
+<p>Generally, a system describes the most basic requirements to boot devices,
+without caring for details that are <em>platform</em>-specific or <em>device</em>-specific.</p>
+</div>
+<div class="paragraph">
+<p>When talking about a <em>system</em>, they are commonly referred as <em>$system-based</em>.
+For example, <code>asus-z00t</code> is an <strong>android-based</strong> system. Its <code>system.type</code> is
+<code>android</code>.</p>
+</div>
+<div class="paragraph">
+<p>Examples of sytems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>android-based (most devices shipping with Android)</p>
+</li>
+<li>
+<p>depthcharge-based (most devices shipping with ChromeOS)</p>
+</li>
+<li>
+<p>u-boot-based (a wide range, but mostly "hackable" hardware)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_is_a_platform">What is a <em>platform</em>?</h3>
+<div class="paragraph">
+<p>A <strong>platform</strong> describes the common features of a <em>SoC</em><sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> disregarding the
+<em>system</em> it is used with. It is entirely expected that a single <em>platform</em> is
+used with a variety of <em>systems</em>.</p>
+</div>
+<div class="paragraph">
+<p>The <em>platform</em> should set as few global options as possible, the most likely,
+and lone, option set should be the <em>system</em> used (e.g. <code>aarch64-linux</code>). A
+<em>platform</em> will also toggle <em>quirks</em> on and off, which are deficiencies
+that must be worked around specific to the <em>platform</em>.</p>
+</div>
+<div class="paragraph">
+<p>Lastly, as an implementation detail, it is preferred to keep the platforms <em>as
+precisely as possible</em>, making a distinct platform even if it is technically
+the same as another one (e.g. <em>Rockchip RK3399</em> ⇆ <em>Rockchip OP-1</em>). This allows
+better differentiation if, in the end, there is a tiny difference.</p>
+</div>
+<div class="paragraph">
+<p>The names used should be the <em>technical</em> names, as best as possible. This is
+why the <em>Qualcomm Snapdragon 615</em> is named <em>Qualcomm MSM8939</em>.</p>
+</div>
+<div class="paragraph">
+<p>Examples of platforms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Allwinner A64</p>
+</li>
+<li>
+<p>Qualcomm MSM8939</p>
+</li>
+<li>
+<p>Qualcomm SDM660</p>
+</li>
+<li>
+<p>Rockchip OP-1</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_is_a_device">What is a <em>device</em>?</h3>
+<div class="paragraph">
+<p>A <strong>device</strong> is a <em>somewhat specific</em> description of a model of an <em>appliance</em> or
+a <em>machine</em>. Generally speaking, when a single build boots on two different
+<em>SKUs</em> without differentiation, they are the same <em>device</em>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>oneplus-oneplus3</code> and <code>oneplus-oneplus3t</code> is a single <em>device</em>.
+Conversely, the <code>google-taimen</code> and <code>google-walleye</code> are <em>distinct devices</em>
+requiring a different kernel build (or software handling via kernel modules).
+The actual line where devices stop being devices and start becoming families is
+undefined, and undefinable. Though following <em>the same kernel build boots them</em>
+is likely a good differentiator.</p>
+</div>
+<div class="paragraph">
+<p>When describing a device, a device is made by or for an <em>OEM</em> (e.g. ASUS,
+Google), has a <em>name</em> (e.g. Zenfone 2 Laser, Pixel 2), and generally has a
+<em>codename</em> (e.g. z00t, walleye). When talking about a device, it&#8217;s better to
+use the <em>$oem-$codename</em> pair (e.g. <code>asus-z00t</code>), as it describes the exact
+device more appropriately. Some OEMs re-use device names (e.g. Moto G).
+Additionally, those codenames are generally used to talk about the devices
+with Android ROM development, it ends up being useful to find resources about
+the device.</p>
+</div>
+<div class="paragraph">
+<p>Examples of devices:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ASUS Zenfone 2 Laser (<code>asus-z00t</code>)</p>
+</li>
+<li>
+<p>Google Pixel 2 (<code>google-walleye</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_are_families">What are <em>families</em>?</h3>
+<div class="paragraph">
+<p>First of all, <strong>families</strong> are optional. Most devices will directly be
+implemented without a family in sight.</p>
+</div>
+<div class="paragraph">
+<p>A family is best described as an <em>incomplete device</em>. Most of the device&#8217;s
+properties will be defined by the family, and only the last details will be
+described by the device.</p>
+</div>
+<div class="paragraph">
+<p>Following from the previous example, <code>google-walleye</code> and <code>google-taimen</code> are
+different <em>devices</em> of the same <em>family</em>. They both are made by the same OEM,
+and share most configuration. The main differences here are the display size,
+and the kernel build used.</p>
+</div>
+<div class="paragraph">
+<p>Examples of families:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>google-wahoo</code>, the Pixel 2 (<code>taimen</code> and <code>walleye</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation">Implementation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_do_i_need_to_implement_a_system_type">Do I need to implement a system type?</h3>
+<div class="paragraph">
+<p>Probably not. You only need to implement a system type when your device has a
+different boot chain not supported already.</p>
+</div>
+<div class="paragraph">
+<p>If you do end up needing to implement a system type, they are under the
+<code>modules/system-types</code> directory.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_do_i_implement_a_platform">How do I implement a platform?</h3>
+<div class="paragraph">
+<p>First, you need to know whether you need to add a platform or not. All distinct
+SoCs need their own option, see <code>modules/hardware-$manufacturer.nix</code>.</p>
+</div>
+<div class="paragraph">
+<p>Look at existing platforms implemented, and copy the one that matches yours the
+best. It is likely you only need to add an option to enable the platform, an
+option for the system type, and enable the relevant quirks.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_do_i_implement_a_device">How do I implement a device?</h3>
+<div class="paragraph">
+<p>See the <a href="../porting-guide.html">Porting Guide</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_do_i_implement_a_family">How do I implement a family?</h3>
+<div class="paragraph">
+<p>The easiest way is to implement two devices of your family, copy-paste and all,
+and only after refactor the common parts out.</p>
+</div>
+<div class="paragraph">
+<p>Families are found under the <code>devices/families</code> directory, one directory per
+family. They should mirror the implementation of a device, but be incomplete,
+expected to be completed by their devices.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation_details">Implementation details</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_families">Families</h3>
+<div class="paragraph">
+<p>Families are not a module, like systems and platforms, as they would incur
+additional cost during the evaluation for not much gain. Seen in another way,
+families are an implementation detail of a device, and not an intrinsic part of
+the architecture of the Mobile NixOS project.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. <a href="https://en.wikipedia.org/wiki/System_on_a_chip">System on a Chip</a>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/in-depth/devices.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/in-depth/devices.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

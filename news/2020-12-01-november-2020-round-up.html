@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>November 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-12-01-november-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>November 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">December 1st 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-12-01-november-2020-round-up.jpeg'); background-position: left center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the twelfth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the month <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-11+sort%3Acreated-asc">
+13 pull requests were  merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Some major improvements landed, let&#8217;s take a peek.</p>
+</div>
+<div class="sect3">
+<h4 id="_progress_in_stage_1">Progress in stage-1</h4>
+<div class="paragraph">
+<p>The boot splash utility <a href="https://github.com/NixOS/mobile-nixos/pull/233">
+now shows the progress of the boot</a>. This is done with a simple progress bar
+shows how much of the tasks have been handled. Long-running tasks can provide
+a message to show so the user knows things aren&#8217;t necessarily hung.</p>
+</div>
+<div class="paragraph">
+<p>Speaking of hung tasks. Our <code>init</code> <a href="https://github.com/NixOS/mobile-nixos/pull/236">
+now detects when no tasks resolved in a given amount of time</a>. When this
+happens, the boot is being failed with, hopefully enough context in the error
+message to help the user.</p>
+</div>
+<div class="paragraph">
+<p>Speaking of error messages. <a href="https://github.com/NixOS/mobile-nixos/pull/239">
+Error messages are now less of a dead-end for our users</a>. The interface has
+been reviewed to put the text message front and center. Previously we were
+showing a big image because we didn&#8217;t even have text rendering at this state.
+Now that we do, let&#8217;s use it.</p>
+</div>
+<div class="paragraph">
+<p>In addition to that, the error applet is now somewhat interactive. There is
+now a cancellable countdown; when the time is elapsed the kernel is crashed,
+which allows the platform to do its default action (generally reboot). When
+canceled, the user can select different options, either through the touch
+screen, using a mouse, a keyboard or using volume-keys navigation.</p>
+</div>
+<div class="paragraph">
+<p>The user can select to power off their device, which default action (so mashing
+the power key will power off the device). Depending on whether the platform
+supports it, the usual different reboot options are given.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_encrypted_root_filesystem_support">Encrypted root filesystem support</h4>
+<div class="paragraph">
+<p>Thought we were done with <em>stage-1</em> updates? No! What if it <a href="https://github.com/NixOS/mobile-nixos/pull/234">
+was now able to decrypt LUKS encrypted filesystems</a>? Well it can! For now,
+this is mainly the <em>plumbing</em> to make it all work. Getting a LUKS encrypted
+filesystem on your device is left as an exercise to the reader.</p>
+</div>
+<div class="paragraph">
+<p>Our <em>stage-1</em> can now ask for a passphrase during the early boot process phases.
+This is done through an on-screen keyboard. For the time being the keyboard is
+hard-coded to be the US QWERTY layout, and this is bad. Further improvements
+are planned, but out of scope for releasing the feature. The on-screen keyboard
+will be necessary for other upcoming planned features.</p>
+</div>
+<div class="paragraph">
+<p>While using an on-screen keyboard is useful when you don&#8217;t have a physical
+keyboard, <a href="https://github.com/NixOS/mobile-nixos/pull/242">physical
+keyboards also can be used with that interface</a>. Similarly to the previous
+note, it is hardcoded to be the US QWERTY keyboard, but the tooling chosen to
+drive the keyboard mapping (libxkbcommon) will give us the ability to configure
+<strong>both</strong> the on-screen and physical keyboard.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new ports were made in November. There is still a <a href="https://mobile.nixos.org/devices/index.html">total of 15 devices</a> you can build for.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-12-01-november-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-12-01-november-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

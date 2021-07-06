@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Device Porting Guide — Mobile NixOS</title>
+<link rel="stylesheet" href="styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="index.xml" />
+</head>
+<body class="porting-guide article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='resources.html' class=''>Resources</a></li>
+      <li><a href='devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Device Porting Guide</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This subject needs to be expanded upon.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In a nutshell, the basic steps are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Preparing the device for development use (unlocking the bootloader).</p>
+</li>
+<li>
+<p>Finding appropriate the sources (mainly the kernel).</p>
+</li>
+<li>
+<p>Writing the expressions to build said sources.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_kernel_configuration">Kernel configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The kernel can be configured using the following command, where <code>$DEVICE</code> is
+the device name.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ bin/menuconfig $DEVICE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When importing a configuration from another source, manually editing the kernel
+configuration, or updating the kernel version, it is recommended to run the
+kernel configuration normalization too.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ bin/kernel-normalize-config $DEVICE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Be mindful of your <code>$NIX_PATH</code> when running these tools. Ensure it points to
+the Nixpkgs checkout you use to work on Mobile NixOS or else it may build the
+toolchain fresh.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/porting-guide.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/porting-guide.adoc'>Edit</a></li>
+      
+      <li><a href='sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>
