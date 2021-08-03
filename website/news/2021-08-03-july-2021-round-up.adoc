@@ -1,0 +1,67 @@
+= July 2021 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:image: {rootrel}news/2021-08-03-july-2021-round-up.jpeg
+:header_prefers: center
+:special: news
+:docdate: 2021-08-03
+Samuel Dionne-Riel
+August 3rd 2021
+
+This update is the eighteenth in a series of regular updates on the state of
+the project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the two months link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-07+sort%3Acreated-asc[
+12 pull requests were merged].
+
+
+==== Stage-1 apps re-design
+
+link:https://github.com/NixOS/mobile-nixos/pull/364[The applications for
+stage-1 were redesigned in #364]. Though it is an understatement to imply that
+they only were redesigned. While, yes, this follows the design language of the
+redesigned website, some work was needed to achieve the result.
+
+First, support for truetype fonts needed to be added to the GUI toolkit. While
+it may seem like it's not required for this limited use case, in reality this
+not only allows using more fonts than the hardcoded ones, it allows _scalable_
+fonts. With these changes, text should be big and readable on all devices.
+
+Truetype fonts support also gives us the ability to fall back to other fonts.
+This initial implementation falls back to FontAwesome, giving us access to the
+full library of glyphs, rather than a selected subset.
+
+In addition to these user-facing changes, a lot of work was done to rework some
+parts of the implementation and packaging of these applications. This should
+reduce the burden on packaging new features or applications made with this
+toolkit.
+
+In another pull request, large images link:https://github.com/NixOS/mobile-nixos/pull/390[
+were fixed]. This fixes corruption with images with higher resolution devices.
+
+
+==== Notable changes
+
+==== Device-specific changes
+
+===== Pinephone improvements
+
+A flurry of changes for the Pinephone, most authored by link:https://github.com/tomfitzhenry[@tomfitzhenry].
+
+Succinctly, updates to the latest revisions for the different *mainline
+components*, and other fixes and feature enablement.
+
+* link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-07+sort%3Acreated-asc%5B+label%3A%22device%3A+pinephone%22[Pinephone pull requests merged in July (7)]
+
+=== Ports
+
+No new port were made in April. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 21 devices] you can
+build for.
