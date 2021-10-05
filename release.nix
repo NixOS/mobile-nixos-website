@@ -9,7 +9,7 @@ let
     owner = "NixOS";
     repo = "mobile-nixos";
   };
-  pkgs = import "${mobile-nixos}/doc/pkgs.nix";
+  pkgs = import "${mobile-nixos}/pkgs.nix" { };
   site = import "${mobile-nixos}/doc" { inherit pkgs; };
   inherit (pkgs.lib) optionalString;
 
