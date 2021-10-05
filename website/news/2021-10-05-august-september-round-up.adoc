@@ -1,0 +1,109 @@
+= August and September 2021 round-up
+include::_support/common.inc[]
+include::_support/website.inc[]
+:special: news
+:docdate: 2021-10-05
+Samuel Dionne-Riel
+October 5th 2021
+
+This update is the nineteenth in a series of regular updates on the state of
+the project.
+
+Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There's always link:https://github.com/NixOS/mobile-nixos/pulls[more work]
+currently in-progress.
+
+
+=== Notable changes
+
+During the two months link:https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-08+merged%3A2021-09+sort%3Acreated-asc+[
+11 pull requests were merged].
+
+This report is not a report of flashy new features. Foundational work to make
+it possible to finish work on flashy new features had to be made.
+
+==== Validated kernel configurations
+
+One of the hardest tasks with doing a port, whether it's your first or your
+tenth, is figuring out the kernel configuration options that needs to be set,
+and those that should not be set.
+
+With the link:https://github.com/NixOS/mobile-nixos/pull/410[changes in #410],
+it is now entirely automated and part of both the _normalization_ step, and the
+usual build steps.
+
+It means that when you _normalize_ a kernel configuration with the tooling, the
+options that are required to be set or unset are set or unset accordingly
+automatically for the developer. Since it is also validated at build time, it
+means that any changes in the configurations that has not been handled by the
+maintainer will cause an obvious build failure with appropriate error messages.
+
+Hopefully this means that future ports are this much more trivial.
+
+
+==== Rewritten early user interface bindings
+
+While working on an upcoming feature requiring further use of the early user
+interface for Mobile NixOS, it was found that the FFI bindings for them were
+a dead-end.
+
+These bindings worked seemingly well enough, but had issues. The more easily
+observable issue was the lack of proper ownership tracking for the FFI object,
+which meant that anything made through the mruby bindings needed to be tracked
+manually or else garbage collection would free up resources it shouldn't have
+freed.
+
+The workarounds seemed enough. They were not, when tested against more and
+more complex applications. Further causing issues, the FFI bindings were
+basically not debuggable. Whenever a crash happened, it crashed way too late to
+allow debugging the root cause of the issues.
+
+With these issues in mind, link:https://github.com/NixOS/mobile-nixos/pull/417[
+I circled back to the approach tentatively used initially, and generated native
+code bindings for the library]. But this time, with a slight twist. I already
+had a list of desired bindings with the FFI bindings. So I used the same API as
+the FFI bindings used. In the end, this rewrite needed some light correctness
+fixes outside of the bindings, but was almost entirely a drop-in replacement.
+
+And this time, it can be debugged. I had to do so to figure out a few teething
+issues. Additionally, the untraceable segfaults I had with the new usage has
+simply vanished. It wasn't as trivial as a garbage collection issue, as
+disabling the garbage collection didn't solve any of the issues.
+
+With these exhausting changes, I can finally put my efforts towards actually
+authoring the new feature!
+
+==== Developer experience updates
+
+A somewhat major change is that link:https://github.com/NixOS/mobile-nixos/pull/405[
+the default in-repository builds now use a pinned Nixpkgs revision]. This
+should help providing a known working starting point for end-users. The pin
+will be manually moved as time goes on to known good revisions with good Hydra
+coverage.
+
+Mobile NixOS outputs link:https://github.com/NixOS/mobile-nixos/pull/406[are
+now presented in the `outputs` attribute]. There is a backward compatibility
+layer added to ensure previous incantations still work, but it will be removed
+at some point in the future.
+
+Image builds link:https://github.com/NixOS/mobile-nixos/pull/375[are now faster
+under some conditions].
+
+
+=== Nixpkgs work
+
+With link:https://github.com/NixOS/nixpkgs/pull/125156[Plasma Mobile Gear]
+approved, and soon merged, link:https://github.com/NixOS/nixpkgs/pull/130151[its
+upgrade a shoe-in], Plasma Mobile support in Nixpkgs is shaping up.
+
+As for the desktop environment, link:https://github.com/NixOS/nixpkgs/pull/121345[
+the additin of Plasma Mobile proper] is soon good to go. The link:https://github.com/NixOS/nixpkgs/issues/118650[
+main issues] regarding Plasma with Wayland support fixed the last blocker
+issues for its inclusion.
+
+
+=== Ports
+
+No new port were made in during this span. There is still a 
+link:https://mobile.nixos.org/devices/index.html[total of 21 devices] you can
+build for.
