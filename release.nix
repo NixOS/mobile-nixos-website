@@ -5,7 +5,7 @@ let
     builtins.fetchTarball "https://github.com/${owner}/${repo}/archive/${branch}.tar.gz"
   ;
   mobile-nixos = gh {
-    branch = "master";
+    branch = "development";
     owner = "NixOS";
     repo = "mobile-nixos";
   };
