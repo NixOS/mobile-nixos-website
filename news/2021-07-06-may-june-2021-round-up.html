@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>May and June 2021 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-07-06-may-june-2021-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>May and June 2021 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">July 6th 2021</span>
+</div>
+</div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the seventeenth in a series of regular updates on the state of
+the project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the two months <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-05+merged%3A2021-06+sort%3Acreated-asc">
+10 pull requests were merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Not too different from last update, work has happened, but not present as
+merged pull requests in the Mobile NixOS repository.</p>
+</div>
+<div class="paragraph">
+<p>In addition, some time was spent by the main author working on a side-project,
+unrelated to Mobile NixOS, but related to NixOS on ARM. Fear not, work is not
+really expected to slow down.</p>
+</div>
+<div class="sect3">
+<h4 id="_whats_been_done_elsewhere">What&#8217;s been done elsewhere</h4>
+<div class="paragraph">
+<p>Let&#8217;s not forget the still in-progress Plasma Mobile work. The <a href="https://github.com/NixOS/nixpkgs/pull/121345">
+initial pull request now includes only Plasma Mobile itself</a>, while a new pull
+request was opened <a href="https://github.com/NixOS/nixpkgs/pull/125156">for the
+Plasma Mobile applications (#125156)</a>. Doing so should make it easier to finish
+up and land the changes, as it&#8217;s simply too big otherwise.</p>
+</div>
+<div class="paragraph">
+<p>Work upstream on Nixpkgs has been started to <a href="https://github.com/NixOS/nixpkgs/pull/125600">
+refresh the Anbox module (#125600)</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_preview_of_whats_coming">Preview of what&#8217;s coming</h4>
+<div class="paragraph">
+<p>While a more in-depth write-up will come with the next update, <a href="https://github.com/NixOS/mobile-nixos/pull/364">
+pull request #364 refreshes the recovery and boot menu appearance</a>. While
+working on this refresh, time was spent tracking down a rare, but reproducible
+crash.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_notable_changes_2">Notable changes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/354">Allow using <code>specialArgs</code> for use with Nix flakes (#354)</a> [<a href="https://github.com/Pacman99">@Pacman99</a>]</p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/356">When building custom images, BTRFS can be used for the filesystem (#256)</a> [<a href="https://github.com/lheckemann">@lheckemann</a>]</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_changes">Device-specific changes</h4>
+<div class="sect4">
+<h5 id="_pinephone_improvements">Pinephone improvements</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/355">Enable camera (#355)</a> [<a href="https://github.com/zhaofengli">@zhaofengli</a>] (See also <a href="https://github.com/NixOS/nixpkgs/pull/121722">Nixpkgs#121722</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>Support for three new devices was merged in this period.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/amazon-austin.html">Amazon Fire 7 (7th generation) (2017)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/311">#311</a>)</p>
+</li>
+<li>
+<p><a href="https://mobile.nixos.org/devices/motorola-potter.html">Motorola Moto G5 Plus</a> [<a href="https://github.com/telent">@telent</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/359">#359</a>)</p>
+</li>
+<li>
+<p><a href="https://mobile.nixos.org/devices/motorola-rav.html">motorola moto g(8)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/369">#369</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 21</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-07-06-may-june-2021-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-07-06-may-june-2021-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

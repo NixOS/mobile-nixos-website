@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>June 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-07-07-june-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>June 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">July 7th 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-07-07-june-2020-round-up.jpeg'); background-position: right center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the eighth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>Most of the <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-06+sort%3Acreated-asc">
+9 pull requests merged</a> were trivial or minor changes. Though there&#8217;s
+still some notable changes.</p>
+</div>
+<div class="sect3">
+<h4 id="_pinephone_bluetooth_support">Pinephone bluetooth support</h4>
+<div class="paragraph">
+<p>It turns out all it needed was a trivial fix. <a href="https://github.com/NixOS/mobile-nixos/pull/163">
+Giving it the firmware it wanted</a> adds proper support for bluetooth on the
+Pinephone.</p>
+</div>
+<div class="paragraph">
+<p>If you are using the <code>examples/demo</code> rootfs, its configuration does not
+currently configure the system for audio with bluetooth. The instructions to
+configure audio for bluetooth <a href="https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio">
+are the same as usual</a>, as Mobile NixOS is composed on top of NixOS.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redmi_note_8_pro">Redmi Note 8 Pro</h4>
+<div class="paragraph">
+<p>The port for <a href="https://github.com/NixOS/mobile-nixos/pull/171">xiaomi-begonia</a>
+is mainly notable for being the first port for a Mediatek SoC.</p>
+</div>
+<div class="paragraph">
+<p>I am singling out this port as a proof that the <a href="https://samuel.dionne-riel.com/blog/2020/04/24/mobile-nixos-breadth-first-development.html">
+breadth-first development</a> style is working well. Since Mobile NixOS had many
+abstractions needed for the existing different platforms, this new platform,
+and device, was ported without a sweat.</p>
+</div>
+<div class="paragraph">
+<p>This also paves the way for other Mediatek ports by providing a working
+example. Coupled with <a href="https://github.com/NixOS/mobile-nixos/pull/175">#175</a>,
+another, older, Mediatek device (merged in early July), there is enough
+material to give clues for future ports by community members.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_ports">New ports</h3>
+<div class="paragraph">
+<p>One new device was merged this month.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/xiaomi-begonia.html">Xiaomi Redmi Note 8 Pro (xiaomi-begonia)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/171">#171</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 12</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-07-07-june-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-07-07-june-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

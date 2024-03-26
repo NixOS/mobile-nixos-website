@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Notes about boot on Android-Based Devices — Mobile NixOS</title>
+<link rel="stylesheet" href="../../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../../index.xml" />
+</head>
+<body class="in-depth_android_boot article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../../resources.html' class=''>Resources</a></li>
+      <li><a href='../../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Notes about boot on Android-Based Devices</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Some unordered thoughts about boot on Android-based devices</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_bootrecovery_build">Common boot/recovery build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We are building both <code>boot.img</code> and <code>recovery.img</code> deliberately as being the
+same configuration, except for one forcing the generation selection menu to be
+shown.</p>
+</div>
+<div class="paragraph">
+<p>This allows us to have better homogeneity for the build process as "Boot as
+recovery" devices would need to be handled otherwise.</p>
+</div>
+<div class="paragraph">
+<p>This means that the only difference between a <code>boot.img</code> and <code>recovery.img</code> for
+those older devices is a configuration line in <code>/etc/boot/config</code> that states
+the image is built as recovery. Everything else is the same exact build.</p>
+</div>
+<div class="paragraph">
+<p><em>"Boot as recovery"</em> devices, instead, rely solely on the lack of
+<code>skip_initramfs</code> in the kernel command-line to switch between the two boot
+flows.</p>
+</div>
+<div class="sect2">
+<h3 id="_recovery_as_pseudo_ab">Recovery as pseudo-A/B</h3>
+<div class="paragraph">
+<p>For devices that are not <em>"Boot as recovery"</em>, this setup has the added benefit
+that the recovery partition is always a fully functional stage-1 able to boot
+in the system.</p>
+</div>
+<div class="paragraph">
+<p>Tinkering on-device is, thus, less scary as one can flash a boot.img knowing
+that they can reboot to recovery if it fails to do a proper full boot.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended to flash <code>boot.img</code> first, validate it works, and then to
+flash <code>recovery.img</code> if you are not in a situation where you can trivially
+recovery a broken boot.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_links">Links</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://source.android.com/devices/tech/ota/ab/ab_implement" class="bare">https://source.android.com/devices/tech/ota/ab/ab_implement</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/in-depth/android/boot.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/in-depth/android/boot.adoc'>Edit</a></li>
+      
+      <li><a href='../../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

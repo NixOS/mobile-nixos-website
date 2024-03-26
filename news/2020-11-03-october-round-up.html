@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>October 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-11-03-october-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>October 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">November 3rd 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-11-03-october-round-up.jpeg'); background-position: right center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the eleventh in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the month <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-10+sort%3Acreated-asc">
+14 pull requests were  merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Some interesting changes were made during the month, let&#8217;s look at some of
+them.</p>
+</div>
+<div class="sect3">
+<h4 id="_re_done_kernel_builder_ergonomics">Re-done kernel builder ergonomics</h4>
+<div class="paragraph">
+<p>The goal of this change is to <a href="https://github.com/NixOS/mobile-nixos/pull/212">
+make the kernel derivations as lean as possible</a>, relying on the builder,
+rather than relying on copy-pasting common patterns around.</p>
+</div>
+<div class="paragraph">
+<p>This is a change that was needed since the project was started. Though, it
+could not have happened much earlier than this late in the project. This is
+because multiple different quirky kernels needed to exist to properly show what
+needed to be abstracted.</p>
+</div>
+<div class="paragraph">
+<p>With this, all common patterns for quirks have been identified and put behind
+flags. Those flags are described in <a href="https://mobile.nixos.org/in-depth/kernel-builder.html">
+Notes about the kernel builder</a>.</p>
+</div>
+<div class="paragraph">
+<p>End-users shouldn&#8217;t see any difference, this will help people who make ports.</p>
+</div>
+<div class="sect4">
+<h5 id="_compile_kernels_only_once">Compile kernels only once</h5>
+<div class="paragraph">
+<p>While testing the previous change, it was observed by <a href="https://github.com/danielfullmer">
+@danielfullmer</a> that kernel compilation happened twice for some devices.</p>
+</div>
+<div class="paragraph">
+<p>This was not a regression. Though looking at things trying to find problems you
+are bound to see the existing flaws!</p>
+</div>
+<div class="paragraph">
+<p>This was worked around by <a href="https://github.com/NixOS/mobile-nixos/pull/217">
+doing everything in one <code>make</code> invocation</a>. The end-result is that some kernel
+builds will finish twice as quickly!</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pinephone_modem_support_improvements">Pinephone Modem support improvements</h4>
+<div class="paragraph">
+<p>Simply put, <a href="https://github.com/NixOS/mobile-nixos/pull/231">the modem has
+been verified to work with LTE data</a>.</p>
+</div>
+<div class="paragraph">
+<p>With that said, there&#8217;s more to it. End-users shouldn&#8217;t have to care about a
+deeply-rooted <code>/sys</code> fs path to turn the modem off or on. This is why the
+<code>modem-control</code> service has been added. It mirrors the modem&#8217;s state using
+<code>bindsTo</code> and <code>wantedBy</code>.</p>
+</div>
+<div class="paragraph">
+<p>With this service, the modem is better integrated with systemd, but more
+importantly the user can stop and start it using <code>systemctl</code>, rather than to
+dig for a particular less user-friendly path.</p>
+</div>
+<div class="paragraph">
+<p>Calls and SMS will be tested at a later point in time. Though it is expected
+that calls will require some work for the audio to work properly (a known
+upstream issue).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_notable_changes">Other notable changes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/228">#228 Boot GUI: only show relevant reboot options</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/215">#215 Provide autoport in the default shell</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_ports">New ports</h3>
+<div class="paragraph">
+<p>One new device was merged this time.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/razer-cheryl2.html">Razer Phone 2 (razer-cheryl2)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/223">#223</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 15</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-11-03-october-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-11-03-october-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

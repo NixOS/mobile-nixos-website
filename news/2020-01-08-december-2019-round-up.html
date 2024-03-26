@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>December 2019 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-01-08-december-2019-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>December 2019 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">January 8th 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-01-08-december-2019-round-up.jpeg');"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the second in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>Among the changes, and the <a href="https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+merged%3A2019-12">10 PRs merged</a>,
+these changes are highlighted.</p>
+</div>
+<div class="sect3">
+<h4 id="_make_the_demo_more_useful_on_a_touch_device">Make the demo more useful on a touch device</h4>
+<div class="paragraph">
+<p>These are changes to the "example" system. This is a finalized version of the
+demo system that was running on the devices during NixCon 2019.</p>
+</div>
+<div class="paragraph">
+<p>The main difference is that this is not a raw XFCE desktop, but a
+pre-configured system that is more accessible on touch devices. The onboard
+on-screen keyboard is configured to be of a useful height. Additionally, XFWM
+has been replaced with Awesome WM configured to maximize all windows.</p>
+</div>
+<div class="paragraph">
+<p>This is still not an appropriate mobile environment, only a collection of
+configuration that makes it work well enough to test things up.</p>
+</div>
+<div class="paragraph">
+<p>Read more in <a href="https://github.com/NixOS/mobile-nixos/pull/63">pull request #63</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enhance_qemu_device">Enhance QEMU Device</h4>
+<div class="paragraph">
+<p>The <code>x86_64</code> based QEMU VM has seen fixes to, first, make it actually work
+right.</p>
+</div>
+<div class="paragraph">
+<p>What&#8217;s more interesting in this PR is the patched VGA BIOS that rotates the
+expected resolutions (720p, 1080p) on their side in portrait mode. This is
+especially helpful when working on purely software things like improving the
+example system.</p>
+</div>
+<div class="paragraph">
+<p>These changes are part of
+<a href="https://github.com/NixOS/mobile-nixos/pull/59">pull request #59</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_different_stage_1_fixes">Different stage-1 fixes</h4>
+<div class="paragraph">
+<p>The root filesystem is configured to expand to the size of its backing
+partition during boot.
+Part of <a href="https://github.com/NixOS/mobile-nixos/pull/61">pull request #61</a>.</p>
+</div>
+<div class="paragraph">
+<p>Critical failure states <a href="https://mobile.nixos.org/in-depth/stage-1.html#_about_sad_phone_screens">are graphically reported</a>.
+As documented, a full-screen color-coded "sad phone" gives a general idea of
+the error encountered.
+Part of <a href="https://github.com/NixOS/mobile-nixos/pull/58">pull request #58</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_notable_changes">Other notable changes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/41">#41 fixing adb for stage-2.</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/67">#67 which fixes spurious framebuffer failures on Google Pixel 2.</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>One new device has been merged during December.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Xiaomi Redmi Note 7 (xiaomi-lavender) [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/28">#28</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 10</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-01-08-december-2019-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-01-08-december-2019-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

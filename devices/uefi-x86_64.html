@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Generic UEFI build (x86_64) — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_uefi-x86_64 article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Generic UEFI build (x86_64)</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Generic UEFI build (x86_64)</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Generic</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>UEFI build (x86_64)</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>uefi-x86_64</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>uefi</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>generic-x86_64</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>x86_64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>yes</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/uefi-x86_64">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.uefi-x86_64.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building">Building</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This will build the default output for your <em>Generic UEFI build (x86_64)</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device uefi-x86_64 -A outputs.default</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>(No device-specific notes available)</em></p>
+</div>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

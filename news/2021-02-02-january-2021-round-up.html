@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>January 2021 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-02-02-january-2021-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>January 2021 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">February 2nd 2021</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2021-02-02-january-2021-round-up.jpeg'); background-position: left center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the fourteenth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the month <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-01+sort%3Acreated-asc">
+18 pull requests were  merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Buckle-up, this month there&#8217;s a lot to say.</p>
+</div>
+<div class="sect3">
+<h4 id="_go_go_all_usb_gadget_modes">Go go all USB gadget modes</h4>
+<div class="paragraph">
+<p>A couple changes this month are related to USB gadget mode. This is the name of
+the feature allowing a device (your cellphone) to be used as a USB device
+on your computer.</p>
+</div>
+<div class="sect4">
+<h5 id="_target_disk_mode">Target disk mode</h5>
+<div class="paragraph">
+<p>This is not a fresh feature, the <a href="https://github.com/NixOS/mobile-nixos/pull/110">
+implementation pull request</a> was opened in March 2020.</p>
+</div>
+<div class="paragraph">
+<p>Once a device is booted with this example system, the device&#8217;s internal storage
+is made available over USB, as if it was a USB mass storage device.</p>
+</div>
+<div class="paragraph">
+<p>The feature is limited to select devices, as it can be easily misused. The
+<code>pine64-pinephone</code> and <code>asus-dumo</code> devices are configured for this feature.
+It is limited as the block device to export has to be configured on a
+per-device basis. A further reason is the following:</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Target disk mode <strong>should not</strong> be used to export the full drive of Android-based
+devices as it <em>becomes trivial to brick a device</em>. Some of their partitions
+should not be touched.</p>
+</div>
+<div class="paragraph">
+<p>This is because for most Android-based devices, part of their basic firmware
+needed for booting is found on the main block device. Erasing or modifying the
+wrong partition would be like erasing the BIOS from your computer.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_broader_adb_support">Broader ADB support</h5>
+<div class="paragraph">
+<p>Time was taken to understand why <em>ADB</em> didn&#8217;t work on newer Android-based
+devices. It was initially suspected that the ADB daemon was incompatible with
+GadgetFS and FunctionFS.</p>
+</div>
+<div class="paragraph">
+<p>It was much more trivial. <a href="https://www.kernel.org/doc/html/latest/usb/functionfs.html">
+The <em>FunctionFS</em> feature of the kernel</a> needed the daemon to be started at a
+specific moment during the configuration, rather than at any time after.</p>
+</div>
+<div class="paragraph">
+<p>With <a href="https://github.com/NixOS/mobile-nixos/pull/290">the fixes in #290</a> any
+device with GadgetFS can use ADB.</p>
+</div>
+<div class="paragraph">
+<p>This means inspecting newer Android-based devices is easier, as it will most
+likely work if the device boots with a vendor kernel.</p>
+</div>
+<div class="paragraph">
+<p>Using ADB is not limited to Android-based devices. The <code>asus-dumo</code> device is
+confirmed to be able to also use ADB. It is now the recommended basic method
+for getting a shell into a Mobile NixOS device, as it is easier to use than
+<code>rndis</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lvgui_updates">LVGUI updates</h4>
+<div class="paragraph">
+<p>A few updates were <a href="https://github.com/NixOS/mobile-nixos/pull/285">
+bundled together in #285</a>. A few improvements to the early boot toolkit.</p>
+</div>
+<div class="sect4">
+<h5 id="_drm_support">DRM support</h5>
+<div class="paragraph">
+<p>Our toolkit used for user interfaces during early boot can now use DRM for
+rendering, in addition to fbdev.</p>
+</div>
+<div class="paragraph">
+<p>The old framebuffer support is still present. In fact, compiling with DRM
+support implicitly also builds with fbdev support, as it will fall back to
+fbdev if DRM cannot be used. This allows one unique build to be used across
+devices with and without DRM support.</p>
+</div>
+<div class="paragraph">
+<p>Adding support for DRM gives us an additional method of rendering. Some vendor
+kernels have broken fbdev implementations, like the SDM845 found in the
+<code>razer-cheryl2</code> phone. With this change, early boot can be used on this device.</p>
+</div>
+<div class="paragraph">
+<p>DRM is also the "future" of rendering on Linux. Well, it is the present of
+rendering on Linux. This is why it is now the preferred method to render the
+interface, when possible.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_libinput_support">Libinput support</h5>
+<div class="paragraph">
+<p>The evdev-based input driver has been replaced with a libinput driver. Libinput
+is the current recommended method for handling input with Linux. Evdev being
+one of the primitive constructs it uses.</p>
+</div>
+<div class="paragraph">
+<p>Compared to the previous evdev driver used, there should be no differences
+with basic behaviour. Mainly, this was a clean-up, allowing us to remove some
+hacks that were used to identify device types with evdev. Libinput
+intrinsically knows more about the device than evdev did.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_changes">Device-specific changes</h4>
+<div class="sect4">
+<h5 id="_wi_fi_support_for_qcacld_2_0_devices">Wi-Fi support for qcacld-2.0 devices</h5>
+<div class="paragraph">
+<p>The requirements for devices with <code>qcacld-2.0</code> Wi-Fi hardware have been
+identified.</p>
+</div>
+<div class="paragraph">
+<p>Support has been added in the following pull requests for the following devices:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/280">#280 samsung-a5y17lte</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/289">#289 oneplus-oneplus3</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following device also uses <code>qcacld-2.0</code> Wi-Fi. Support has not been added
+yet.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>google-marlin</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_initial_support_for_samsung_galaxy_a5_2017">Initial support for Samsung Galaxy A5 (2017)</h5>
+<div class="paragraph">
+<p>Support for the <a href="https://github.com/NixOS/mobile-nixos/pull/278">
+Samsung Galaxy A5 (2017)</a> has been added.</p>
+</div>
+<div class="paragraph">
+<p>It is the first Exynos device in Mobile NixOS, with an Exynos 7880. The device
+is otherwise unremarkable, it turns out that Mobile NixOS mostly just worked
+with Samsung&#8217;s initial boot flow. It required some minor adjustments, which
+are likely to help with their other phones and tablets.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_pinephone_u_boot_update">Pinephone U-Boot update</h5>
+<div class="paragraph">
+<p>January saw the release of U-Boot 2021.01. Mobile NixOS was already one version
+late, as 2020.10 was never packaged.</p>
+</div>
+<div class="paragraph">
+<p>As with the previous update, upstream U-Boot is used, preferring to import
+well-identified patches for the remaining features desired.</p>
+</div>
+<div class="paragraph">
+<p>This change should change nothing for many users. Users with a 3GB variant of
+the Pinephone will be relieved to know that they can now boot Mobile NixOS
+without additional work.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_notable_changes">Other notable changes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/287">#287</a> Fixes job control in the initrd shell</p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/292">#292</a> <code>asus-dumo</code> gadget mode</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>One new device was merged in January.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/samsung-a5y17lte.html">Galaxy A5 (2017) (samsung-a5y17lte)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/278">#278</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 17</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-02-02-january-2021-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-02-02-january-2021-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

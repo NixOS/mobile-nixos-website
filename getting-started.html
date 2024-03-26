@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Getting Started — Mobile NixOS</title>
+<link rel="stylesheet" href="styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="index.xml" />
+</head>
+<body class="getting-started article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='getting-started.html' class='is-active'>Getting Started</a></li>
+      <li><a href='resources.html' class=''>Resources</a></li>
+      <li><a href='devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Getting Started</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_using_the_guided_installer">Using the guided installer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a limited set of devices, there is a guided installer that can be used
+to do your first-time install.</p>
+</div>
+<div class="paragraph">
+<p>The device page for the supported devices will describe the requirements
+for the installer.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="devices/pine64-pinephone.html">Pine64 PinePhone</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_options">Other options</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This guide assumes the user knows how to prepare their device for development
+use. These instructions are device-dependent, but not specific to Mobile NixOS.</p>
+</div>
+<div class="paragraph">
+<p>Briefly said, the device&#8217;s bootloader must be unlocked, meaning that it allows
+running custom-built operating system images.</p>
+</div>
+<div class="paragraph">
+<p>The project is hosted under the <a href="https://github.com/NixOS/">NixOS organization</a>,
+as <a href="https://github.com/NixOS/mobile-nixos">mobile-nixos</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_the_sources">Getting the sources</h3>
+<div class="paragraph">
+<p>Depending on your configuration, for users with a GitHub account and the proper
+ssh configuration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>$ git clone git@github.com:NixOS/mobile-nixos.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or, for everyone else.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>$ git clone https://github.com/NixOS/mobile-nixos.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nothing else! Everything required is self-contained.</p>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re interested in testing with a device not-yet-approved, you will have
+to roll up your sleeves and checkout the relevant branch for the PRs.
+The <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/checking-out-pull-requests-locally">
+GitHub help article</a> may help.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compiling_and_running">Compiling and Running</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is where it becomes harder to make a simple guide. These are different,
+heterogeneous, hardware platforms, with different quirks, compilation steps,
+and mainly, installation steps.</p>
+</div>
+<div class="paragraph">
+<p>Fear not, look for your particular device on the <a href="devices/index.html">devices list</a>
+page, will likely contain the necessary instructions.</p>
+</div>
+<div class="sect2">
+<h3 id="_using_a_known_good_revision">Using a known-good revision</h3>
+<div class="paragraph">
+<p>Things change, and sometimes things break. This is even more true with Mobile
+NixOS as the project depends on another moving target, NixOS.</p>
+</div>
+<div class="paragraph">
+<p>You can look at the
+<a href="https://hydra.nixos.org/job/mobile-nixos/unstable/tested/latest-finished#tabs-buildinputs">latest successful build&#8217;s inputs</a>
+to see which <em>revisions</em> were used for a successful build.</p>
+</div>
+<div class="paragraph">
+<p>You can then clone Nixpkgs somewhere, checkout that commit ID, and refer to it
+using <code>NIX_PATH</code>. The following is only an example of how one would do this.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>$ cd ~/Projects/
+$ git clone https://github.com/NixOS/nixpkgs.git
+$ cd nixpkgs
+$ git checkout $revision
+$ cd ~/Projects/mobile-nixos/
+$ export NIX_PATH="nixpkgs=$HOME/Projects/nixpkgs"
+$ nix-build [...]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_customizing">Customizing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You probably will want to toggle options and such things when fiddling with
+Mobile NixOS, at first. The repository is structured in a way to allow you to
+add options to an untracked <code>local.nix</code> file. The default <code>nix-build</code>
+invocations will respect the content of that file as your configuration.</p>
+</div>
+<div class="paragraph">
+<p>A sample <code>local.nix</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="nix"><span class="p">{</span> <span class="nv">lib</span><span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+
+<span class="p">{</span>
+  <span class="c"># Disables splash screens during boot</span>
+  <span class="nv">mobile</span><span class="o">.</span><span class="nv">boot</span><span class="o">.</span><span class="nv">stage-1</span><span class="o">.</span><span class="nv">splash</span><span class="o">.</span><span class="nv">enable</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As Mobile NixOS is a superset on top of NixOS, all NixOS options can be used in
+this configuration file, though take note that most NixOS options will only
+affect the stage-2 (rootfs, system.img) build.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="options/index.html">Options list</a> page will be useful, as it provides an
+overview of all the Mobile NixOS specific options.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_in_your_system_configuration">Using in your system configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As the Mobile NixOS configuration may include fixes and quirks for your device,
+it is useful to include its configuration into your system&#8217;s
+<code>configuration.nix</code>.</p>
+</div>
+<div class="paragraph">
+<p>Assuming your <code>NIX_PATH</code> includes <code>mobile-nixos=/path/to/mobile-nixos</code> you can
+import the Mobile NixOS configuration for your device by doing the following.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="nix"><span class="c"># configuration.nix</span>
+<span class="p">{</span>
+  <span class="c"># "xxx-yyy" is your device "Identifier" from https://mobile.nixos.org/devices,</span>
+  <span class="c"># e.g. "google-marlin".</span>
+  <span class="nv">imports</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="kr">import</span> <span class="o">&lt;</span><span class="sx">mobile-nixos/lib/configuration.nix</span><span class="o">&gt;</span> <span class="p">{</span> <span class="nv">device</span> <span class="o">=</span> <span class="s2">"xxx-yyy"</span><span class="p">;</span> <span class="p">})</span>
+    <span class="c"># ...</span>
+  <span class="p">];</span>
+
+  <span class="c"># ...</span>
+  <span class="c"># Other configurations...</span>
+  <span class="c"># ...</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While it is possible, it is discouraged to directly import the configuration
+files from the <code>examples</code> directories. They may change in ways breaking your
+system configuration. It is recommended to copy and edit the configuration
+files from the <code>examples</code> directories if you are basing your configuration off
+of an example.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_contributing">Contributing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a big topic, and not something about getting started! Though, quickly
+noted, contributions are currently handled through GitHub pull requests.</p>
+</div>
+<div class="paragraph">
+<p>If you are unable or unwilling to use GitHub for pull requests, you can e-mail
+contributions, following the usual git via e-mail contribution workflow, to my
+e-mail address, which you will find attached to commits I authored.</p>
+</div>
+<div class="paragraph">
+<p>Note that there are more in-depth guides about specific contribution topics.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="contributing.html">Contributing Guide</a></p>
+</li>
+<li>
+<p><a href="porting-guide.html">Device Porting Guide</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/getting-started.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/getting-started.adoc'>Edit</a></li>
+      
+      <li><a href='sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Acer Chromebook Spin 513 — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_acer-lazor article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Acer Chromebook Spin 513</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Acer Chromebook Spin 513</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Acer</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>Chromebook Spin 513</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>acer-lazor</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>depthcharge</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>qualcomm-sc7180</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>no</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/acer-lazor">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.acer-lazor.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building">Building</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This will build the default output for your <em>Acer Chromebook Spin 513</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device acer-lazor -A outputs.default</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default output is a disk-image that can be written on a storage media that
+your device can boot from.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation">Installation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This one is annoying to get started currently. Without a full Mobile NixOS
+build, you will need to fill in some gaps manually.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://www.chromium.org/chromium-os/chromiumos-design-docs/disk-format">
+upstream documentation about the disk format</a> may help shed some light in
+understanding how these devices boot.</p>
+</div>
+<div class="paragraph">
+<p>One of the important thing to realise is that you will likely need to <code>dd</code> the
+image to a storage media, either external or internal.</p>
+</div>
+<div class="paragraph">
+<p>The <code>kpart</code> output can be used to build only the stage-1, which is helpful for
+updating the kernel and the stage-1 boot program.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device acer-lazor -A outputs.kpart</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This can be `dd&#8217;d over the first partition on an existing storage media
+containing a Mobile NixOS installation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_developer_mode">Developer mode</h3>
+<div class="paragraph">
+<p>For more details the <a href="https://chromium.googlesource.com/chromiumos/docs/+/HEAD/debug_buttons.md#Firmware-Menu-Interface">
+Firmware Menu Interface</a> section from the upstream documentation can be read.</p>
+</div>
+<div class="paragraph">
+<p>You will need to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Boot in <em>Recovery mode</em> by resetting pressing <code>Esc</code> + <code>Refresh (F3)</code> + <code>Power</code></p>
+</li>
+<li>
+<p>Activate Developer mode by navigating the on-screen menu</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Note that this is only to allow you to boot unverified images.</p>
+</div>
+<div class="paragraph">
+<p>You may want to configure other options with GBB flags. This is left as an
+exercise to the reader.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wi_fi_support">Wi-Fi support</h3>
+<div class="paragraph">
+<p>The Wi-Fi interface requires the modem to be initialized, even on non-LTE
+devices.</p>
+</div>
+<div class="paragraph">
+<p>The modem requires currently unredistributable firmware. It has been overlaid
+in the package set as <code>chromeos-sc7180-unredistributable-firmware</code>.</p>
+</div>
+<div class="paragraph">
+<p>For the time being, you will need to manually add this to your configuration
+for Wi-Fi.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="nix"><span class="p">{</span> <span class="c">/* configuration.nix */</span>
+  <span class="nv">hardware</span><span class="o">.</span><span class="nv">firmware</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nv">pkgs</span><span class="o">.</span><span class="nv">chromeos-sc7180-unredistributable-firmware</span>
+  <span class="p">];</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will also need to connect with an alternative connection with the
+installer, or build it with the firmware yourself.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

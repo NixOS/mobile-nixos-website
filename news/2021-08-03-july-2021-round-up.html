@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>July 2021 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-08-03-july-2021-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>July 2021 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">August 3rd 2021</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2021-08-03-july-2021-round-up.jpeg'); background-position: center center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the eighteenth in a series of regular updates on the state of
+the project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the two months <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-07+sort%3Acreated-asc">
+12 pull requests were merged</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_stage_1_apps_re_design">Stage-1 apps re-design</h4>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/364">The applications for
+stage-1 were redesigned in #364</a>. Though it is an understatement to imply that
+they only were redesigned. While, yes, this follows the design language of the
+redesigned website, some work was needed to achieve the result.</p>
+</div>
+<div class="paragraph">
+<p>First, support for truetype fonts needed to be added to the GUI toolkit. While
+it may seem like it&#8217;s not required for this limited use case, in reality this
+not only allows using more fonts than the hardcoded ones, it allows <em>scalable</em>
+fonts. With these changes, text should be big and readable on all devices.</p>
+</div>
+<div class="paragraph">
+<p>Truetype fonts support also gives us the ability to fall back to other fonts.
+This initial implementation falls back to FontAwesome, giving us access to the
+full library of glyphs, rather than a selected subset.</p>
+</div>
+<div class="paragraph">
+<p>In addition to these user-facing changes, a lot of work was done to rework some
+parts of the implementation and packaging of these applications. This should
+reduce the burden on packaging new features or applications made with this
+toolkit.</p>
+</div>
+<div class="paragraph">
+<p>In another pull request, large images <a href="https://github.com/NixOS/mobile-nixos/pull/390">
+were fixed</a>. This fixes corruption with images with higher resolution devices.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_notable_changes_2">Notable changes</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_device_specific_changes">Device-specific changes</h4>
+<div class="sect4">
+<h5 id="_pinephone_improvements">Pinephone improvements</h5>
+<div class="paragraph">
+<p>A flurry of changes for the Pinephone, most authored by <a href="https://github.com/tomfitzhenry">@tomfitzhenry</a>.</p>
+</div>
+<div class="paragraph">
+<p>Succinctly, updates to the latest revisions for the different <strong>mainline
+components</strong>, and other fixes and feature enablement.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-07+sort%3Acreated-asc%5B+label%3A%22device%3A+pinephone%22">Pinephone pull requests merged in July (7)</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new port were made in April. There is still a
+<a href="https://mobile.nixos.org/devices/index.html">total of 21 devices</a> you can
+build for.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-08-03-july-2021-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-08-03-july-2021-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>
