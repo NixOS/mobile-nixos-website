@@ -30,7 +30,7 @@ Pinephone.
 
 If you are using the `examples/demo` rootfs, its configuration does not
 currently configure the system for audio with bluetooth. The instructions to
-configure audio for bluetooth link:https://nixos.wiki/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio[
+configure audio for bluetooth link:https://wiki.nixos.org/wiki/Bluetooth#Using_Bluetooth_headsets_with_PulseAudio[
 are the same as usual], as Mobile NixOS is composed on top of NixOS.
 
 ==== Redmi Note 8 Pro
