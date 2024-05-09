@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Pine64 PinePhone — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_pine64-pinephone article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Pine64 PinePhone</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Pine64 PinePhone</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Pine64</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>PinePhone</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>pine64-pinephone</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>u-boot</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>allwinner-a64</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>yes</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/pine64-pinephone">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/installer.pine64-pinephone">Installer image</a></p>
+</li>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.pine64-pinephone.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_platform_firmware">Platform Firmware</h3>
+<div class="paragraph">
+<p>It is recommended to install <a href="https://tow-boot.org/">Tow-Boot</a> to
+dedicated storage (mmcboot).</p>
+</div>
+<div class="paragraph">
+<p>Mainline U-Boot should work, but Mobile NixOS is tested with Tow-Boot.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installer">Installer</h3>
+<div class="paragraph">
+<p>The installer can be downloaded and flashed to an SD card.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ dd if=mobile-nixos_pine64-pinephone_installer.img of=/dev/mmcblkX bs=8M oflag=sync,direct status=progress</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When using Tow-Boot, hold <em>volume down</em> during boot to boot from the SD card.</p>
+</div>
+<div class="paragraph">
+<p>Follow the on-screen instructions to configure a basic system.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage_notes">Usage notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_led">LED</h3>
+<div class="paragraph">
+<p>In the default setup, the LED has been configured to show status information.
+Its colour or pattern can be used to infer the status.</p>
+</div>
+<div class="paragraph">
+<p>During boot:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Green when the kernel initializes the LED driver</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>At any time after Linux booted:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The red LED will flash on panic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As it does not reset the other LED colours, it may flash green/yellow rather
+than off/red. If applications customize the LED status, it may flash in other
+patterns involving red.</p>
+</div>
+<hr>
+</div>
+<div class="sect2">
+<h3 id="_updating_the_boot_image">Updating the boot image</h3>
+<div class="paragraph">
+<p>The default suggested setup does not currently require updating the boot
+partition.</p>
+</div>
+<div class="sect3">
+<h4 id="_building_the_boot_image">Building the boot image</h4>
+<div class="paragraph">
+<p>If this is required, the boot partition image can be built with the following
+command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build &lt;nixpkgs/nixos&gt; --attr config.mobile.outputs.u-boot.boot-partition</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that building locally on the device may be undesirable. In such cases,
+you can instantiate the the derivation and build it on another system.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-instantiate &lt;nixpkgs/nixos&gt; --attr config.mobile.outputs.u-boot.boot-partition
+/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-partition-mobile-nixos-boot.drv
+ $ nix-copy-closure --to some-other-host /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-partition-mobile-nixos-boot.drv</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On the other host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-partition-mobile-nixos-boot.drv</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t have an <code>aarch64-linux</code> system to build the derivation, you should
+be able to instantiate a cross-compilable boot image this way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-instantiate --system x86_64-linux &lt;nixpkgs/nixos&gt; --attr config.mobile.outputs.u-boot.boot-partition
+/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-partition-mobile-nixos-boot.drv</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build infra for Mobile NixOS will activate cross-compiling for the
+derivation. It can be copied to a standard <code>x86_64-linux</code> host and built there.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_flashing_the_boot_image">Flashing the boot image</h4>
+<div class="paragraph">
+<p>The resulting image can be flashed (dd) to the appropriate partition. With the
+partition layout as made by the guided installer, this will be the fourth
+partition on the main storage.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_development_notes">Development notes</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>The following sections only apply for development.</strong></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_building_a_full_disk_image">Building a full disk image</h3>
+<div class="paragraph">
+<p>This platform uses the <code>u-boot</code> system-type. This means that a full disk image
+can be produced, and this full disk image flashed <em>outright</em> to the block
+device. That block device can be the internal eMMC or the SD card.</p>
+</div>
+<div class="paragraph">
+<p>The PinePhone will boot from SD card if a bootloader can be found. This means
+that the full disk image can be flashed to an SD card, and it will prioritise
+booting it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build --argstr device pine64-pinephone -A outputs.disk-image
+ $ dd if=result of=/dev/mmcblkX bs=8M oflag=sync,direct status=progress</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_the_boot_partition">Building the boot partition</h3>
+<div class="paragraph">
+<p>Building the full disk image may require a native AArch64 system.</p>
+</div>
+<div class="paragraph">
+<p>The boot partition can be built, and then flashed on top of an existing Mobile
+NixOS boot partition.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build --argstr device pine64-pinephone -A build.boot-partition
+ $ dd if=result/mobile-nixos-boot.img of=/dev/mmcblkXpY bs=8M oflag=sync,direct status=progress</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_u_boot">Building U-Boot</h3>
+<div class="paragraph">
+<p>Mobile NixOS is not managing platform firmware builds anymore.</p>
+</div>
+<div class="paragraph">
+<p>We recommend installing <a href="https://tow-boot.org/">Tow-Boot</a> to dedicated storage
+(mmcboot).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

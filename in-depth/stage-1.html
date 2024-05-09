@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Notes about `stage-1` — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="in-depth_stage-1 article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Notes about <code>stage-1</code></h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_what_is_stage_1">What is stage-1?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is what is also referred as <code>initrd</code>, or <code>initramfs</code>. <code>stage-1</code> refers to
+the fact that this is the first part of the system that gets run once the kernel
+has been started.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_about_sad_phone_screens">About "sad phone" screens</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It may happen that you have a "sad phone" screen when booting.</p>
+</div>
+<div class="paragraph">
+<p>This means that a fatal error has happened.</p>
+</div>
+<div class="paragraph">
+<p>When there is no screen logging available for the device, the general case of
+error has been codified as a background color.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Yellow (<code>0xFFFF00</code>) means that mounting the root filesystem was not possible.</p>
+</li>
+<li>
+<p>Fuchsia (<code>0xFF00FF</code>) means that mounting succeeded, but no compatible generation was found to boot.</p>
+</li>
+<li>
+<p>Black (<code>0x000000</code>) means a dependency hung boot</p>
+</li>
+<li>
+<p>Red (<code>0xFF0000</code>) means that executing (<code>exec</code>) and switching to the found generation&#8217;s init failed.</p>
+</li>
+<li>
+<p>Brown (<code>0x95681C</code>) means an uncontrolled abort happened.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It may happen that the boot seemingly or actually hangs before a "sad phone"
+screen appears. In those instances, it means something else earlier kept the
+early init scripts to continue. In the future, better logging and status
+reporting will be added to keep track of early failures.</p>
+</div>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/in-depth/stage-1.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/in-depth/stage-1.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

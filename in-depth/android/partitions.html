@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Partitions on Android-Based Devices — Mobile NixOS</title>
+<link rel="stylesheet" href="../../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../../index.xml" />
+</head>
+<body class="in-depth_android_partitions article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../../resources.html' class=''>Resources</a></li>
+      <li><a href='../../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Partitions on Android-Based Devices</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Right now, we will <strong>not</strong> touch any partition map.</p>
+</div>
+<div class="paragraph">
+<p>This is because it may break devices.</p>
+</div>
+<div class="paragraph">
+<p>Some (all?) android devices keep a small bit of their internal storage aside to put
+secondary bootloaders in.</p>
+</div>
+<div class="paragraph">
+<p>When the storage is cleared, or their bootloaders stored therein are corrupt, many devices will
+boot to a proprietary download mode. Follows a random picking of links related.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://forum.xda-developers.com/g2-mini/general/hard-bricked-help-via-aboot-img-abootb-t3212609" class="bare">https://forum.xda-developers.com/g2-mini/general/hard-bricked-help-via-aboot-img-abootb-t3212609</a></p>
+</li>
+<li>
+<p><a href="https://forum.xda-developers.com/android/development/qd-9008-fix-tested-lg-v410g-pad-7-0-att-t3269057" class="bare">https://forum.xda-developers.com/android/development/qd-9008-fix-tested-lg-v410g-pad-7-0-att-t3269057</a></p>
+</li>
+<li>
+<p><a href="https://forum.xda-developers.com/showpost.php?p=75360854&amp;postcount=199" class="bare">https://forum.xda-developers.com/showpost.php?p=75360854&amp;postcount=199</a></p>
+</li>
+<li>
+<p><a href="https://forum.xda-developers.com/nexus-7-2013/nexus-7-2013-qa/fix-nexus-7-2013-bricked-stuck-t3310608" class="bare">https://forum.xda-developers.com/nexus-7-2013/nexus-7-2013-qa/fix-nexus-7-2013-bricked-stuck-t3310608</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It may be possible to recover, but this is highly device-dependent&#8230;&#8203; and spooky.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example guide from a user that re-partitions their device:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://forum.xda-developers.com/nexus-7-2013/general/guide-repartition-nexus72013-to-t3599907" class="bare">https://forum.xda-developers.com/nexus-7-2013/general/guide-repartition-nexus72013-to-t3599907</a></p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_generating_a_partitions_listing">Generating a partitions listing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By adding this to <code>local.nix</code>, build an initramfs for your device and boot it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="nix"><span class="p">{</span>
+  <span class="nv">mobile</span><span class="o">.</span><span class="nv">boot</span><span class="o">.</span><span class="nv">stage-1</span><span class="o">.</span><span class="nv">extraUtils</span> <span class="o">=</span> <span class="kn">with</span> <span class="nv">pkgs</span><span class="p">;</span> <span class="p">[</span>
+    <span class="nv">gptfdisk</span>
+  <span class="p">];</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>adb shell "echo p | gdisk /dev/mmcblk0" &gt; devices/$DEVICE/partitions_$SIZE$UNIT.gdisk</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>$DEVICE is the device name</p>
+</li>
+<li>
+<p>$SIZE is the size un $UNIT</p>
+</li>
+<li>
+<p>$UNIT is <code>GB</code>, as in GigaBytes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This will dump everything <code>gdisk</code> knows about the partition scheme. Saving it raw will
+allow future tools to re-use the data as dumped to create a better metadata set. It is
+okay if you replace the Disk identifier (GUID) with a string of zeroes. (It is unknown
+if it is truly unique across similar devices.)</p>
+</div>
+<div class="paragraph">
+<p>The storage size is included in the filename as some devices (most?) have different
+variants differing only in their storage size.</p>
+</div>
+<hr>
+<div class="sect2">
+<h3 id="_see_also">See also</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://source.android.com/devices/bootloader/partitions-images" class="bare">https://source.android.com/devices/bootloader/partitions-images</a></p>
+</li>
+<li>
+<p><a href="https://forum.xda-developers.com/general/general/android-partitions-explained-t3657183" class="bare">https://forum.xda-developers.com/general/general/android-partitions-explained-t3657183</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/in-depth/android/partitions.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/in-depth/android/partitions.adoc'>Edit</a></li>
+      
+      <li><a href='../../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,3457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Mobile NixOS Options — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="options_index article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Mobile NixOS Options</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following list only includes the options defined by Mobile NixOS.</p>
+</div>
+<div class="paragraph">
+<p>Refer to the <a href="https://nixos.org/nixos/options.html">NixOS options listing</a>
+for more options.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options_list">Options list</h2>
+<div class="sectionbody">
+<dl class="options-list">
+<div>
+  <dt>
+    <tt>
+      mobile.adbd.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables adbd on the device.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.beautification.silentBoot
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When enabled, fbcon consoles are disabled.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.beautification.splash
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When enabled, plymouth is configured with nice defaults.</p>
+</div>
+<div class="paragraph">
+<p>Note that this requires an update to the kernel command-line
+parameters, thus the boot image may need to be reflashed.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.beautification.useKernelLogo
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"config.mobile.enable\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether silentBoot assumes the kernel logo is used as early splash,
+or leaves the fbcon unmapped such that (possibly) the vendor splash
+is kept on the display until the stage-1 boot interface starts.</p>
+</div>
+<div class="paragraph">
+<p>By default, when using <code>mobile.enable = true</code>, this will assume
+the kernel is patched to provide the fbcon logo ASAP.</p>
+</div>
+<div class="paragraph">
+<p>When <code>mobile.enable</code> is false, for example when using the Mobile
+NixOS stage-1 in a "normal" NixOS configuration, fbcon will not
+be enabled on VT1. What this means exactly will depend on the
+platform in use.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.additionalConsoles
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>List of additional console names to be prepended in the list of
+consoles in the kernel cmdline.</p>
+</div>
+<div class="paragraph">
+<p>These will have a lower priority than the console listed in <code>defaultConsole</code>,
+and assumedly other kernel cmdline parameters added by the user.</p>
+</div>
+<div class="paragraph">
+<p>This option is useful to add additional consoles like the serial
+console to the list so that console multiplexing during boot can
+print messages to it too.</p>
+</div>
+<div class="paragraph">
+<p>The kernel&#8217;s own messages will not be printed on those consoles.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.boot-control.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables usage of boot-control to mark A/B boot as successful.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.defaultConsole
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When not null, sets a <code>console=</code> parameter early in the kernel cmdline.</p>
+</div>
+<div class="paragraph">
+<p>This option is useful to control the default console that will be
+used by the produced system, since otherwise it is impossible to
+remove an added <code>console=</code> parameter from the cmdline.</p>
+</div>
+<div class="paragraph">
+<p>When using beautification options with the kernel logo, the console
+will be set to tty2, "losing" messages to the second VT. Without
+beautification, this will be set to <code>tty1</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can also add additional console params to the kernel cmdline,
+the last valid one in the list will be used for kernel messages by
+default during boot.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.enableDefaultSerial
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether or not to enable the serial console as an additional console.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.enableSerial
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether or not to enable the serial console as an additional console.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.serialConsole
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The console name for the serial console. Additional parameters allowed.</p>
+</div>
+<div class="paragraph">
+<p>It will be used as an additional console by default. It can also be
+set as the default console with <code>mobile.boot.enableDefaultSerial</code>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.bootlog.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables bootlogd logging multiplexer.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.bootlog.kmsg
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables logging to /dev/kmsg.</p>
+</div>
+<div class="paragraph">
+<p>Note that this may render switching to stage-2 inoperable.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.compression
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "gzip", "xz"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"gzip\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The compression method for the stage-1 (initrd).</p>
+</div>
+<div class="paragraph">
+<p>This may be set as a default by some devices requiring specific
+compression methods. Most likely to work around size limitations.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.contents
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of (attribute set)</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional files for the initrd.</p>
+</div>
+<div class="paragraph">
+<p>See <code>makeInitrd</code> for use of <code>contents</code>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.crashToBootloader
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When the stage-1 bootloader crashes, prefer rebooting directly to
+bootloader rather than panic by killing init.</p>
+</div>
+<div class="paragraph">
+<p>This may be preferrable for devices with direct serial access.</p>
+</div>
+<div class="paragraph">
+<p>Note that console ramoops requires the kernel to panic, this should
+be set to false if you rely on console ramoops to debug issues.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether to use the Mobile NixOS stage-1 implementation or not.</p>
+</div>
+<div class="paragraph">
+<p>This will forcible override the NixOS stage-1 when enabled.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.extraUtils
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of ((attribute set) or package)</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional packages to be included inside stage-1.</p>
+</div>
+<div class="paragraph">
+<p>Do note that <strong>special manipulation</strong> happens and may
+not be compatible with everything.</p>
+</div>
+<div class="paragraph">
+<p>The format for extra commands is:
+<code>{ package = <em>package</em>; extraCommand = <em>extraCommand</em> }</code></p>
+</div>
+<div class="paragraph">
+<p>Where extraCommand is executed at build time, generally
+to fix the package for stage-1 use.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.fail.delay
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"10"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Duration (in seconds) before a reboot on failure.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.fail.reboot
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Reboots the device after a delay on failure.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.fbterm.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables fbterm.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.fbterm.fb
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"/dev/fb1\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>framebuffer to run fbterm on.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.firmware
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of package</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>List of packages containing firmware files to be included in the
+stage-1 for the device.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.gui.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable splash and boot selection GUI</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.gui.waitForDevices.delay
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"0"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Minimum delay spent waiting for input devices to settle.</p>
+</div>
+<div class="paragraph">
+<p>The boot GUI will wait until this many seconds elapsed without changes before starting.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.gui.waitForDevices.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether to wait a bit for input devices before starting the user interface.</p>
+</div>
+<div class="paragraph">
+<p>This is only necessary on "slow" busses where devices may arrive a tad later than expected.</p>
+</div>
+<div class="paragraph">
+<p>Generally, only enable when a device needed to input the passphrase is connected via USB.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.additionalModules
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Module names to add to the closure.
+They will not be modprobed.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.allowMissingModules
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Chooses whether the modules closure build fails if a module is missing.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.modular
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether the kernel is built with modules or not.
+This will enable modules closure generation and listing modules
+to bundle and load.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.modules
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Module names to add to the closure.
+They will be modprobed.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.package
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or package</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Kernel to be used by the system-type to boot into the Mobile NixOS
+stage-1.</p>
+</div>
+<div class="paragraph">
+<p>This is not using a kernelPackages attrset, but a kernel derivation directly.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.useNixOSKernel
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"!config.mobile.enable"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether Mobile NixOS relies on upstream NixOS settings for kernel config.</p>
+</div>
+<div class="paragraph">
+<p>Enable this when using the NixOS machinery for kernels.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.kernel.useStrictKernelConfig
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether or not to fail when the config file differs when built.</p>
+</div>
+<div class="paragraph">
+<p>When building a personal configuration, this should be disabled (<code>false</code>)
+for convenience, as it allows implicitly tracking revision updates.</p>
+</div>
+<div class="paragraph">
+<p>When in testing scenarios (e.g. building an example system) this should
+be enabled (<code>true</code>), as it ensures all required configuration is set
+as expected.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.networking.IP
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"172.16.42.1\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>IP address for the USB networking gadget.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.networking.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables networking.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.networking.hostIP
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"172.16.42.2\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>IP address for the USB networking gadget.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.shell.console
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"console\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Selects the /dev/<em>_</em> device to use.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>ttyS0</code> for serial, <code>tty1</code> for first VT or keep the default to <code>console</code>
+for the last defined <code>console=</code> kernel parameter.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.shell.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables a shell before switching root.</p>
+</div>
+<div class="paragraph">
+<p>This shell (as currently configured) will not allow switching root.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.shell.shellOnFail
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables a shell on failures.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.ssh.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables ssh during stage-1.</p>
+</div>
+<div class="paragraph">
+<p><strong>CURRENT CONFIGURATION ALSO OPENS ACCESS TO ALL WITHOUT A PASSWORD NOR SSH KEY.</strong></p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.usb.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables USB features.
+For now, only Android-based devices are supported.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.boot.stage-1.usb.features
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p><code>android_usb</code> features to enable.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.bootloader.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether the bootloader <strong>configuration</strong> for Mobile NixOS
+is enabled.</p>
+</div>
+<div class="paragraph">
+<p>Installation and management of the Mobile NixOS bootloading
+components is not implemented at this point in time.
+(e.g. flashing boot.img on android, boot partition on other systems.)</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.device.firmware
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or package</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Informal option that the end-user can use to get their device&#8217;s firmware package.</p>
+</div>
+<div class="paragraph">
+<p>The firmware will be added to <code>hardware.firmware</code> automatically for most devices.</p>
+</div>
+<div class="paragraph">
+<p>This is not added automatically to the system firmwares for some devices
+as some bundles will be unredistributable.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.device.identity.manufacturer
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The device&#8217;s manufacturer name.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.device.identity.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The device&#8217;s name as advertised by the manufacturer.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.device.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The device&#8217;s codename. Must match the device folder.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.device.supportLevel
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "supported", "best-effort", "broken", "vendor", "unsupported", "abandoned"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"unsupported\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Support level for the device.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When this setting is set to false, including Mobile
+NixOS in your NixOS configuration should be a no-op.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">attribute set of (submodule)</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Disk image definitions that will be created at build.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.additionalCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional commands to run during the disk image build.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.alignment
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"1048576"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Partitions alignment.</p>
+</div>
+<div class="paragraph">
+<p>Automatically computed partition start position will be aligned to
+multiples of this value.</p>
+</div>
+<div class="paragraph">
+<p>The default value is most likely appropriate.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.gpt.diskID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Identifier for the disk.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.gpt.hybridMBR
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Creates an hybrid MBR with the given (string) partition numbers.</p>
+</div>
+<div class="paragraph">
+<p>Up to three partitions can be present in the hybrid MBR, an additional
+special partition can be placed last, named <code>EE</code>. When <code>EE</code> is present
+last the protective partition for the GPT will be placed last.</p>
+</div>
+<div class="paragraph">
+<p>See <code>man sgdisk</code></p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.gpt.partitionEntriesCount
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"128"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Number of partitions in the partition table.</p>
+</div>
+<div class="paragraph">
+<p>The default value is likely appropriate.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.imagePath
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">path</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"${config.output}${config.location}\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Output path for the image file.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.location
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Location of the image in the <code>$out</code> path.</p>
+</div>
+<div class="paragraph">
+<p>The default value means that <code>$img == $out</code>, which means that the
+image is bare at the out path.</p>
+</div>
+<div class="paragraph">
+<p>Other values should start with the directory separator (<code>/</code>), and
+refer to the desired name.</p>
+</div>
+<div class="paragraph">
+<p>The <code>$img</code> variable in the build script refers to <code>$out$location</code>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.mbr.diskID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string matching the pattern [0-9a-fA-F]{8}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Identifier for the disk.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"disk-image\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Base name of the output</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitioningScheme
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "mbr", "gpt"</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Partitioning scheme for the disk image output.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of (submodule)</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>List of partitions to include in the disk image.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.bootable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Sets the "legacy bios bootable flag" on the partition.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or (submodule)</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>A filesystem image configuration.</p>
+</div>
+<div class="paragraph">
+<p>The filesystem image produced by this configuration is the default
+value for the <code>raw</code> submodule option, unless overriden.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.additionalCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional commands to run during the filesystem image build.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.btrfs.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.ext4.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.extraPadding
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"0"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When size is computed automatically, how many bytes to add to the
+filesystem total size.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.fat32.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{1,8}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"[Depends on the file system creation time]\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+<div class="paragraph">
+<p>The default is a number which depends on the file system creation time.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.filesystem
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "squashfs", "fat32", "ext4", "btrfs"</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Filesystem used in this filesystem image.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.imagePath
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">path</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"${config.output}${config.location}\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Output path for the image file.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.label
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Filesystem label</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with either the output name, or the partition label.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.location
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Location of the image in the <code>$out</code> path.</p>
+</div>
+<div class="paragraph">
+<p>The default value means that <code>$img == $out</code>, which means that the
+image is bare at the out path.</p>
+</div>
+<div class="paragraph">
+<p>Other values should start with the directory separator (<code>/</code>), and
+refer to the desired name.</p>
+</div>
+<div class="paragraph">
+<p>The <code>$img</code> variable in the build script refers to <code>$out$location</code>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"filesystem-image\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Base name of the output</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.populateCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Commands used to fill the filesystem.</p>
+</div>
+<div class="paragraph">
+<p><code>$PWD</code> is the root of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.size
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"[automatically computed]\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When null, size is computed automatically.</p>
+</div>
+<div class="paragraph">
+<p>Otherwise sets the size of the filesystem image.</p>
+</div>
+<div class="paragraph">
+<p>Note that the usable space in the disk image will most likely be
+smaller than the size given here!</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.filesystem.squashfs.compression
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "gzip", "xz", "zstd"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"xz\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.isGap
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When set to true, only the length attribute is used, and describes
+an unpartitioned span in the disk image.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.length
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Size in bytes for the partition.</p>
+</div>
+<div class="paragraph">
+<p>Defaults to the filesystem image length (computed at runtime).</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Identifier for the partition.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.offset
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Offset (in bytes) the partition starts at.</p>
+</div>
+<div class="paragraph">
+<p>Defaults to the next aligned location on disk.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.partitionLabel
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"config.name"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Partition label on supported partition schemes. Defaults to ${name}.</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with <em>filesystem</em> label.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.partitionType
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12} or string matching the pattern [0-9a-fA-F]{2}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"Linux filesystem data (0FC63DAF-8483-4772-8E79-3D69D8477DE4)\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Partition type UUID.</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with <em>partitionUUID</em>.</p>
+</div>
+<div class="paragraph">
+<p>See: <a href="https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs" class="bare">https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs</a></p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.partitionUUID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Partition UUID, for supported partition schemes.</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with <em>filesystem</em> UUID.</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with <em>partitionType</em>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.raw
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or package or path</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"[contents of the filesystem attribute]\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Raw image to be used as the partition content.</p>
+</div>
+<div class="paragraph">
+<p>By default uses the output of the <code>filesystem</code> submodule.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedDiskImages.<name>.partitions.*.requiredPartition
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>For GPT, sets the Required Partition attribute on the partition.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">attribute set of (submodule)</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Filesystem definitions that will be created at build.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.additionalCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional commands to run during the filesystem image build.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.btrfs.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.ext4.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.extraPadding
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"0"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When size is computed automatically, how many bytes to add to the
+filesystem total size.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.fat32.partitionID
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string matching the pattern [0-9a-fA-F]{1,8}</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"[Depends on the file system creation time]\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+<div class="paragraph">
+<p>The default is a number which depends on the file system creation time.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.filesystem
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "squashfs", "fat32", "ext4", "btrfs"</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Filesystem used in this filesystem image.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.imagePath
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">path</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"${config.output}${config.location}\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Output path for the image file.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.label
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Filesystem label</p>
+</div>
+<div class="paragraph">
+<p>Not to be confused with either the output name, or the partition label.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.location
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Location of the image in the <code>$out</code> path.</p>
+</div>
+<div class="paragraph">
+<p>The default value means that <code>$img == $out</code>, which means that the
+image is bare at the out path.</p>
+</div>
+<div class="paragraph">
+<p>Other values should start with the directory separator (<code>/</code>), and
+refer to the desired name.</p>
+</div>
+<div class="paragraph">
+<p>The <code>$img</code> variable in the build script refers to <code>$out$location</code>.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.name
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"filesystem-image\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Base name of the output</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.populateCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Commands used to fill the filesystem.</p>
+</div>
+<div class="paragraph">
+<p><code>$PWD</code> is the root of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.size
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or signed integer</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"[automatically computed]\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>When null, size is computed automatically.</p>
+</div>
+<div class="paragraph">
+<p>Otherwise sets the size of the filesystem image.</p>
+</div>
+<div class="paragraph">
+<p>Note that the usable space in the disk image will most likely be
+smaller than the size given here!</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.generatedFilesystems.<name>.squashfs.compression
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "gzip", "xz", "zstd"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"xz\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Volume ID of the filesystem.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.eink.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">unspecified value</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable to change some defaults so they work better on an eink display.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.eink.enableEinkTheme
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">unspecified value</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable only the eink changes affecting the theme.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.ram
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Total RAM available (in MB, 1GB = 1024MB).</p>
+</div>
+<div class="paragraph">
+<p>This may be used to turn on or off features depending on the device&#8217;s capabilities.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.screen.height
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Height of the device&#8217;s display.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.screen.width
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">signed integer</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Width of the device&#8217;s display.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.soc
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Give the SOC name for the device.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.allwinner-a64.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Allwinner A64</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.allwinner-r18.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Allwinner-R18</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.exynos-7880.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Exynos 7880</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.mediatek-mt6755.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Mediatek MT6755 (Helio P10)</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.mediatek-mt6785.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Mediatek MT6785 (Helio G90)</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.mediatek-mt8127.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Mediatek MT8127</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.mediatek-mt8183.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is Mediatek MT8183</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-apq8064-1aa.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is APQ8064–1AA</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-msm8939.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is msm8939</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-msm8940.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is msm8940</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-msm8953.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is msm8953</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-msm8996.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is msm8996</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-msm8998.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is msm8998</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-sc7180.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is 7c (SC7180)</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-sdm660.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is SDM660</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-sdm845.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is SDM845</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.qualcomm-sm6125.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is SM6125</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.rockchip-op1.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is RK3399-OP1</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.hardware.socs.rockchip-rk3399s.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>enable when SOC is RK3399S</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.kernel.structuredConfig
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of function that evaluates to a(n) (attribute set)</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Functions returning kernel structured config.</p>
+</div>
+<div class="paragraph">
+<p>The functions take one argument, an attrset of helpers.
+These helpers are expected to be used with <code>with</code>, they
+provide the <code>yes</code>, <code>no</code>, <code>whenOlder</code> and similar helpers
+from <code>lib.kernel</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>whenHelpers</code> are configured with the appropriate
+version already.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.audio.alsa-ucm-meld
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Combines the derivation output path share/alsa/ucm2/ with
+pkgs.alsa-ucm-conf and points ALSA to the result.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.exynos.fb-notify.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a device which requires the framebuffer
+to be notified for some components to work right.</p>
+</div>
+<div class="paragraph">
+<p>With some Samsung phones it is required or else the
+display will not be updating.</p>
+</div>
+<div class="paragraph">
+<p>Prefer patching the kernel to enable the framebuffer when
+the driver inits instead of fixing it in userspace.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.fb-refresher.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enables use of <code>msm-fb-refresher</code>.
+Use sparingly, it is better to patch software to flip buffers instead.</p>
+</div>
+<div class="paragraph">
+<p>Note that while it was written for Qualcomm devices, this workaround
+may be useful for other vendors too.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.fb-refresher.stage-1.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Add <code>msm-fb-refresher</code> to stage-1.</p>
+</div>
+<div class="paragraph">
+<p>It should not be needed for the usual assortment of Mobile NixOS tools.
+They already handle flipping the framebuffer as needed.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.fdt-forward.nodes
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>FDT nodes to forward to the kexec&#8217;d system.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.fdt-forward.props
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">list of list of string</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"[ ]"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Pair of [node prop] to forward to the kexec&#8217;d system.</p>
+</div>
+<div class="paragraph">
+<p>Only the prop described on the exact node will be forwarded.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.qualcomm.dwc3-otg_switch.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a device which requires otg_switch to be
+configured for OTG to work.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.qualcomm.fb-notify.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a device which requires the framebuffer
+to be notified for some components to work right.</p>
+</div>
+<div class="paragraph">
+<p>The most likely thing this fixes is touch input.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.qualcomm.sc7180-modem.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a mainline-based SC7180 device for modem/Wi-Fi support</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.qualcomm.sdm845-modem.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a mainline-based SDM845 device for modem support</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.qualcomm.wcnss-wlan.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Enable this on a device which uses wcnss wlan.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.supportsStage-0
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Set to true when a device, and its kernel, can use kexec.</p>
+</div>
+<div class="paragraph">
+<p>This will enable booting into the generation&#8217;s kernel.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.u-boot.additionalCommands
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">strings concatenated with "\n"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"\"\""}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Additional U-Boot commands to run.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.quirks.wifi.disableMacAddressRandomization
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Disables MAC address randomization.</p>
+</div>
+<div class="paragraph">
+<p>This may be required by some hardware or drivers, or combination.
+When the feature is enabled (quirk disabled) it may cause the wifi
+interface to disappear when enabled, as long as Network Manager is
+active.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.rootfs.enableDefaultConfiguration
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"true"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether some of the rootfs configuration is managed by Mobile NixOS or not.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.rootfs.rehydrateStore
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"config.nix.enable"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether to rehydrate the store at first boot or not.</p>
+</div>
+<div class="paragraph">
+<p>The only reason you would disable this is to build a target system that has no Nix binaries.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.system.android.appendDTB
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or (list of (path or string))</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>List of dtb files to append to the kernel, when device uses appended DTB.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.system.system
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "aarch64-linux", "armv7l-linux", "x86_64-linux"</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Defines the kind of target architecture system the device is.</p>
+</div>
+<div class="paragraph">
+<p>This will automagically setup cross-compilation where possible.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.system.type
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">one of "uefi", "u-boot", "android", "depthcharge", "none"</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Defines the kind of system the device is.</p>
+</div>
+<div class="paragraph">
+<p>The different kind of system types will define the outputs
+produced for the system.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.usb.gadgetfs.functions
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">attribute set</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Mapping of logical gadgetfs functions to their implementation names.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.usb.idProduct
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>USB product ID for the USB gadget.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.usb.idVendor
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">string</dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>USB vendor ID for the USB gadget.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      mobile.usb.mode
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">null or one of "android_usb", "gadgetfs"</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"null"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The USB gadget implementation the device uses.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      services.eg25-manager.enable
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">boolean</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"false"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>Whether to enable Quectel EG25 modem manager service.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+<div>
+  <dt>
+    <tt>
+      services.eg25-manager.package
+    </tt>
+  </dt>
+  <dd>
+    <dl class="option-definition">
+    <dt>Type:</dt>
+    <dd class="option-type">package</dd>
+<dt>Default:</dt>
+<dd class="option-default"><code>{"_type"=>"literalExpression", "text"=>"pkgs.eg25-manager"}</code></dd>
+
+    <dt>Description:</dt>
+    <dd class="option-description">
+<div class="paragraph">
+<p>The eg25-manager derivation to use.</p>
+</div>
+    </dd>
+  </dd>
+</div>
+</dl>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

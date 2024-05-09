@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>August and September 2021 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-10-05-august-september-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>August and September 2021 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">October 5th 2021</span>
+</div>
+</div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the nineteenth in a series of regular updates on the state of
+the project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the two months <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-08+merged%3A2021-09+sort%3Acreated-asc+">
+11 pull requests were merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>This report is not a report of flashy new features. Foundational work to make
+it possible to finish work on flashy new features had to be made.</p>
+</div>
+<div class="sect3">
+<h4 id="_validated_kernel_configurations">Validated kernel configurations</h4>
+<div class="paragraph">
+<p>One of the hardest tasks with doing a port, whether it&#8217;s your first or your
+tenth, is figuring out the kernel configuration options that needs to be set,
+and those that should not be set.</p>
+</div>
+<div class="paragraph">
+<p>With the <a href="https://github.com/NixOS/mobile-nixos/pull/410">changes in #410</a>,
+it is now entirely automated and part of both the <em>normalization</em> step, and the
+usual build steps.</p>
+</div>
+<div class="paragraph">
+<p>It means that when you <em>normalize</em> a kernel configuration with the tooling, the
+options that are required to be set or unset are set or unset accordingly
+automatically for the developer. Since it is also validated at build time, it
+means that any changes in the configurations that has not been handled by the
+maintainer will cause an obvious build failure with appropriate error messages.</p>
+</div>
+<div class="paragraph">
+<p>Hopefully this means that future ports are this much more trivial.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rewritten_early_user_interface_bindings">Rewritten early user interface bindings</h4>
+<div class="paragraph">
+<p>While working on an upcoming feature requiring further use of the early user
+interface for Mobile NixOS, it was found that the FFI bindings for them were
+a dead-end.</p>
+</div>
+<div class="paragraph">
+<p>These bindings worked seemingly well enough, but had issues. The more easily
+observable issue was the lack of proper ownership tracking for the FFI object,
+which meant that anything made through the mruby bindings needed to be tracked
+manually or else garbage collection would free up resources it shouldn&#8217;t have
+freed.</p>
+</div>
+<div class="paragraph">
+<p>The workarounds seemed enough. They were not, when tested against more and
+more complex applications. Further causing issues, the FFI bindings were
+basically not debuggable. Whenever a crash happened, it crashed way too late to
+allow debugging the root cause of the issues.</p>
+</div>
+<div class="paragraph">
+<p>With these issues in mind, <a href="https://github.com/NixOS/mobile-nixos/pull/417">
+I circled back to the approach tentatively used initially, and generated native
+code bindings for the library</a>. But this time, with a slight twist. I already
+had a list of desired bindings with the FFI bindings. So I used the same API as
+the FFI bindings used. In the end, this rewrite needed some light correctness
+fixes outside of the bindings, but was almost entirely a drop-in replacement.</p>
+</div>
+<div class="paragraph">
+<p>And this time, it can be debugged. I had to do so to figure out a few teething
+issues. Additionally, the untraceable segfaults I had with the new usage has
+simply vanished. It wasn&#8217;t as trivial as a garbage collection issue, as
+disabling the garbage collection didn&#8217;t solve any of the issues.</p>
+</div>
+<div class="paragraph">
+<p>With these exhausting changes, I can finally put my efforts towards actually
+authoring the new feature!</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_developer_experience_updates">Developer experience updates</h4>
+<div class="paragraph">
+<p>A somewhat major change is that <a href="https://github.com/NixOS/mobile-nixos/pull/405">
+the default in-repository builds now use a pinned Nixpkgs revision</a>. This
+should help providing a known working starting point for end-users. The pin
+will be manually moved as time goes on to known good revisions with good Hydra
+coverage.</p>
+</div>
+<div class="paragraph">
+<p>Mobile NixOS outputs <a href="https://github.com/NixOS/mobile-nixos/pull/406">are
+now presented in the <code>outputs</code> attribute</a>. There is a backward compatibility
+layer added to ensure previous incantations still work, but it will be removed
+at some point in the future.</p>
+</div>
+<div class="paragraph">
+<p>Image builds <a href="https://github.com/NixOS/mobile-nixos/pull/375">are now faster
+under some conditions</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nixpkgs_work">Nixpkgs work</h3>
+<div class="paragraph">
+<p>With <a href="https://github.com/NixOS/nixpkgs/pull/125156">Plasma Mobile Gear</a>
+approved, and soon merged, <a href="https://github.com/NixOS/nixpkgs/pull/130151">its
+upgrade a shoe-in</a>, Plasma Mobile support in Nixpkgs is shaping up.</p>
+</div>
+<div class="paragraph">
+<p>As for the desktop environment, <a href="https://github.com/NixOS/nixpkgs/pull/121345">
+the additin of Plasma Mobile proper</a> is soon good to go. The <a href="https://github.com/NixOS/nixpkgs/issues/118650">
+main issues</a> regarding Plasma with Wayland support fixed the last blocker
+issues for its inclusion.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new port were made in during this span. There is still a
+<a href="https://mobile.nixos.org/devices/index.html">total of 21 devices</a> you can
+build for.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-10-05-august-september-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-10-05-august-september-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

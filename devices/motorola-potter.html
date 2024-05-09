@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Motorola Moto G5 Plus — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_motorola-potter article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Motorola Moto G5 Plus</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Motorola Moto G5 Plus</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Motorola</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>Moto G5 Plus</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>motorola-potter</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>android</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>qualcomm-msm8953</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>no</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/motorola-potter">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.motorola-potter.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_and_installing">Building and installing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is one tested installation method for your <em>Motorola Moto G5 Plus</em>.
+It relies on flashing one or more partitions on your device
+and creating a filesytem for the boot image.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+===
+These instructions depend on adb being enabled, so
+will not work with an "unconfigured" Mobile NixOS image.  If you have
+changed nothing else in your Mobile NixOS system then you will at
+minimum need something like
+<code>{ lib, &#8230;&#8203; }: { mobile.adbd.enable = true; }</code> in the <code>local.nix</code> file.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>All installation methods can lead to data loss.</strong></p>
+</div>
+<div class="paragraph">
+<p>Flashing a partition <strong>will erase everything on the partition</strong>. Additionally,
+the common backups methods, e.g. TWRP, will <strong>not</strong> backup the <code>userdata</code>
+partition, which may be the installation target.</p>
+</div>
+<div class="paragraph">
+<p>Make backups.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_using_fastboot">Using Fastboot</h3>
+<div class="paragraph">
+<p>This will produce a folder with the partition images for
+your <em>Motorola Moto G5 Plus</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A outputs.android-fastboot-images</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can build a specific partition image:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A outputs.android-bootimg
+$ nix-build --argstr device motorola-potter -A outputs.rootfs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The device requires the
+<a href="https://github.com/msm8953-mainline/lk2nd">lk2nd</a> secondary
+bootloader to be installed in the <code>boot</code> partition. This runs after
+your existing bootloader and does some hardware setup required to
+allow mainline kernels to run on your device - as well as providing a
+"fastboot" interface for devices that don&#8217;t already have one.</p>
+</div>
+<div class="paragraph">
+<p>You can build lk2nd for your device as follows:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device motorola-potter -A pkgs.pkgsBuild.lk2ndMsm8953 -o lk2nd</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To install it, reboot into the bootloader (<code>fastboot</code> mode), then run</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ fastboot flash boot lk2nd/lk2nd.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can boot into lk2nd - press Volume Down while booting to enter
+Fastboot mode.  If your stock bootloader uses the same key
+combinations, you need to wait a bit before pressing the volume
+keys. Usually, waiting until the screen turns on and/or the device
+vibrates should be enough to make the stock bootloader ignore the
+keys.</p>
+</div>
+<div class="paragraph">
+<p>The suggested filesystem arrangement is to put the Mobile NixOS
+<code>system.img</code> into the <code>userdata</code> partition, and use the <code>system</code>
+partition for the stage-1 <code>boot.img</code> which on some devices is too
+large for the <code>boot</code> partition. Once running lk2nd you can do this
+as follows</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ fastboot flash userdata result/system.img
+$ fastboot flash recovery result/recovery.img</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now use the up/down keys and power key to select "Recovery mode", then
+connect to the device with adb</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ adb shell
+~ $ mke2fs  /dev/disk/by-partlabel/system
+~ # mkdir /mnt2
+~ # mount /dev/disk/by-partlabel/system  /mnt2
+~ # exit</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ adb push result/boot.img /mnt2
+$ adb reboot</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_firmware_for_wi_fi">Firmware for Wi-Fi</h3>
+<div class="paragraph">
+<p>This particular phone keeps the firmware files on a partition named
+<code>modem</code>.</p>
+</div>
+<div class="paragraph">
+<p>To make use of the Wi-Fi capabilities of this phone you will need to
+make them available to the firmware derivation.</p>
+</div>
+<div class="paragraph">
+<p>The files can be acquired through different methods. You can use an
+alternate recovery like TWRP, mount the partition (identified using
+<code>blkid</code>) and copy the files.</p>
+</div>
+<div class="paragraph">
+<p>Another way is to do it using an installed Mobile NixOS system, where,
+too, you mount the partition and copy them:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>$ sudo mount -o ro /dev/disk/by-partlabel/modem /mnt
+$ cp -r /mnt ./modem
+$ sudo umount /mnt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The copy of the firmware files will be in the modem directory, in the
+current working directory, ready to be referred to.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_touchscreen">Touchscreen</h3>
+<div class="paragraph">
+<p>There seem to be three distinct versions of the Synaptics DSx
+touchscreen driver in the vendor kernel: one in
+<code>drivers/input/touchscreen/synaptics_*.[ch]/</code>, plus two others in
+subdirectories <code>drivers/input/touchscreen/synaptics_dsx/</code></p>
+</div>
+<div class="paragraph">
+<p>Since commit 219587de9e92a in the vendor kernel, the touchscreen is
+declared in the device tree as <code>compatible = "synaptics,dsx-i2c"</code>
+which corresponds to the code in
+<code>drivers/input/touchscreen/synaptics_dsx_2.6/</code>, but the kernel config
+options specify a weird mismash of that code and and some of the files
+in the parent folder. I tried cleaning this up but it broke more than
+it fixed.</p>
+</div>
+<div class="paragraph">
+<p>The option for <code>CONFIG_SCREEN_OFF_GESTURES</code> is disabled because it is
+incompatible with <code>CONFIG_FB</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

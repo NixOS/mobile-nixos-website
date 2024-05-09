@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>May 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-06-02-may-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>May 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">June 2nd 2020</span>
+</div>
+</div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the seventh in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-05+sort%3Acreated-asc">11 PRs were merged</a>
+during the month. Changes are mostly cleanup and documentation related.</p>
+</div>
+<div class="sect3">
+<h4 id="_documentation_changes">Documentation changes</h4>
+<div class="paragraph">
+<p>The biggest change is the addition of <a href="https://mobile.nixos.org/in-depth/devices.html">
+an overview of the terms used to define a device</a> (<a href="https://github.com/NixOS/mobile-nixos/pull/148">#148</a>).
+This documentation section should help better understand how devices are composed.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://github.com/NixOS/mobile-nixos/blob/master/README.adoc">README</a> (<a href="https://github.com/NixOS/mobile-nixos/pull/138">#138</a>) as
+shown on GitHub has been reviewed to better guide users and contributors around
+the ecosystem, borrowing the organization of the main Nixpkgs README. Though the
+main reason for this change is that the README started to diverge with the
+documentation. Removing all examples and referring to the actual documentation
+files reduces the burden of maintaining multiple documentation fragments.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_code_and_architecture_cleanup">Code and architecture cleanup</h4>
+<div class="paragraph">
+<p>Through some of the pull requests, a bunch of either dead, or ossified code was
+found and removed. The main user-facing change is the <a href="https://github.com/NixOS/mobile-nixos/pull/152">removal of <code>device.info</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>device.info</code> option was a mixed bag of misshapen, undefined options that were
+at the foundation of all device definitions. The replacement are discrete well-defined
+options that are defined in understandable categories. Systems define options that
+they use, making it easier to understand why an option is defined.</p>
+</div>
+<div class="paragraph">
+<p>The main consequence of that change is that the current work-in-progress ports
+will need to be reviewed to use the new options.</p>
+</div>
+<div class="paragraph">
+<p>As part of <a href="https://github.com/NixOS/mobile-nixos/pull/155">#155</a>, additional
+cleanup was made in
+<a href="https://github.com/NixOS/mobile-nixos/pull/155/commits/09fed68bcf88a28081e90cd3f593cb182e11f814">the</a>
+<a href="https://github.com/NixOS/mobile-nixos/pull/155/commits/7ee81a9cadcc6f476332e4b656078654db2e24c5">first</a>
+<a href="https://github.com/NixOS/mobile-nixos/pull/155/commits/22eddafd91f6ba6f6b92f3ae429b8f1f0aaa3137">few</a>
+<a href="https://github.com/NixOS/mobile-nixos/pull/155/commits/30ff772fbd7fa5d0ff2b0e38299d802a285b46f9">commits</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_exampleshello_system">New <code>examples/hello</code> system</h4>
+<div class="paragraph">
+<p>While technically a new feature, <a href="https://github.com/NixOS/mobile-nixos/pull/155">
+the new examples/hello system (#155)</a> is more of a first-user-experience "bugfix"
+than a useful new feature.</p>
+</div>
+<div class="paragraph">
+<p>This introduces a new example system that can be cross-compiled entirely, <strong>and
+shows an interface to the end-user</strong>. This helps fix the biggest complaint about
+the project: the default build looks as if the system has stopped responding.</p>
+</div>
+<div class="paragraph">
+<p>Though this is not actually fixing that complaint, it does not replace the default
+build output. Users making a new port, or testing an existing port, will rather
+<a href="https://github.com/NixOS/mobile-nixos/blob/c0c93961cfe6c373d200103f1df4911f20fa55a8/default.nix#L99-L102">be encouraged</a>
+to first try building and using this example to confirm the port works.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build examples/hello --argstr device DEVICE-NAME -A build.default</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A planned addition to this feature will be more features to test and validate support
+for different subsystems of the device. Currently this only tests the touchscreen
+(through requiring it for navigation) and validates the display shows the colours
+appropriately.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_additional_highlights">Additional highlights</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/141">#141 initrd-usb: provide modules required for gadgets in initrd</a>,
+which handles modules in modular mainline-based kernels and stage-1.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new port were made in May. There is still a
+<a href="https://mobile.nixos.org/devices/index.html">total of 11 devices</a> you can
+build for.</p>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-06-02-may-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-06-02-may-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

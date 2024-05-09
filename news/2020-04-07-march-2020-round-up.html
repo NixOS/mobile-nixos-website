@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>March 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-04-07-march-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>March 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">April 7th 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-04-07-march-2020-round-up.jpeg');"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the fifth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-03+sort%3Acreated-asc">17 PRs were merged</a>
+during the month. (The link says 18, but one of them was, to me, late in
+February, read the previous news item).</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at some of these.</p>
+</div>
+<div class="sect3">
+<h4 id="_pine64_pinephone_braveheart">Pine64 Pinephone “Braveheart”</h4>
+<div class="paragraph">
+<p>This was teased about on the <a href="https://twitter.com/samueldr/status/1237478576443854848">
+author&#8217;s twitter account</a>. <a href="https://www.pine64.org/pinephone/">The inexpensive
+Pinephone</a> is the latest new device added to Mobile NixOS.</p>
+</div>
+<div class="paragraph">
+<p>This brings a bit more than only a new device. This is the fourth system type
+added to Mobile NixOS. The added system type (U-Boot) in theory will give us
+the ability to support any U-Boot-based system in a common way. In practice the
+still unmerged and WIP <a href="https://github.com/NixOS/mobile-nixos/pull/94">#94</a>
+shows how this is true by using U-Boot with another Pine64 device, the
+<em>Pinebook Pro</em>.</p>
+</div>
+<div class="paragraph">
+<p>A nice thing that was verified again with this new device port is that the
+stage-2 image (the rootfs, the system.img) is indeed universal. It is using the
+same AArch64 build of the system image as Android-based devices, and
+Depthcharge-based devices.</p>
+</div>
+<div class="paragraph">
+<p>Our build for the Pinephone relies on the <a href="https://gitlab.com/pine64-org/linux">
+downstream kernel from the Pine64 community</a>, with only one added patch.
+The same is done for the U-Boot build.</p>
+</div>
+<div class="paragraph">
+<p>The added patches are user-experience-focused patches that are using the RGB
+LED of the phone to show the boot status.</p>
+</div>
+<div class="paragraph">
+<p>Other than that, the hardware support is not complete, but it is supported at
+the same level as other devices, plus Wi-Fi working.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://github.com/NixOS/mobile-nixos/pull/96">PR #96</a> for all the details.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hydra_builds">Hydra builds</h4>
+<div class="paragraph">
+<p>This is not entirely an in-repository change. There&#8217;s <a href="https://github.com/NixOS/mobile-nixos/pull/97">#97</a>
+and <a href="https://github.com/NixOS/mobile-nixos/pull/113">#133</a> that are relevant
+to this. The <a href="https://hydra.nixos.org/jobset/mobile-nixos/unstable">mobile-nixos:unstable jobset</a>
+on Hydra is the other part of the puzzle.</p>
+</div>
+<div class="paragraph">
+<p>What this gives us is automatic continuous builds of Mobile NixOS against the
+<code>nixos-unstable</code> NixOS channel. From this, we can track changes that break the
+Mobile NixOS builds, and track internal breakage to some parts of Mobile NixOS.</p>
+</div>
+<div class="paragraph">
+<p>This is not even the best part. As can be seen in <a href="https://github.com/NixOS/mobile-nixos/pull/113">#133</a>,
+we are now delivering up-to-date stage-2 rootfs, which allows end-users without
+the required hardware to <a href="https://mobile.nixos.org/getting-started.html#_using_a_pre_built_system_img">
+bootstrap themselves using a pre-built image</a>. The requirement to have a native
+AArch64 machine to build the system image is no more. While not ideal, users
+could make use of their phone to build a customized image, or simply, do a
+<code>nixos-rebuild</code> on it.</p>
+</div>
+<div class="paragraph">
+<p>It already paid its worth in gold, as by the time this was developed, two
+regressions were spotted and quickly fixed. And furthermore, I hope that the
+exercising of the cross-compilation framework will help the NixOS developers
+working on making cross-compilation better in NixOS.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_mentions">Other mentions</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Using GitHub Actions, <a href="https://github.com/NixOS/mobile-nixos/pull/112">#112</a>
+checks new PRs for some simple breakage.</p>
+</li>
+<li>
+<p>Developers can now use <code>nconfig</code> to configure their kernel using the “porcelain”
+<code>bin/menuconfig</code>, as added in <a href="https://github.com/NixOS/mobile-nixos/pull/109">#109</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>One new device has been merged during March.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pine64 Pinephone “Braveheart” (pine64-pinephone-braveheart) [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/96">#96</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 11</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-04-07-march-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-04-07-march-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

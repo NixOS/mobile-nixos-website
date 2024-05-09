@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>2020 in the rear-view mirror — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-01-11-2020-in-the-rear-view-mirror article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>2020 in the rear-view mirror</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">January 11th 2021</span>
+</div>
+</div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The year 2020 was my first full calendar year dedicated to working on the
+Mobile NixOS project. Let&#8217;s look at the progress, from the state of the project
+<em>before</em> January 2020, up to the state after December 2020.</p>
+</div>
+<div class="paragraph">
+<p>Comparisons will start from the last commit of 2019, <a href="https://github.com/NixOS/mobile-nixos/commit/7803d9ec0e35fe602f75d08e6bcb6db720ad897c">
+<code>7803d9ec0e35fe602f75d08e6bcb6db720ad897c</code></a>. They are compared against the last
+commit for 2020, <a href="https://github.com/NixOS/mobile-nixos/commit/d5869523869eb029b712a3f2b7b1c3199874f221">
+<code>d5869523869eb029b712a3f2b7b1c3199874f221</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>You might also be interested in looking at <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020+sort%3Acreated-asc">
+all the merged pull requests for 2020</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_some_numbers">Some numbers</h3>
+<div class="paragraph">
+<p>They&#8217;re quite arbitrary. I don&#8217;t know what other relevant stats could be used
+here.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>111 merged pull requests</p>
+</li>
+<li>
+<p>805 commits (skipping merge commits)</p>
+</li>
+<li>
+<p>10 commit authors (filtering duplicates)</p>
+</li>
+<li>
+<p>Devices: 10 → 16</p>
+</li>
+<li>
+<p>Modules: 39 → 56 (Nix files in <code>modules/</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>And here&#8217;s what <code>cloc</code> reveals:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>[nix-shell:~/.../mobile-nixos/2019]$ cloc .
+     274 text files.
+     263 unique files.
+      36 files ignored.
+
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+diff                             55            741           2623          16308
+Nix                             108            719            772           4311
+SVG                               7              4              4           2950
+LESS                             24            263            333           1257
+Ruby                             16            147             85            706
+AsciiDoc                          7            130              3            243
+XML                               5             19             12            160
+ERB                               8              4              0             89
+Markdown                          4             43              0             85
+Lua                               1             15             41             58
+Bourne Again Shell                2              9             10             21
+C/C++ Header                      1             13             35             21
+C                                 1              1              0             17
+--------------------------------------------------------------------------------
+SUM:                            239           2108           3918          26226
+--------------------------------------------------------------------------------
+
+[nix-shell:~/.../mobile-nixos/2020]$ cloc .
+     482 text files.
+     463 unique files.
+      54 files ignored.
+
+--------------------------------------------------------------------------------
+Language                      files          blank        comment           code
+--------------------------------------------------------------------------------
+diff                             89           1429           5081          22047
+Nix                             170           1266           1149           7576
+Ruby                             76            690            575           4132
+SVG                              10              4              4           3538
+LESS                             25            291            334           1413
+JSON                              6              0              0            959
+AsciiDoc                         25            396              3            844
+XML                               5             19             12            160
+Markdown                          8             88              0            159
+ERB                              10             23              0            130
+Lua                               1             15             41             58
+YAML                              1              1              0             40
+C                                 1             11              5             37
+C/C++ Header                      1             13             35             21
+Bourne Again Shell                1              2              0              4
+--------------------------------------------------------------------------------
+SUM:                            429           4248           7239          41118
+--------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stage_1_improvements">Stage-1 improvements</h3>
+<div class="paragraph">
+<p>This is where almost all of the work time this year was spent. Work started <a href="https://mobile.nixos.org/news/2020-02-04-january-2020-round-up.html">
+in January</a>. Continuing <a href="https://mobile.nixos.org/news/2020-03-03-february-2020-round-up.html">
+through February</a>, with the graphical interface. Further work punctuated the
+year. Neither words, screen captures or video can properly convey the amount of
+work spent on producing the best stage-1 experience that works across this wide
+range of devices.</p>
+</div>
+<div class="paragraph">
+<p>We went from a rigid shell-script based approach, to a list of tasks handled
+through dependency resolution.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, before February, there was no way to select a previous generation.
+With the added GUI, generation selection is possible, error reporting in early
+boot is verbose, and <a href="https://mobile.nixos.org/news/2020-12-01-november-2020-round-up.html">
+boot progress</a> is shown graphically.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_builds_on_hydra">Builds on Hydra</h3>
+<div class="paragraph">
+<p>Before <a href="https://mobile.nixos.org/news/2020-04-07-march-2020-round-up.html">
+March 2020</a>, no pre-built artifacts were produced. This is quite obvious when
+you try to build artifacts from the January checkout.</p>
+</div>
+<div class="paragraph">
+<p>More important than build artifacts, this gave us continuous delivery of builds.
+With this we can track regressions, both in Mobile NixOS proper, or from changes
+in Nixpkgs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_device_support">Device support</h3>
+<div class="paragraph">
+<p>Introduced <a href="https://mobile.nixos.org/news/2020-04-07-march-2020-round-up.html">
+in March 2020</a> the Pinephone is one of those devices with the biggest mind share
+in the community. Though, I personally don&#8217;t think it is the most interesting.
+After all, it is a somewhat boring device (in all the right ways!). Things with
+the Pinephone are expected to <em>just work</em>, and they mostly do, once the time is
+invested in implementing them.</p>
+</div>
+<div class="paragraph">
+<p>Personally, at the top of the list of surprises are the <em>Asus Zenfone Max Plus
+(M1)</em> and the <em>Moto E6</em>. While less of the hardware is working, they are
+personally notable for me because they both do not have any alternative
+operating available. They were acquired as a challenge for me, to work strictly
+with sources from the vendor. This proved to myself that, yes, it is possible to
+work with devices that does not have a strong community behind them.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_closing_word">Closing word</h3>
+<div class="paragraph">
+<p>I&#8217;m excited to continue working on this project. Let&#8217;s see what we can make out
+of 2021.</p>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t forget you can keep tabs on the project either by coming to the website
+regularly, or better yet, <a href="https://mobile.nixos.org/index.xml">subscribe to
+the RSS feed</a>!</p>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-01-11-2020-in-the-rear-view-mirror.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-01-11-2020-in-the-rear-view-mirror.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

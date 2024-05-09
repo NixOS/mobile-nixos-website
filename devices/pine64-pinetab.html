@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Pine64 PineTab — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_pine64-pinetab article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Pine64 PineTab</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">Pine64 PineTab</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>Pine64</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>PineTab</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>pine64-pinetab</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>u-boot</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>allwinner-a64</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>yes</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/pine64-pinetab">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.pine64-pinetab.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This configuration is for the retail version of PineTab, with the Feixin K101
+IM2BYL02 display panel. For display to work on the early dev units with IM2BA02
+panels, you need to use the correct device tree.</p>
+</div>
+<div class="sect2">
+<h3 id="_building_a_full_disk_image">Building a full disk image</h3>
+<div class="paragraph">
+<p>This platform uses the <code>u-boot</code> system-type. This means that a full disk image
+can be produced, and this full disk image flashed <em>outright</em> to the block
+device. That block device can be the internal eMMC or the SD card.</p>
+</div>
+<div class="paragraph">
+<p>The PineTab will boot from SD card if a bootloader can be found. This means
+that the full disk image can be flashed to an SD card, and it will prioritise
+booting it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build --argstr device pine64-pinetab -A outputs.disk-image
+ $ dd if=result of=/dev/mmcblkX bs=8M oflag=sync,direct status=progress</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_the_boot_partition">Building the boot partition</h3>
+<div class="paragraph">
+<p>Building the full disk image may require a native AArch64 system.</p>
+</div>
+<div class="paragraph">
+<p>The boot partition can be built, and then flashed on top of an existing Mobile
+NixOS boot partition.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ nix-build --argstr device pine64-pinetab -A build.boot-partition
+ $ dd if=result/mobile-nixos-boot.img of=/dev/mmcblkXp3 bs=8M oflag=sync,direct status=progress</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_u_boot">Building U-Boot</h3>
+<div class="paragraph">
+<p>Mobile NixOS is not managing platform firmware builds anymore.</p>
+</div>
+<div class="paragraph">
+<p>PineTab support in Tow-Boot [is planned](<a href="https://github.com/Tow-Boot/Tow-Boot/issues/144" class="bare">https://github.com/Tow-Boot/Tow-Boot/issues/144</a>).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

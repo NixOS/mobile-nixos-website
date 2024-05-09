@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>April 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-05-06-april-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>April 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">May 6th 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-05-06-april-2020-round-up.jpeg'); background-position: right center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the sixth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-04+sort%3Acreated-asc">11 PRs were merged</a>
+during the month. Not an exciting month with fun and visible progress, but
+let&#8217;s point out interesting changes</p>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_website_pages">Device specific website pages</h4>
+<div class="paragraph">
+<p>The <em><a href="https://mobile.nixos.org/devices/">Devices List</a></em> section is now
+formatted as a table, and links to one page per device.</p>
+</div>
+<div class="paragraph">
+<p>This page can contain device-specific notes, and generally contains generic
+instructions depending on the device type. The side-bar uses generated
+content, but the page will use the <code>README.adoc</code> file when found in the device
+directory.</p>
+</div>
+<div class="paragraph">
+<p>All of this is part of <a href="https://github.com/NixOS/mobile-nixos/pull/120">PR #120</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_supported_way_to_include_from_system_configuration">Supported way to include from system configuration</h4>
+<div class="paragraph">
+<p>In <a href="https://github.com/NixOS/mobile-nixos/pull/123">PR #123</a> a supported way
+to include a device configuration to the system configuration was added. The
+<a href="https://mobile.nixos.org/getting-started.html">Getting Started</a> page
+explains the details.</p>
+</div>
+<div class="paragraph">
+<p>This is useful when combined with the next higlighted changes. The device
+specific configuration doesn&#8217;t have to be handled by the end-user, the Mobile
+NixOS configuration handles it.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_wcnss_wlan_quirk">WCNSS WLAN <em>quirk</em></h4>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/126">PR #126</a> adds support for
+WCNSS WLAN in Mobile NixOS, while enabling it for the only device that supports
+it.</p>
+</div>
+<div class="paragraph">
+<p>This is the simplest Wi-Fi setup for Qualcomm-based hardware. Sadly, for other
+devices it&#8217;s much more involved.</p>
+</div>
+<div class="paragraph">
+<p>Though, this does mean that we now have Wi-Fi support for one more device!</p>
+</div>
+<div class="paragraph">
+<p><strong>Bonus change</strong>: Buried in that same PR, we now use <code>boot.initrd.enable = false</code>
+rather than using <code>isContainer</code>. This fixes a couple of weird and annoying
+issues with the running system.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_polishing">Device-specific polishing</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/126">PR #126</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/128">PR #128</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These start implementing some <em>polishing</em>, in what I hope becomes the gold
+standard for device ports.</p>
+</div>
+<div class="paragraph">
+<p>First, we configure the LEDs so the Linux kernel controls it during
+boot (<a href="https://github.com/NixOS/mobile-nixos/blob/6be1a3bf0ca7d4f956b7dab4bab932071c402026/devices/asus-z00t/kernel/0002-ze550kl-Green-LED-now-defaults-to-on.patch#L21-L30">z00t</a>,
+<a href="https://github.com/NixOS/mobile-nixos/blob/6be1a3bf0ca7d4f956b7dab4bab932071c402026/devices/oneplus-oneplus3/kernel/0001-oneplus3-Configure-LEDs-using-kernel-triggers.patch#L38-L41">oneplus3</a>).
+This provides a tangible proof to the end-user that the kernel is
+currently in control and running.</p>
+</div>
+<div class="paragraph">
+<p>Then, for <code>asus-z00t</code>, some kernel cleanup patches have been added. The first
+kind of change is to remove <em>idiotic</em> behaviour from the OEM kernel, like
+<a href="https://github.com/samueldr-wip/mobile-nixos-wip/blob/640f2d4c794c2066797a31157c324c437b200250/devices/asus-z00t/kernel/0001-firmware-class-Remove-rude-firmware-path-trampling.patch">
+trampling over the kernel module load path</a>. The second is more subtle, but
+welcomed when reading <code>dmesg</code>: reduce the useless logging present in some
+modules. The amount of logging is useless.</p>
+</div>
+<div class="paragraph">
+<p>Finally, for <code>oneplus-oneplus3</code>, there&#8217;s a <a href="https://github.com/NixOS/mobile-nixos/commit/c7a121fbaeedfd8e493127355588b7a511ad393d">
+<em>quirk</em> to fix USB OTG support</a> during boot. I don&#8217;t think any other device
+will need it, from a quick glance, but it&#8217;s still a good example of how to
+implement a <em>quirk</em>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new port were made in April. There is still a
+<a href="https://mobile.nixos.org/devices/index.html">total of 11 devices</a> you can
+build for.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-05-06-april-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-05-06-april-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

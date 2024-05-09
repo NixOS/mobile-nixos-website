@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>November 2019 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2019-12-03-november-2019-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>November 2019 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">December 3rd 2019</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2019-12-03-november-2019-round-up.jpeg');"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the first of a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>Among the changes, and the <a href="https://github.com/NixOS/mobile-nixos/pulls?utf8=%E2%9C%93&amp;q=is%3Apr+merged%3A2019-11">10 PRs merged</a>,
+these changes are highlighted.</p>
+</div>
+<div class="sect3">
+<h4 id="_initrd_add_fbterm_modules">initrd: add fbterm modules</h4>
+<div class="paragraph">
+<p>When the new <code>mobile.boot.stage-1.fbterm</code> options are enabled, a userspace
+implementation of a console is started, attached to the output of tty1.
+As of right now, this is a read-only view of the console.</p>
+</div>
+<div class="paragraph">
+<p>This is still extremely useful on targets where the kernel-based virtual
+consoles will not work. As long as the framebuffer is setup, you can use the
+console to observe what is going on.</p>
+</div>
+<div class="paragraph">
+<p>Added in <a href="https://github.com/NixOS/mobile-nixos/pull/46">pull request #46</a> by
+<a href="https://github.com/lheckemann">@lheckemann</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_documentation_and_website_framework">Documentation and website framework</h4>
+<div class="paragraph">
+<p>This was briefly highlighted in the last news item, though let&#8217;s describe how
+the documentation and website generation ticks.</p>
+</div>
+<div class="paragraph">
+<p>The generated documentation in the repository is always built
+using the <a href="https://github.com/NixOS/mobile-nixos/tree/master/doc">same exact tooling</a>
+as the website. In fact, the website is only adding files to the documentation
+directory to build itself.</p>
+</div>
+<div class="paragraph">
+<p>This gives us the advantage of the documentation being trivial to build locally.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>~/.../mobile-nixos $ nix-build ./doc/
+these derivations will be built:
+  /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mobile-nixos-docs.drv
+[...]
+/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mobile-nixos-docs
+
+~/.../mobile-nixos $ ls -l result/index.html
+-r--r--r-- 4 root root 1541 Dec 31  1969 result/index.html
+
+~/.../mobile-nixos/mobile-nixos-website $ xdg-open result/index.html
+[...]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The documentation, minus the news items, will open in your web browser, and work
+just like this website. The styles, the site map, everything is generated 1:1
+compared to the website.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://github.com/NixOS/mobile-nixos-website">mobile-nixos-website</a>
+repository holds the <a href="https://github.com/NixOS/mobile-nixos-website/blob/master/.github/workflows/website.yml">
+machinery</a> that updates the site, in addition to the <a href="https://github.com/NixOS/mobile-nixos-website/tree/master/website">news items</a>.
+This is where content specific for the website is written.</p>
+</div>
+<div class="paragraph">
+<p>You may also want to subscribe to the new <a href="https://mobile.nixos.org/index.xml">RSS feed</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_ports">New ports</h4>
+<div class="paragraph">
+<p>Three new devices were merged this month.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Google Pixel XL (google-marlin) [<a href="https://github.com/danielfullmer">@danielfullmer</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/51">#51</a>)</p>
+</li>
+<li>
+<p>Google Pixel 2 (google-walleye) [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/50">#50</a>)</p>
+</li>
+<li>
+<p>Xiaomi A1 (xiaomi-tissot) [<a href="https://github.com/lheckemann">@lheckemann</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/47">#47</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Pixel devices should be trivial to adapt to their respective non-XL and XL
+variants.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2019-12-03-november-2019-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2019-12-03-november-2019-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

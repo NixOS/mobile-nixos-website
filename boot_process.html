@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Boot Process — Mobile NixOS</title>
+<link rel="stylesheet" href="styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="index.xml" />
+</head>
+<body class="boot_process article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='resources.html' class=''>Resources</a></li>
+      <li><a href='devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Boot Process</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>“How does Mobile NixOS boot?”</p>
+</div>
+<div class="paragraph">
+<p>This is what this documentation topic tries to describe. This is for end-users.</p>
+</div>
+<div class="paragraph">
+<p>For developers, see in-depth topics.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_booting_mobile_nixos">Booting Mobile NixOS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most devices targeted by Mobile NixOS are intended to boot only one kernel at
+a time, with one stage-1, and one system.</p>
+</div>
+<div class="paragraph">
+<p>NixOS, in turn, shines when a system can choose a <em>generation</em>, which has its
+own kernel, stage-1, and system build.</p>
+</div>
+<div class="paragraph">
+<p>Mobile NixOS, at this point in time, sits on the halfway point. The user cannot
+choose which generation a kernel and stage-1 comes from, but can boot a
+specific generation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_booting_a_specific_generation">Booting a specific generation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is done through booting in "recovery mode". This will stop the stage-1
+process before it jumps into the default generation, and will allow you to
+select a system to boot into.</p>
+</div>
+<div class="paragraph">
+<p>The method to enter recovery mode depends on your device</p>
+</div>
+<div class="sect2">
+<h3 id="_android_based_devices">Android-based devices</h3>
+<div class="paragraph">
+<p>Android-based devices can be booted in their respective recovery mode.</p>
+</div>
+<div class="paragraph">
+<p>When the device is a <em>"Boot as recovery"</em> system, no other setup than flashing
+the boot partition is required. <em>"Boot as recovery"</em> systems are generally newer
+Android-based devices.</p>
+</div>
+<div class="paragraph">
+<p>When the device is not a <em>"Boot as recovery"</em>, or still uses a recovery
+partition, you will need to flash a recovery image to the recovery partition.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> $ nix-build --argstr device $DEVICE -A outputs.android-recovery
+ $ fastboot flash recovery result</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_all_other_devices">All other devices</h3>
+<div class="paragraph">
+<p><em>Including the default boot partition for Android-based devices.</em></p>
+</div>
+<div class="paragraph">
+<p>When the boot process is about to switch to the system, if any of the following
+keys are held, it will instead show the recovery menu.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Volume up</p>
+</li>
+<li>
+<p>Volume down</p>
+</li>
+<li>
+<p>Left shift</p>
+</li>
+<li>
+<p>Right shift</p>
+</li>
+<li>
+<p>Left control</p>
+</li>
+<li>
+<p>Right control</p>
+</li>
+<li>
+<p>Escape</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_testing_the_boot_gui">Testing the boot GUI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The simulator can be launched using the following commands:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre> $ nix-build --argstr device uefi-x86_64 -A pkgs.boot-recovery-menu-simulator
+ $ result/bin/simulator --resolution 1080x1920</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/boot_process.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/boot_process.adoc'>Edit</a></li>
+      
+      <li><a href='sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

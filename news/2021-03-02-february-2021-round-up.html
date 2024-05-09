@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>February 2021 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-03-02-february-2021-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>February 2021 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">March 2nd 2021</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2021-03-02-february-2021-round-up.jpeg'); background-position: center center;"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the fifteenth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the month <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2021-02+sort%3Acreated-asc">
+18 pull requests were merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Compared to the last month, they&#8217;re more subtle changes.</p>
+</div>
+<div class="sect3">
+<h4 id="_more_hermetic_evaluation">More hermetic evaluation</h4>
+<div class="paragraph">
+<p>This started off the work from <a href="https://github.com/eamsden">@eamsden</a>, where
+uses of <code>&lt;nixpkgs&gt;</code> were removed almost everywhere in <a href="https://github.com/NixOS/mobile-nixos/pull/238">#238</a>.</p>
+</div>
+<div class="paragraph">
+<p>With the changes, the value <code>&lt;nixpkgs&gt;</code> is now used only at one location, at
+the start of the evaluation, in a way that can be overridden easily if needed.</p>
+</div>
+<div class="paragraph">
+<p>This means that evaluation now works fine without a <code>NIX_PATH</code>. This is useful
+to allow users of Nix flakes to use the project.</p>
+</div>
+<div class="paragraph">
+<p>Similar changes were made in <a href="https://github.com/NixOS/mobile-nixos/pull/310">#310</a>
+to rely on a single <code>&lt;nixpkgs&gt;</code> value for <code>release.nix</code> and example
+configuration evaluations.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_finalize_stage_0">Finalize stage-0</h4>
+<div class="paragraph">
+<p>When <a href="https://github.com/NixOS/mobile-nixos/pull/262">#262</a> was merged in
+December, it was done so with two main features missing.</p>
+</div>
+<div class="paragraph">
+<p>Time was taken to <a href="https://github.com/NixOS/mobile-nixos/pull/300">finish
+the boot features for stage-0 in #300</a>.</p>
+</div>
+<div class="paragraph">
+<p>When a device supports <em>stage-0</em> boot, a new toggle is shown in the generations
+list allowing the user to skip rebooting into the generation&#8217;s kernel.</p>
+</div>
+<div class="paragraph">
+<p>When booting a generation, the <em>device tree</em> built from the same kernel source
+tree is now used. The pull request itself contains technical details. This was
+less trivial than expected.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_armv7_works_again">armv7 works again</h4>
+<div class="paragraph">
+<p>Using armv7 with Nixpkgs or NixOS is not always easy. There is no binary cache,
+and cross-compilation is as YMMV as it is for AArch64.</p>
+</div>
+<div class="paragraph">
+<p>This is the reason why armv7 Mobile NixOS devices haven&#8217;t seen much work done
+and things slowly started not working.</p>
+</div>
+<div class="paragraph">
+<p>With <a href="https://github.com/NixOS/mobile-nixos/pull/306">#306</a> time was taken
+to ensure contributors with armv7 devices wouldn&#8217;t be left with hard to debug
+issues from Mobile NixOS itself.</p>
+</div>
+<div class="paragraph">
+<p>With this work finally taken care of, there is a recent known good starting
+point to use for armv7 devices.</p>
+</div>
+<div class="paragraph">
+<p>A few recent WIP device ports were made on top of these changes. Stay tuned as
+they may become supported devices at some point in the future.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/307">#307 asus-sparrow: init</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/311">#311 amazon-austin: init</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_android_flashable_zips">Android Flashable Zips</h4>
+<div class="paragraph">
+<p>With <a href="https://github.com/NixOS/mobile-nixos/pull/320">#320, Android flashable
+zip support</a> was added to Mobile NixOS. This is used to produce <code>.zip</code> files
+that can be installed to the devices using the mechanism commonly used to apply
+OTA updates in Android.</p>
+</div>
+<div class="paragraph">
+<p>Why would this new flashing method be needed or desired?</p>
+</div>
+<div class="paragraph">
+<p>First, it is more universal than <code>fastboot</code>, as some OEMs implement alternative
+flashing modes in their devices (e.g. Odin for Samsung).</p>
+</div>
+<div class="paragraph">
+<p>Then, some devices (e.g. <code>oneplus-oneplus3</code>) have problematic fastboot flash
+behaviours when flashing to the <code>userdata</code> partition. Some devices (e.g.
+<code>amazon-austin</code>) need to apply some out-of-band "fixes" to the boot images,
+which happens for free when using a flashable zip.</p>
+</div>
+<div class="paragraph">
+<p>With that said, all methods to flash the system to the device should produce
+the same outcome in most cases. As long as your device boots fine, there is no
+reason to prefer one or the other flashing method.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_changes">Device-specific changes</h4>
+<div class="sect4">
+<h5 id="_wi_fi_support_for_pixel_xl">Wi-Fi support for Pixel XL</h5>
+<div class="paragraph">
+<p>Following last month&#8217;s updates, <a href="https://github.com/danielfullmer">
+@danielfullmer</a> made the required changes to
+<a href="https://github.com/NixOS/mobile-nixos/pull/295">enable Wi-Fi for
+<code>google-marlin</code> (#295)</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>No new port were made in February. There is still a
+<a href="https://mobile.nixos.org/devices/index.html">total of 17 devices</a> you can
+build for.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-03-02-february-2021-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-03-02-february-2021-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

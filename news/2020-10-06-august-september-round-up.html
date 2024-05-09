@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>August and September 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2020-10-06-august-september-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>August and September 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">October 6th 2020</span>
+</div>
+</div>
+
+  <div class="article-header" style="background-image: url('../news/2020-10-06-august-september-round-up.jpeg');"></div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the tenth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>As with the last update, a big part of the <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-08+merged%3A2020-09+sort%3Acreated-asc">
+10 pull requests merged</a> were bug fixes or minor changes.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a quick look at some of the nicer things achieved.</p>
+</div>
+<div class="sect3">
+<h4 id="_forced_kernel_configuration_normalization">Forced kernel configuration normalization</h4>
+<div class="paragraph">
+<p>The <code>kernel-builder</code> infrastructure now <a href="https://github.com/NixOS/mobile-nixos/pull/204">
+forces the configuration file used in its build</a> to be normalized.</p>
+</div>
+<div class="paragraph">
+<p>What is normalization? Simply put, it&#8217;s about updating the kernel configuration
+file so all of the options represent the values set in the current kernel build.</p>
+</div>
+<div class="paragraph">
+<p>This is a somewhat breaking change, as it forces kernel configurations to be
+kept up to date even if no changes were made by the maintainer. Though this
+makes the final build somewhat more declarative, as options removed and new
+options will be reflected in the kernel configuration in the repository.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_autoporter">Autoporter</h4>
+<div class="paragraph">
+<p>The new <a href="https://github.com/mobile-nixos/autoport">Mobile NixOS Autoporter</a>
+project is an experimental tooling intended to expedite the first step in
+porting to a new device.</p>
+</div>
+<div class="paragraph">
+<p>In a few words, it finds as many facts about a given device as it can. The
+current implementation uses pre-expanded factory images from OEM, but <a href="https://github.com/mobile-nixos/autoport/issues/4">
+plans are</a> <a href="https://github.com/mobile-nixos/autoport/issues/5">in the work</a>
+to work from files the user provide instead or in addition of.</p>
+</div>
+<div class="paragraph">
+<p>This enables the porter-developer to start from known true values for the
+device, rather than needing them to find out those values. The more valuable
+ones are the subtle ones, like the USB gadget modes, or system as root.</p>
+</div>
+<div class="paragraph">
+<p>It does not provide a complete skeleton yet. Mainly for now it&#8217;s missing the
+kernel derivation. Though we might be able to provide <a href="https://github.com/mobile-nixos/autoport/issues/7">
+likely source locations</a> depending on some factors.</p>
+</div>
+<div class="paragraph">
+<p>All of this is not theoretical. We already have one port done through following
+this process! Look at the pull request <a href="https://github.com/NixOS/mobile-nixos/pull/205">#205</a>
+where the commits also tries to show the work that was needed to go from the
+skeleton files to a working port.</p>
+</div>
+<div class="paragraph">
+<p>Note that this port was made easier by the presence of another Snapdragon 660
+port existing. Many quirks end up working similarly between devices on the same
+base platform.</p>
+</div>
+<div class="paragraph">
+<p>Hopefully this will help some of you take the plunge into trying to make a new
+port! Though note that this does not replace the still non-existent
+documentation about porting guidelines. It might still not be trivial.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_notable_changes">Other notable changes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/193">#193 pine64-pinephone-braveheart: August 2020 updates</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Making <code>motorola-addison</code> much more usable:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/195">#195 initrd: Make compression method an option</a></p>
+</li>
+<li>
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/196">#196 motorola-addison: Build firmware and enable wcnss</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_ports">New ports</h3>
+<div class="paragraph">
+<p>One new device was merged this time.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/sony-pioneer.html">Sony Xperia XA2 (sony-pioneer)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/205">#205</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 14</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_closing_words">Closing words</h3>
+<div class="paragraph">
+<p>The last month&#8217;s update was skipped due to the lower amount of work being
+complete, the main contributor (me, samueldr) was tied-up working on
+implementing the <a href="https://nixos.org/">NixOS.org redesign</a>. Fear not, it&#8217;s
+not lack of motivation, but temporary engagements that slowed things down. For
+the time being this project is still my main focus, and I hope it can stay for
+longer.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2020-10-06-august-september-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2020-10-06-august-september-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

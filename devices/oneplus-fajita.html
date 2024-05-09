@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>OnePlus OnePlus 6T — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="devices_oneplus-fajita article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>OnePlus OnePlus 6T</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock device-sidebar">
+<div class="content">
+<div class="title">OnePlus OnePlus 6T</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Manufacturer</dt>
+<dd>
+<p>OnePlus</p>
+</dd>
+<dt class="hdlist1">Name</dt>
+<dd>
+<p>OnePlus 6T</p>
+</dd>
+<dt class="hdlist1">Identifier</dt>
+<dd>
+<p>oneplus-fajita</p>
+</dd>
+<dt class="hdlist1">System Type</dt>
+<dd>
+<p>android</p>
+</dd>
+<dt class="hdlist1">SoC</dt>
+<dd>
+<p>qualcomm-sdm845</p>
+</dd>
+<dt class="hdlist1">Architecture</dt>
+<dd>
+<p>aarch64-linux</p>
+</dd>
+<dt class="hdlist1">Supports Stage-0</dt>
+<dd>
+<p>no</p>
+</dd>
+<dt class="hdlist1">Source</dt>
+<dd>
+<p><a href="https://github.com/NixOS/mobile-nixos/tree/master/devices/oneplus-fajita">Mobile NixOS repository</a></p>
+</dd>
+<dt class="hdlist1">Builds</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hydra.nixos.org/job/mobile-nixos/unstable/device.oneplus-fajita.x86_64-linux"><code>default</code> output status</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_and_installing">Building and installing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are multiple installation methods for your <em>OnePlus OnePlus 6T</em>.
+They all rely on flashing one or more partitions on your device.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>All installation methods can lead to data loss.</strong></p>
+</div>
+<div class="paragraph">
+<p>Flashing a partition <strong>will erase everything on the partition</strong>. Additionally,
+the common backups methods, e.g. TWRP, will <strong>not</strong> backup the <code>userdata</code>
+partition, which may be the installation target.</p>
+</div>
+<div class="paragraph">
+<p>Make backups.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_using_fastboot">Using Fastboot</h3>
+<div class="paragraph">
+<p>This will produce a folder with a flashing script, and the partition images for
+your <em>OnePlus OnePlus 6T</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device oneplus-fajita -A outputs.android-fastboot-images</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can build a specific partition image:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device oneplus-fajita -A outputs.android-bootimg
+$ nix-build --argstr device oneplus-fajita -A outputs.rootfs</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The device will need to be booted in its bootloader, or <code>fastboot</code>, mode.</p>
+</div>
+<div class="paragraph">
+<p>The boot images can be installed using the following command, assuming the
+<code>android-fastboot-images</code> output was used.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ result/flash-critical.sh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you have a system image (<code>system.img</code>) built, you can use <code>fastboot</code> to
+flash it to the device. Note that it might be too big to fit over the <code>system</code>
+partition. In such case, it can be flashed on the <code>userdata</code> partition.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ fastboot flash userdata system.img</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_flashable_zip">Using a flashable zip</h3>
+<div class="paragraph">
+<p>An alternative installation method is to use a flashable zip. The flashable zip
+can be built for your <em>OnePlus OnePlus 6T</em> using one of the following
+commands:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ nix-build --argstr device oneplus-fajita -A outputs.android-flashable-bootimg
+$ nix-build --argstr device oneplus-fajita -A outputs.android-flashable-system
+$ nix-build --argstr device oneplus-fajita -A outputs.android-flashable-zip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first two will flash only a specific partition. The last one contains the
+partitions of the two previous one.</p>
+</div>
+<div class="paragraph">
+<p>The zip can either be copied to the device and selected in a compatible
+Android recovery, or sent to the device through <code>adb sideload</code>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>$ adb sideload /nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-flashable-oneplus-fajita-boot.zip</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default it will flash to the <code>system</code> partition. Some configurations may
+change this to flash to the <code>userdata</code> partition. In that case, <strong>no warning is
+given before flashing</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_device_specific_notes">Device-specific notes</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_first_time_setup_notes">First time setup notes</h3>
+<div class="sect3">
+<h4 id="_update_firmware">Update firmware</h4>
+<div class="paragraph">
+<p>Make sure your device was updated to the latest OxygenOS 11. It may not be
+required, but this will reduce disparities.</p>
+</div>
+<div class="paragraph">
+<p>Make sure the firmware partitions are consistent by using a recovery to flash
+<code>copy-partitions-*.zip</code> as described in the installation instructions of
+LineageOS</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://wiki.lineageos.org/devices/fajita/install#ensuring-all-firmware-partitions-are-consistent" class="bare">https://wiki.lineageos.org/devices/fajita/install#ensuring-all-firmware-partitions-are-consistent</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Again, it may not be strictly required, but this ensures a coherent single set
+of firmwares are present on-device where relevant. This is important as it is
+possible to have different versions flashed to different slots. This is why so
+many persons online have “only one slot that works”.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_prepare_for_mainline">Prepare for mainline</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This assumes the phone will only run SDM845 mainline images.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You will need to erase the <code>dtbo</code> partitions for either slots.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code> $ fastboot erase dtbo_a
+ $ fastboot erase dtbo_b</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dual_booting">Dual booting</h4>
+<div class="paragraph">
+<p>This is not supported. Refer to other non-Android Linux instructions and
+adapt as needed. Here be snapdragons.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Notes about the kernel builder — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="in-depth_kernel-builder article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>Notes about the kernel builder</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The “Kernel builder” is a set of attributes available on the <code>mobile-nixos</code>
+attribute overlaid on top of Nixpkgs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>mobile-nixos.kernel-builder
+mobile-nixos.kernel-builder-clang_9
+mobile-nixos.kernel-builder-gcc49
+mobile-nixos.kernel-builder-gcc6</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At the base level, they are made available pre-versioned with a
+compiler-specific <code>stdenv</code> so that OEM kernels requiring a specific compiler to
+either build or boot can use the right compiler version.</p>
+</div>
+<div class="paragraph">
+<p>The kernel builder additionally provides configuration options to work with
+common quirks in kernel builds.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_choosing_the_right_builder">Choosing the right builder</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is no clear and fast rule for this. The most likely suggestion is to look
+at the kernel version string for a kernel built from the sources you are using.
+It should describe the compiler being used.</p>
+</div>
+<div class="paragraph">
+<p>Another way to figure out which builder to use is to compare kernel derivations
+either for devices using the same SoC. It often happens that basic quirks like
+requiring specific compilers are rooted in changes from the first party that
+forked the kernels, the SoC vendor.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_choosing_quirks">Choosing quirks</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_isqcdt"><code>isQcdt</code></h3>
+<div class="paragraph">
+<p>When true, the build will use <code>dtbTool</code> to build a QCDT <em>device-tree image</em>.</p>
+</div>
+<div class="paragraph">
+<p>By default it will use the FDTs from the appropriate <code>arch/*/boot</code> folder from
+the kernel build. The directory to use can be changed using <code>qcdt_dtbs</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_isexynosdt"><code>isExynosDT</code></h3>
+<div class="paragraph">
+<p>When true, the build will use <code>dtbTool-exynos</code> to build a <em>device-tree image</em>
+for the device.</p>
+</div>
+<div class="paragraph">
+<p>By default it will use the FDTs from the appropriate <code>arch/*/boot/dts/</code>
+folder from the kernel build. The pattern to use can be changed using
+<code>exynos_dtbs</code>.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, the platform code and subtype codes can be configured with
+<code>exynos_platform</code> and <code>exynos_subtype</code>, though the default are likely to work.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_isimagegzdtb"><code>isImageGzDtb</code></h3>
+<div class="paragraph">
+<p>When true, the build will enable support for android-specific "Image.gz-dtb"
+appended images.</p>
+</div>
+<div class="paragraph">
+<p>It is most likely this is needed if <code>isQcdt</code> is not used for Android-based
+devices.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iscompressed"><code>isCompressed</code></h3>
+<div class="paragraph">
+<p>Set to the compression algorithm for the kernel. For the time being only <code>"gz"</code>
+or <code>false</code> are valid values. By default it is <code>"gz"</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enableremovingwerror"><code>enableRemovingWerror</code></h3>
+<div class="paragraph">
+<p>Goes through all <code>Makefile</code> files from the kernel source tree and removes the
+instances of <code>-Werror</code>.</p>
+</div>
+<div class="paragraph">
+<p>This is generally used when building a kernel with a newer compiler than which
+was used when the kernel was authored.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enablecompilergcc6quirk"><code>enableCompilerGcc6Quirk</code></h3>
+<div class="paragraph">
+<p>When true, a <code>compiler-gcc6.h</code> is added to the expected location for the kernel
+build. This is generally only needed for older kernels.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enablecenteredlinuxlogo"><code>enableCenteredLinuxLogo</code></h3>
+<div class="paragraph">
+<p>When enabled, the kernel source will be patched to force only one instance of
+the <em>logo</em> to be shown, and centered on the display.</p>
+</div>
+<div class="paragraph">
+<p>This is used to provide a graphical element before the stage-1 init is running.</p>
+</div>
+<div class="paragraph">
+<p>This is enabled by default. Note that on some systems the feature does not work
+even when enabled. Keep it enabled as it is a no-op.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enablelinuxlogoreplacement"><code>enableLinuxLogoReplacement</code></h3>
+<div class="paragraph">
+<p>When enabled, the file <code>linuxLogo224PPMFile</code> points at will be used to replace
+the <code>drivers/video/logo/logo_linux_clut224.ppm</code> file in the kernel source tree.</p>
+</div>
+<div class="paragraph">
+<p>This effectively replaces the Tux logo.</p>
+</div>
+<div class="paragraph">
+<p>By default an appropriate file is provided by Mobile NixOS.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enablecompilergcc6quirk_2"><code>enableCompilerGcc6Quirk</code></h3>
+<div class="paragraph">
+<p>When enabled, building and installing is done in one single step. Some kernels,
+mainly prior to 4.4, will rebuild the kernel from scratch when installing. Work
+around the issue by using only one make invocation.</p>
+</div>
+<div class="paragraph">
+<p>This defaults to <code>true</code> for kernel versions prior to 4.4.</p>
+</div>
+<div class="paragraph">
+<p>Using the wrong value can either:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>be a no-op</p>
+</li>
+<li>
+<p>make the build take twice as long</p>
+</li>
+<li>
+<p>fail the build in obvious ways</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There have been no <em>weird side-effects</em> observed when using the wrong value.
+Touching this value, other than outright failing the build, will not make a
+kernel that doesn&#8217;t boot otherwise boot.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_making_a_new_port">Making a new port</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is no porting guides yet. The current recommendation is to look for a
+kernel derivation from a device using the same or a similar SoC and use it as
+a starting point.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="../styles/rouge-github.css">
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos//blob/master/doc/in-depth/kernel-builder.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos//edit/master/doc/in-depth/kernel-builder.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>

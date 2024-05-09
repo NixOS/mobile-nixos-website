@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Samuel Dionne-Riel">
+<title>December 2020 round-up — Mobile NixOS</title>
+<link rel="stylesheet" href="../styles/styles.css">
+<link lang="en" rel="alternate" type="application/rss+xml" title="RSS feed (EN)" href="../index.xml" />
+</head>
+<body class="news-article news_2021-01-05-december-2020-round-up article">
+<header>
+  <nav>
+    <ul>
+      <li>
+        <h1>
+          <a href='../index.html' class=''>Mobile NixOS</a>
+        </h1>
+      </li>
+      <li><a href='../getting-started.html' class=''>Getting Started</a></li>
+      <li><a href='../resources.html' class=''>Resources</a></li>
+      <li><a href='../devices/index.html' class=''>Devices List</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="header">
+<h1>December 2020 round-up</h1>
+<div class="details">
+<span id="author" class="author">Samuel Dionne-Riel</span><br>
+<span id="revdate">January 5th 2021</span>
+</div>
+</div>
+
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This update is the thirteenth in a series of regular updates on the state of the
+project.</p>
+</div>
+<div class="paragraph">
+<p>Only changes that have been accepted and merged in Mobile NixOS are
+chronicled here. There&#8217;s always <a href="https://github.com/NixOS/mobile-nixos/pulls">more work</a>
+currently in-progress.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notable_changes">Notable changes</h3>
+<div class="paragraph">
+<p>During the month <a href="https://github.com/NixOS/mobile-nixos/pulls?q=is%3Apr+merged%3A2020-12+sort%3Acreated-asc">
+12 pull requests were  merged</a>.</p>
+</div>
+<div class="paragraph">
+<p>Some <em>interesting</em> improvements landed, let&#8217;s dive in.</p>
+</div>
+<div class="sect3">
+<h4 id="_stage_0_boot_in_generation_kernelinitrd">stage-0: boot in generation kernel+initrd</h4>
+<div class="paragraph">
+<p>One of the biggest flaw with the approach Mobile NixOS takes with the boot flow
+is that it completely ignores the system generation&#8217;s kernel and stage-1 image.
+In turn, this reduces some of the benefits from NixOS, by reducing the coherency
+of the running system; the kernel and stage-1 are managed out of band.</p>
+</div>
+<div class="paragraph">
+<p>With <a href="https://github.com/NixOS/mobile-nixos/pull/262">the changes from #262</a>,
+devices can opt-in to a <em>stage-0</em> scheme. A <em>stage-0</em> image is the same as a
+stage-1 image, except that it will use <code>kexec</code> to boot into the generation&#8217;s
+kernel and stage-1 image.</p>
+</div>
+<div class="paragraph">
+<p>Devices, and their kernels, need to support <code>kexec</code>. This is not a given for
+vendor kernels. At the time being, none of the Android-based devices (all using
+the vendor kernels) can use this feature. On the bright side, the Pinephone has
+been verified to work well. Additionally, UEFI x86_64 based devices, too, can
+use the stage-0 scheme.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_device_specific_changes">Device-specific changes</h4>
+<div class="sect4">
+<h5 id="_pine64_pinephone_crust_firmware_support">pine64-pinephone: Crust firmware support</h5>
+<div class="paragraph">
+<p>With the <a href="https://github.com/NixOS/nixpkgs/pull/93368">addition of the or1k
+toolchain to Nixpkgs</a>, <a href="https://github.com/noneucat">@noneucat</a> was able to
+finish the <a href="https://github.com/NixOS/mobile-nixos/pull/188">pull request
+adding <em>Crust</em> support to the Pinephone</a>. Details about <em>Crust</em> can be found
+<a href="https://github.com/crust-firmware/crust">on their project page</a>.</p>
+</div>
+<div class="paragraph">
+<p>To use U-Boot with <em>Crust</em>, you will need to build it, then install it manually
+on your boot media. (A helper to upgrade the firmware is planned for the
+future.)</p>
+</div>
+<div class="paragraph">
+<p>Not related to <em>Crust</em>, <a href="https://github.com/NixOS/mobile-nixos/pull/258">the
+usual kernel upgrade for the Pinephone</a> has been made.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_introduction_of_uefi_x86_64">Introduction of uefi-x86_64</h5>
+<div class="paragraph">
+<p><a href="https://github.com/NixOS/mobile-nixos/pull/253">The introduction of the
+Generic UEFI build (x86_64)</a> "device" may seem odd. It is meant to be used on a
+standard computer. But a standard computer is not a mobile device.</p>
+</div>
+<div class="paragraph">
+<p>Really, this is a <em>dogfooding</em> measure. With this change, it is now possible
+for me to replace the usual NixOS stage-1 from my personal machines, ensuring I
+take the stability of Mobile NixOS seriously!</p>
+</div>
+<div class="paragraph">
+<p>Additionally, this should allow supporting some x86_64 Windows-based tablets
+with the Mobile NixOS toolchain. While not required, the touchscreen-first boot
+flow will be helpful for those without a keyboard.</p>
+</div>
+<div class="paragraph">
+<p>These changes also help exercising the foundations, by creating a new system
+type.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_removal_of_qemu_x86_64">Removal of qemu-x86_64</h5>
+<div class="paragraph">
+<p>As part of the changes for <a href="https://github.com/NixOS/mobile-nixos/pull/253">
+#253</a>, the <code>qemu-x86_64</code> device has been removed. Instead, a more generic
+device has been added, which by default builds images that can boot on standard
+UEFI, and which in turn provide the <code>build.vm</code> output to boot <em>that</em> generic
+UEFI image with QEMU, using Tianocore.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ports">Ports</h3>
+<div class="paragraph">
+<p>Two new devices were merged in December, one was removed.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mobile.nixos.org/devices/uefi-x86_64.html">Generic UEFI build (x86_64) (uefi-x86_64)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/253">#253</a>)</p>
+</li>
+<li>
+<p><a href="https://mobile.nixos.org/devices/motorola-surfna.html">Motorola Moto E6 (motorola-surfna)</a> [<a href="https://github.com/samueldr">@samueldr</a>] (<a href="https://github.com/NixOS/mobile-nixos/pull/263">#263</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Bringing the <a href="https://mobile.nixos.org/devices/index.html">total of devices to 16</a>.</p>
+</div>
+</div>
+</div>
+<footer id="footer">
+  <nav>
+    <ul>
+      <li></li>
+      
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//blob/master/website/news/2021-01-05-december-2020-round-up.adoc'>Page Source</a></li>
+      <li><a href='https://github.com/NixOS/mobile-nixos-website//edit/master/website/news/2021-01-05-december-2020-round-up.adoc'>Edit</a></li>
+      
+      <li><a href='../sitemap.html' class=''>Site Map</a></li>
+    </ul>
+  </nav>
+</footer>
+
+</body>
+</html>
